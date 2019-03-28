@@ -12,8 +12,8 @@ go
 use WMS
 GO
  begin tran  tran1
-  update [WMS].[dbo].[Product] set ProductName='uplockTest11' where ID=50
-  waitfor  delay '00:00:10' --¿‡À∆Thread.Sleep
+  update [WMS].[dbo].[Product] set ProductName='up' where ID=50
+  waitfor  delay '00:00:23' --¿‡À∆Thread.Sleep
    rollback tran tran1
 
   go
