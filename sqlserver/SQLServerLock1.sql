@@ -106,4 +106,28 @@ begin tran lockTest
 
 
 
+
+ --丢失更新:一个事务覆盖另一个事务个更新,解决:版本号(version字段、timestamp)
+ --更新加锁
+ begin tran lockTest
+ --锁定整个表
+  update [WMS].[dbo].[Product] with(updlock) set ProductName='updlock1' where ID=50
+  waitfor  delay '00:00:10' --类似Thread.Sleep
+  commit tran lockTest
+  go
+
+
+  --删除加锁
+  begin tran lockTest
+ --锁定整个表
+  delete  from [WMS].[dbo].[Product]  with(updlock)  where ID=2118
+  waitfor  delay '00:00:10' --类似Thread.Sleep
+  commit tran lockTest
+  go
+
+
+
+
+
+
   select *  from  [WMS].[dbo].[Product] 
