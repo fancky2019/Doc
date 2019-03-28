@@ -44,7 +44,7 @@
  -- 锁定ID=50这一行
  -- select *  from  [WMS].[dbo].[Product] with(XLOCK) where ID=50
  --锁定整个表
-  select *  from  [WMS].[dbo].[Product] with(XLOCK)
+  select *  from  [WMS].[dbo].[Product] with(tablock,XLOCK)
   --select COUNT(ID) from  [WMS].[dbo].[Product] with(XLOCK)
   waitfor  delay '00:00:10' --类似Thread.Sleep
   commit tran lockTest
@@ -59,7 +59,7 @@
  -- 锁定ID=50这一行
  -- select *  from  [WMS].[dbo].[Product] with(tablock) where ID=50
  --锁定整个表
-  select *  from  [WMS].[dbo].[Product] with(tablock)
+  select *  from  [WMS].[dbo].[Product] with(tablock,XLOCK)
   --select COUNT(ID) from  [WMS].[dbo].[Product] with(tablock)
   waitfor  delay '00:00:10' --类似Thread.Sleep
   commit tran lockTest
@@ -83,7 +83,7 @@ begin tran lockTest
  -- 锁定ID=50这一行
  -- select *  from  [WMS].[dbo].[Product] with(PAGLOCK) where ID=50
  --锁定整个表
-  select *  from  [WMS].[dbo].[Product] with(PAGLOCK)
+  select *  from  [WMS].[dbo].[Product] with(PAGLOCK,holdlock)
   --select COUNT(ID) from  [WMS].[dbo].[Product] with(PAGLOCK)
   waitfor  delay '00:00:10' --类似Thread.Sleep
   commit tran lockTest
@@ -96,7 +96,7 @@ begin tran lockTest
  -- 锁定ID=50这一行
  -- select *  from  [WMS].[dbo].[Product] with(ROWLOCK ) where ID=50
  --锁定整个表
-  select *  from  [WMS].[dbo].[Product] with(ROWLOCK )
+  select *  from  [WMS].[dbo].[Product] with(ROWLOCK,holdlock )
   --select COUNT(ID) from  [WMS].[dbo].[Product] with(ROWLOCK )
   waitfor  delay '00:00:10' --类似Thread.Sleep
   commit tran lockTest
