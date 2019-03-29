@@ -126,8 +126,24 @@ begin tran lockTest
   go
 
 
-
-
+use wms
+go
+begin tran tranTest
+--执行成功
+INSERT INTO [dbo].[Product] ([GUID] ,[StockID]  ,[BarCodeID]
+           ,[SkuID]  ,[ProductName] ,[ProductStyle],[Price] ,[CreateTime]
+           ,[Status] ,[Count] ,[ModifyTime])
+     VALUES
+           (NEWID() ,1 ,null ,1   ,'ProductNameSuccess' ,null ,11  ,GETDATE() ,1 ,1 ,GETDATE())
+--执行失败,整个事务失败,自动回滚
+--执行成功,事务提交
+INSERT INTO [dbo].[Product] ([GUID] ,[StockID]  ,[BarCodeID]
+           ,[SkuID]  ,[ProductName] ,[ProductStyle],[Price] ,[CreateTime]
+           ,[Status] ,[Count] ,[ModifyTime])
+     VALUES
+           (NEWID() ,1 ,null ,1   ,'ProductNameFail' ,null ,11  ,GETDATE() ,1 )
+commit tran tranTest
+go
 
 
   select *  from  [WMS].[dbo].[Product] 

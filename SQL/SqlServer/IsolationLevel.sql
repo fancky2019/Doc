@@ -1,85 +1,92 @@
 
-use WMS
+USE WMS
 GO
--- READ UNCOMMITTED;Ïàµ±ÓÚnolock ¿ÉÒÔselect¡¢update¡¢delete¡¢Insert
+-- READ UNCOMMITTED;ç›¸å½“äºnolock å¯ä»¥selectã€updateã€deleteã€Insert
 SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
  GO
- begin tran lockTest
- -- Ëø¶¨ID=50ÕâÒ»ĞĞ
+ BEGIN tran lockTest
+ -- é”å®šID=50è¿™ä¸€è¡Œ
  -- select *  from  [WMS].[dbo].[Product] where ID=50
- --Ëø¶¨Õû¸ö±í
-  select *  from  [WMS].[dbo].[Product]
-  --select COUNT(ID) from  [WMS].[dbo].[Product]
-  waitfor  delay '00:00:10' --ÀàËÆThread.Sleep
-  commit tran lockTest
+ --é”å®šæ•´ä¸ªè¡¨
+  SELECT *  FROM  [WMS].[dbo].[Product]
+  --select COUNT(ID) FROM  [WMS].[dbo].[Product]
+  waitfor  delay '00:00:10' --ç±»ä¼¼Thread.Sleep
+  COMMIT tran lockTest
   go
 
 
 
 
 
-use WMS
+USE WMS
 GO
---READ COMMITTED(Ä¬ÈÏ):½â¾ö Ôà¶Á£¬¿ÉÒÔÔöÉ¾¸Ä²é
+--READ COMMITTED(é»˜è®¤):è§£å†³ è„è¯»ï¼Œå¯ä»¥å¢åˆ æ”¹æŸ¥
 SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
  GO
- begin tran lockTest
- -- Ëø¶¨ID=50ÕâÒ»ĞĞ
-  --select *  from  [WMS].[dbo].[Product] where ID=50
- --Ëø¶¨Õû¸ö±í
-  select *  from  [WMS].[dbo].[Product]
-  --select COUNT(ID) from  [WMS].[dbo].[Product]
-  waitfor  delay '00:00:10' --ÀàËÆThread.Sleep
-  commit tran lockTest
+ BEGIN tran lockTest
+ -- é”å®šID=50è¿™ä¸€è¡Œ
+  --select *  FROM  [WMS].[dbo].[Product] WHERE ID=50
+ --é”å®šæ•´ä¸ªè¡¨
+  SELECT *  FROM  [WMS].[dbo].[Product]
+  --select COUNT(ID) FROM  [WMS].[dbo].[Product]
+  waitfor  delay '00:00:10' --ç±»ä¼¼Thread.Sleep
+  COMMIT tran lockTest
   go
 
 
 
 
-use WMS
+USE WMS
 GO
---REPEATABLE READ:½â¾ö Ôà¶Á,¿ÉÖØ¸´¶ÁÈ¡£¬²»ÄÜupdate¡¢delete,¿ÉÒÔselect¡¢insert
+--REPEATABLE READ:è§£å†³ è„è¯»,å¯é‡å¤è¯»å–ï¼Œä¸èƒ½updateã€delete,å¯ä»¥selectã€insert
 SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
  GO
- begin tran lockTest
- -- Ëø¶¨ID=50ÕâÒ»ĞĞ
- -- select *  from  [WMS].[dbo].[Product] where ID=50
- --Ëø¶¨Õû¸ö±í
+ BEGIN tran lockTest
+ -- é”å®šID=50è¿™ä¸€??
+  select *  from  [WMS].[dbo].[Product] where ID=50
+ --é”å®šæ•´ä¸ªè¡¨
  -- select *  from  [WMS].[dbo].[Product]
-  --select COUNT(ID) from  [WMS].[dbo].[Product]
-  waitfor  delay '00:00:10' --ÀàËÆThread.Sleep
-  commit tran lockTest
+  --select COUNT(ID) FROM  [WMS].[dbo].[Product]
+  waitfor  delay '00:00:10' --ç±»ä¼¼Thread.Sleep
+  select *  from  [WMS].[dbo].[Product] where ID=50
+  COMMIT tran lockTest
   go
 
 
-use WMS
+USE WMS
 GO
---SERIALIZABLE£¨Ïàµ±ÓÚholdlock£©:½â¾ö Ôà¶Á,¿ÉÖØ¸´¶ÁÈ¡¡¢»Ã¶Á£¬²»ÄÜupdate¡¢delete¡¢insert,¿ÉÒÔselect
+--SERIALIZABLEï¼ˆç›¸å½“äºholdlockï¼‰:è§£å†³ è„è¯»,å¯é‡å¤è¯»å–ã€å¹»è¯»ï¼Œä¸èƒ½updateã€deleteã€insert,å¯ä»¥select
 SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
  GO
- begin tran lockTest
- -- Ëø¶¨ID=50ÕâÒ»ĞĞ
+ BEGIN tran lockTest
+ -- é”å®šID=50è¿™ä¸€è¡Œ
  -- select *  from  [WMS].[dbo].[Product] where ID=50
- --Ëø¶¨Õû¸ö±í
-  select *  from  [WMS].[dbo].[Product]
-  --select COUNT(ID) from  [WMS].[dbo].[Product]
-  waitfor  delay '00:00:10' --ÀàËÆThread.Sleep
-  commit tran lockTest
+ --é”å®šæ•´ä¸ªè¡¨
+  SELECT *  FROM  [WMS].[dbo].[Product]
+  select COUNT(ID) FROM  [WMS].[dbo].[Product]
+  waitfor  delay '00:00:10' --ç±»ä¼¼Thread.Sleep
+  SELECT *  FROM  [WMS].[dbo].[Product]
+  select COUNT(ID) FROM  [WMS].[dbo].[Product]
+  COMMIT tran lockTest
   go
 
 
-use WMS
+USE WMS
 GO
- --Ğè½« READ_COMMITTED_SNAPSHOT ÉèÖÃÎª ON£¬ÆäÄ¬ÈÏÎªOFF
---SNAPSHOT£¨Ïàµ±ÓÚholdlock£©:½â¾ö Ôà¶Á,¿ÉÖØ¸´¶ÁÈ¡¡¢»Ã¶Á£¬²»ÄÜupdate¡¢delete¡¢insert,¿ÉÒÔselect
+ --éœ€å°† READ_COMMITTED_SNAPSHOT è®¾ç½®ä¸º ONï¼Œå…¶é»˜è®¤ä¸ºOFF
+--SNAPSHOTï¼ˆç›¸å½“äºholdlockï¼‰:è§£å†³ è„è¯»,å¯é‡å¤è¯»å–ã€å¹»è¯»ï¼Œä¸èƒ½updateã€deleteã€insert,å¯ä»¥select
 SET TRANSACTION ISOLATION LEVEL SNAPSHOT;
  GO
- begin tran lockTest
- -- Ëø¶¨ID=50ÕâÒ»ĞĞ
+ BEGIN tran lockTest
+ -- é”å®šID=50è¿™ä¸€è¡Œ
  -- select *  from  [WMS].[dbo].[Product] where ID=50
- --Ëø¶¨Õû¸ö±í
-  select *  from  [WMS].[dbo].[Product]
-  --select COUNT(ID) from  [WMS].[dbo].[Product]
-  waitfor  delay '00:00:10' --ÀàËÆThread.Sleep
-  commit tran lockTest
+ --é”å®šæ•´ä¸ªè¡¨
+  SELECT *  FROM  [WMS].[dbo].[Product]
+  --select COUNT(ID) FROM  [WMS].[dbo].[Product]
+  waitfor  delay '00:00:10' --ç±»ä¼¼Thread.Sleep
+  COMMIT tran lockTest
   go
+  
+  
+  
+  

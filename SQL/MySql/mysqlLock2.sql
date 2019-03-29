@@ -13,7 +13,7 @@ VALUES
   
   
   
-  
+  SHOW VARIABLES LIKE 'autocommit';
   
   
   
@@ -24,11 +24,7 @@ VALUES
   `Status`,`Count`
 )
 VALUES
-  (
-    
-   UUID(),   1,1, 1,  'ddfarrrr', NULL,
-    3,   3,  3
-  );
+  ( UUID(),   1,1, 1,  'ddfarrrr', NULL, 3,   3,  3 );
   
   
   
