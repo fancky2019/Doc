@@ -54,8 +54,9 @@ START TRANSACTION;
   --  set @strsql = CONCAT('SELECT * FROM wms.`product` LIMIT', 0, ',' ,5);
      PREPARE sqlCommand FROM @strsql;
      -- print  出SQL语句
-      SELECT  @strsql ;
+     -- SELECT  @strsql ;
      EXECUTE sqlCommand;
+     -- 释放资源
    DEALLOCATE PREPARE strsql;
 IF t_error = 1 THEN
       ROLLBACK;
@@ -143,8 +144,55 @@ SELECT @fancky;
 
 
 
+DROP PROCEDURE IF EXISTS Pro_InsertSku; 
+DELIMITER$$
+CREATE PROCEDURE Pro_InsertSku
+(
+)
+BEGIN
+    DECLARE t_error INT;
+    DECLARE number INT DEFAULT 1 ;
+    -- 变量声明在异常处理声明签名
+    DECLARE    CONTINUE HANDLER FOR SQLEXCEPTION SET t_error = 1;
+
+START TRANSACTION;
+    WHILE number <= 100000 DO    
+      INSERT INTO `wms`.`sku` (`uuid`, `Unit`) VALUES( UUID(), '件');
+       SET number:=number+1;
+    END WHILE;
+IF t_error = 1 THEN
+      ROLLBACK;
+ELSE
+      COMMIT;
+ END IF;
+END;
+$$
+DELIMITER ;
 
 
+
+--  不带事务、参数的存储过程，没有事务插入好慢
+DROP PROCEDURE IF EXISTS Pro_InsertSku; 
+DELIMITER$$
+CREATE PROCEDURE Pro_InsertSku
+(
+)
+BEGIN
+    DECLARE number INT DEFAULT 1 ;
+    WHILE number <= 100000 DO    
+      INSERT INTO `wms`.`sku` (`uuid`, `Unit`) VALUES( UUID(), '件');
+       SET number:=number+1;
+    END WHILE;
+END;
+$$
+DELIMITER ;
+
+CALL Pro_InsertSku();
+
+-- 带外键约束的数据删除
+SET FOREIGN_KEY_CHECKS=0; 
+TRUNCATE TABLE `wms`.`sku` ;
+SET FOREIGN_KEY_CHECKS=1;
 
 
 
