@@ -96,6 +96,25 @@ EXPLAIN SELECT * FROM `wms`.`product`  WHERE `Count`>500 AND ProductName LIKE '%
 
 -- 创建索引
 CREATE  INDEX index_Count ON `wms`.`product` (`Count`);
+
+CREATE  INDEX index_ProductName ON `wms`.`product` (ProductName);
+
+CREATE UNIQUE INDEX Index_Timestamp ON `wms`.`product` (`timestamp`);
 -- 删除索引
-DROP INDEX index_name ON talbe_name
+DROP INDEX index_ProductName ON `wms`.`product` 
+
+-- 字符串包含 :字段名必须以","隔开
+FIND_IN_SET('字符', 字段名);
+
+
+
+-- 当查询过滤精度越接近要过滤的字段值时候索引优势越大，mysql  设定索引长度原理可能因如此吧。
+-- 当查询得到条数越多索引作用很小，和全表扫描差不多。
+
+-- 单列索引： 
+         --  主键索引：是一种特殊的唯一索引，一个表只能有一个主键，不允许有空值
+         --  唯一索引：值必须唯一，但允许有空值
+         --  普通索引：
+         --  全文索引： 
+-- 组合索引
 
