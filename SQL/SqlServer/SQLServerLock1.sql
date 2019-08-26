@@ -4,7 +4,7 @@
   go
   begin tran lockTest
  -- 锁定ID=50这一行
- -- select *  from  [WMS].[dbo].[Product] with(updlock) where ID=50
+  select *  from  [WMS].[dbo].[Product] with(updlock) where ID=50
  --锁定整个表
   --select *  from  [WMS].[dbo].[Product] with(updlock)
   --select COUNT(ID) from  [WMS].[dbo].[Product] with(updlock)
@@ -27,7 +27,7 @@
 
 
 --TABLOCKX 表锁 排它锁
---TABLOCKX :锁在事务运行期间,其他事务不能select、insert、update、delete。其他事务可以读取
+--TABLOCKX :锁在事务运行期间,其他事务不能select、insert、update、delete。
     begin tran lockTest
  -- 锁定ID=50这一行
   select *  from  [WMS].[dbo].[Product] with(TABLOCKX) where ID=50
