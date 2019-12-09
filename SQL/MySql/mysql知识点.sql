@@ -8,7 +8,20 @@ UPDATE MySQL.user SET authentication_string=PASSWORD('12345678') WHERE USER='roo
 -- mypassword 为连接密码 需要修改为你自己的
 FLUSH PRIVILEGES;
 
+-- 查看表存储引擎
+SHOW TABLE STATUS FROM wms WHERE NAME='product';
 
+
+SHOW VARIABLES LIKE 'ft%';
+SHOW VARIABLES LIKE 'innodb_ft_min_token_size%';
+-- 配置
+　-- my.ini配置文件中添加
+　-- # MySQL全文索引查询关键词最小长度限制
+　-- [mysqld]
+　-- ft_min_word_len = 1
+　-- 保存后重启MYSQL，执行SQL语句
+
+-- 在MyISAM数据库引擎中使用的是ft_min_word_len，而InnoDB中使用的是innodb_ft_min_token_size
 
 -- 每个语句后必须加分号(;)
 --
