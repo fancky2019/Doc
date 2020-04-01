@@ -131,3 +131,24 @@ FIND_IN_SET('字符', 字段名);
          --  全文索引： 
 -- 组合索引
 
+
+
+SELECT * FROM `wms`.`product`
+LIMIT 0, 1000;
+-- 1、使用processlist，但是有个弊端，就是只能查看正在执行的sql语句，对应历史记录，查看不到。好处是不用设置，不会保存。
+
+   USE information_schema;
+   SHOW PROCESSLIST;
+   
+-- 2、开启日志模式
+
+-- 1、设置日志开启，默认是关闭的
+
+-- SET GLOBAL log_output = 'TABLE';SET GLOBAL general_log = 'ON';  -- //日志开启
+
+-- SET GLOBAL log_output = 'TABLE'; SET GLOBAL general_log = 'OFF'; -- //日志关闭
+ -- 查看执行的日志
+SELECT * FROM mysql.general_log ORDER BY event_time DESC;
+
+
+
