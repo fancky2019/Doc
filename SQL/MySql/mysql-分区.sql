@@ -261,4 +261,25 @@ EXPLAIN SELECT  *  FROM wms.`product` WHERE CreateTime<'2000-01-01';
 
 
 
+-- 查看表存储引擎
+SHOW TABLE STATUS FROM wms WHERE NAME='product';
+
+
+-- 获取表分区的ID   ：ID%3，Hash(ID)。ID取余，Hash操作。
+ --  一、分区表 全局ID表
+INSERT INTO `wms`.`global_id` ( `TableName`)
+VALUES  ( 'TableName');
+  
+ SELECT  *  FROM  `wms`.`global_id`
+ 
+
+
+-- 二、redis.increment 获取ID
+
+-- 三、redis提前生成好一批ID放在队列里等待取
+
+
+
+
+
 
