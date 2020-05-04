@@ -280,6 +280,15 @@ VALUES  ( 'TableName');
 
 
 
+-- 跨库连接查询
+SELECT  *  FROM test.`product` tp
+             JOIN valvulas.`product` vp ON tp.id=vp.id	
+ 
+ SELECT  *  FROM valvulas.`product`
+ 
+             
+             
+      
 
 
 
