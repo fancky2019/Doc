@@ -1,0 +1,122 @@
+sudo yum install -y curl policycoreutils-python openssh-server
+sudo systemctl enable sshd
+sudo systemctl start sshd
+
+sudo firewall-cmd --permanent --add-service=http
+sudo firewall-cmd --permanent --add-service=https
+sudo systemctl reload firewalld
+ systemctl start firewalld
+
+
+
+sudo yum install postfix
+sudo systemctl enable postfix
+sudo systemctl start postfix
+
+curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh | sudo bash
+
+
+sudo EXTERNAL_URL="https://192.168.1.126:8030" yum install -y gitlab-ce
+
+
+gitlab-ctl reconfigure
+gitlab-ctl restart
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+执行成功：
+
+
+
+sudo yum install curl policycoreutils openssh-server openssh-clients
+sudo systemctl enable sshd
+sudo systemctl start sshd
+sudo yum install postfix
+sudo systemctl enable 
+
+
+
+
+sudo firewall-cmd --permanent --add-service=http
+sudo systemctl reload firewalld
+
+
+curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh | sudo bash
+sudo EXTERNAL_URL="https://192.168.1.126:8030" yum install -y gitlab-ce
+
+
+
+
+vim /etc/gitlab/gitlab.rb
+sudo gitlab-ctl reconfigure
+sudo gitlab-ctl restart
+
+letsencrypt_certificate 证书错误解决:
+在 /etc/gitlab/gitlab.rb 中添加 letsencrypt['enable'] = false 可解决。
+
+letsencrypt['enable'] = false
+
+
+
+
+#1.编辑gitlab.rb文件
+sudo vim /etc/gitlab/gitlab.rb
+#2.修改参数
+修改external_url为gitlab机子的ip+要使用的端口 如：http://192.168.56.101:8888
+修改nginx['listen_port'] = 8888
+#3.重新配置并重启
+sudo gitlab-ctl reconfigure
+sudo gitlab-ctl restart
+#4.开放8888端口
+sudo firewall-cmd --permanent --add-port=8888/tcp
+
+
+
+
+
+
+
+
+curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh | sudo bash
+sudo EXTERNAL_URL="https://192.168.1.126:8030" yum install -y gitlab-ce
+
+
+
+vim /etc/sudoers
+
+
+
+
+
+
+
+
+
+
+EXTERNAL_URL="http://11.86.9.67:8090"
+unicorn['port'] = 8091
+gitlab_workhorse['auth_backend'] = "http://localhost:8091" 
