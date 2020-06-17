@@ -280,12 +280,16 @@ VALUES  ( 'TableName');
 
 
 
+
 -- 跨库连接查询
 SELECT  *  FROM test.`product` tp
              JOIN valvulas.`product` vp ON tp.id=vp.id	
  
  SELECT  *  FROM valvulas.`product`
- 
+
+-- 分库分表不使用连接查询原因：数据量大连接查询太慢，损耗性能
+
+-- 分组、排序在分库分表中没有好的办法,一般都是取每个分表的数据在内存里再进一步操作。
              
              
       
