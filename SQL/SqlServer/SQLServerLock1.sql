@@ -1,3 +1,23 @@
+--        脏读：事务1读取事务2修改的数据后，事务2回滚。
+--不可重复读取：事务1两次读取的数据不一样，两次读取中间被事务2修改了。
+--        幻读：事务1两次查询的条数不一样，被事务2增加删除了。
+
+
+--      脏读：A事务读取B事务未提交的更改，结果B回滚。
+--非重复读取：A事务两次读取的数据不一样，两次读取期间被事务B改了。
+--      幻读：两次执行的查询结果不一样，期间事务B插入或删除数据了。
+--  丢失更新：A事务更新的数据被B事务的更新给冲掉了。
+
+
+
+
+-- 如果能精确到行就锁行，否则锁整个表
+
+
+
+
+
+
 --UPDLOCK来读取记录时可以对取到的记录加上更新锁，从而加上锁的记录在其它的线程中是不能更改的只能等本线程的事务结束后才能更改.
 --更新锁
 --updlock锁在事务运行期间,其他事务不能update、delete,但是可以插入,产生幻读。其他事务可以读取
@@ -147,3 +167,49 @@ go
 
 
   select *  from  [WMS].[dbo].[Product] 
+
+
+
+use Test
+go
+begin try
+    begin  tran Process11
+		update [dbo].[Person] set name='李四' where id=2;
+		 waitfor delay '00:00:20';
+   commit tran Process11
+end try
+begin catch
+ ROLLBACK TRAN Process11
+end catch
+
+
+
+-- 
+select request_session_id spid,OBJECT_NAME(resource_associated_entity_id) tableName
+from sys.dm_tran_locks where resource_type='OBJECT'
+
+
+-- 查看锁的类型信息  
+-- request_mode 字段 IX锁
+-- request_type 字段 LOCK
+select *  from sys.dm_tran_locks where resource_type='OBJECT'
+
+
+
+  DBCC TRACEON(1222,-1) ;
+  DBCC TRACESTATUS (1222, -1) ;
+  DBCC TRACEOFF (1222,-1) ;
+
+
+
+
+
+  -- SET LOCK_TIMEOUT timeout_period(单位为毫秒)来设定锁请求超时。默认情况下，数据库没有超时期限(timeout_period值为-1，可以用SELECT @@LOCK_TIMEOUT来查看该值，即无限期等待)。
+
+  SELECT @@LOCK_TIMEOUT;
+
+
+use Test
+go
+update [dbo].[Job] set name='Process2' where id=2;
+
