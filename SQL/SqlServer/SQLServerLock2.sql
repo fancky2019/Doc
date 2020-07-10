@@ -1,3 +1,6 @@
+
+
+
 select *  from  [WMS].[dbo].[Product]  where ID=50
 go
 
