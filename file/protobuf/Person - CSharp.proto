@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+// 引入外部的proto对象
+import "google/protobuf/any.proto";
+
+
+//option java_multiple_files = true;
+option csharp_namespace = "Test.opensource.protobuf.model";//类包名：从工程中名称赋值，
+                                                        //待会还要把生成的Person 拷贝到工程
+//option java_outer_classname = "PersonProto";//生成的类名--C#里没有此选项
+message PersonProto {//类成员
+    int32 id = 1;
+    string name = 2;
+    int32 age = 3;
+	Gender gender = 5; // Enum值
+    repeated string sons = 4; // List列表
+	map<string, Job> sonJobs = 6; // 定义Map对象
+	repeated Job jobs = 7; // List列表
+	repeated google.protobuf.Any any = 8; // Any对象,泛型。可以用作分页数据的data:List<T>
+}
+//成员嵌套类型
+message Job {
+        string name = 1;
+        double salary = 2;
+    } 
+//成员嵌套类型
+enum Gender {
+  MAN = 0;
+  WOMAN = 1;
+}
