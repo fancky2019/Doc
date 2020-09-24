@@ -2,18 +2,18 @@
 -- 每条语句后最好加分号“；”
 -- BLOB 二进制数据类型;
 -- GUID VARCHAR(36) 和mysql 设计一样
-insert into 'ClientOrderID' (CliOrderID) values ("123");
+INSERT INTO 'ClientOrderID' (CliOrderID) VALUES ("123");
 
 -- SQLite 没有truncate  用Delete
 DELETE FROM 'ClientOrderID';
-select * from sqlite_sequence;    
+SELECT * FROM sqlite_sequence;    
 -- 删除递增
-DELETE FROM sqlite_sequence WHERE name = 'ClientOrderID';
+DELETE FROM sqlite_sequence WHERE NAME = 'ClientOrderID';
 
 
 -- 获取建表语句
-SELECT sql FROM sqlite_master WHERE type="table" AND name = "查询的表名";
-SELECT sql FROM sqlite_master WHERE type="table" AND name = "ClientOrderID";
+SELECT SQL FROM sqlite_master WHERE TYPE="table" AND NAME = "查询的表名";
+SELECT SQL FROM sqlite_master WHERE TYPE="table" AND NAME = "ClientOrderID";
 
 -- 
 CREATE TABLE "Order" (ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, OrderBytes BLOB NOT NULL);
@@ -22,42 +22,42 @@ CREATE TABLE ClientOrderID (ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, CliOr
 
 
 
---当前时间
-select datetime('now');
+-- 当前时间
+SELECT DATETIME('now');
 
-select datetime();
+SELECT DATETIME();
 -- 日期
-select date();
+SELECT DATE();
 
 -- 本地时间
-select datetime(CURRENT_TIMESTAMP,'localtime');
+SELECT DATETIME(CURRENT_TIMESTAMP,'localtime');
 
-select CURRENT_TIMESTAMP;
+SELECT CURRENT_TIMESTAMP;
 --   时间戳是指格林威治时间自1970年1月1日（00:00:00 GMT）至当前时间的总秒数。它也被称为Unix时间戳（Unix Timestamp）。
 -- 时间戳
 SELECT strftime('%s','now');
 
 -- 2020-08-11 02:37:52.224
-select strftime('%Y-%m-%d %H:%M:%f','now');
---解决时差问题
-select strftime('%Y-%m-%d %H:%M:%f','now','localtime');
+SELECT strftime('%Y-%m-%d %H:%M:%f','now');
+-- 解决时差问题
+SELECT strftime('%Y-%m-%d %H:%M:%f','now','localtime');
 
 -- guid:sqlite 没有guid 函数
-select hex( randomblob(4)) || '-' || hex( randomblob(2))
-             || '-' || '4' || substr( hex( randomblob(2)), 2) || '-'
-             || substr('AB89', 1 + (abs(random()) % 4) , 1)  ||
-             substr(hex(randomblob(2)), 2) || '-' || hex(randomblob(6)) ;
+SELECT HEX( randomblob(4)) || '-' || HEX( randomblob(2))
+             || '-' || '4' || SUBSTR( HEX( randomblob(2)), 2) || '-'
+             || SUBSTR('AB89', 1 + (ABS(random()) % 4) , 1)  ||
+             SUBSTR(HEX(randomblob(2)), 2) || '-' || HEX(randomblob(6)) ;
 
 
-select *  from 'ClientOrderID';
+SELECT *  FROM 'ClientOrderID';
 
-update 'ClientOrderID' set ClientOrderID ='456';
+UPDATE 'ClientOrderID' SET ClientOrderID ='456';
 
-Insert into 'Order' (OrderBytes) values ('dd');
+INSERT INTO 'Order' (OrderBytes) VALUES ('dd');
 
 
 
-select *  from 'ClientOrderID';
+SELECT *  FROM 'ClientOrderID';
 
 select *  from 'Order';
 
