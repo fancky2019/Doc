@@ -166,7 +166,7 @@ ELSE
       COMMIT;
  END IF;
 END;
-$$
+ $$
 DELIMITER ;
 
 
@@ -193,6 +193,12 @@ CALL Pro_InsertSku();
 SET FOREIGN_KEY_CHECKS=0; 
 TRUNCATE TABLE `wms`.`sku` ;
 SET FOREIGN_KEY_CHECKS=1;
+
+
+
+
+
+
 
 
 
