@@ -16,3 +16,29 @@ end try
 begin catch
  ROLLBACK TRAN tr 
 end catch
+
+
+
+go
+
+
+-- commit tran 和 ROLLBACK TRAN 不能同时出现在语句中执行。
+
+--commit tran之后事务点被删除之后无法回滚，报错。 mysql 不会错，不会回滚。
+
+
+select *  from Test.dbo.Person ;
+
+
+
+ begin  tran tr
+ update Test.dbo.Person  set Name='tes1t' where ID=1;
+
+ --  commit tran tr; --commit 事务点被删除
+
+ ROLLBACK TRAN tr ;
+
+begin  tran 
+ update Test.dbo.Person  set Name='tes1t' where ID=1;
+ commit tran ;--commit 事务点被删除
+ ROLLBACK TRAN ;-- 事务点被删除之后无法回滚，报错。 mysql 不会错，不会回滚。
