@@ -1,7 +1,21 @@
+
+-- 意向锁 （表锁）：在获取共享锁，排他锁之前系统自动获取，不需要手动干预。为了不全表扫描行是否有锁。
+-- 行锁、页锁、表锁
+-- 如果精确到行行锁，否则表锁
+-- 表锁加锁块、行锁加锁慢。行锁并发性能高
+
+-- InnerDB 默认采用行级锁,普通SELECT语句，InnoDB不会加任何锁
+
+
+-- 排他锁：事务之间不允许其他排它锁或者共享锁读取，
+-- 共享锁：允许其他事物也增加共享锁读取，不允许其他事物增加排它锁 （for update）
+
 -- 共享锁（Ｓ）：
 SELECT * FROM table_name WHERE ... LOCK IN SHARE MODE
 -- 排他锁（X）：
 SELECT * FROM table_name WHERE ... FOR UPDATE
+
+-- 测试开启两个SQLYog客户端，一个执行带锁事务，另一个进行增删改查测试。
 
 -- 共享锁（Ｓ）：
 -- 事务运行期间：其他事务不可以增删改，可以查
@@ -11,15 +25,23 @@ SELECT * FROM  wms.`product`  LOCK IN SHARE MODE;
 SELECT SLEEP(10);
 COMMIT ;
 
-
+-- 测试开启两个SQLYog客户端，一个执行带锁事务，另一个进行增删改查测试。
 -- 排他锁（X）：
 -- 事务运行期间：其他事务不可以增删改，可以查
 START TRANSACTION ;
--- SELECT * FROM  wms.`product` WHERE ID=7 FOR UPDATE;
-SELECT * FROM  wms.`product`  FOR UPDATE;
+-- 锁当前行ID=7
+ SELECT * FROM  wms.`product` WHERE ID=7 FOR UPDATE;
+-- 锁整个表
+-- SELECT * FROM  wms.`product`  FOR UPDATE;
 SELECT SLEEP(10);
 COMMIT ;
 
+
+SELECT  *  FROM WMS.`product`;
+
+SELECT  *  FROM WMS.`product` WHERID=2;
+
+SELECT  *  FROM WMS.`product` WHERE ID=7;
 
 
 
@@ -145,7 +167,7 @@ VALUES
 VALUES
   ( UUID(),   1,1, 1,  'no count', NULL, 3,   3 );
 -- COMMIT; -- 报错语句没有插成功，但是第一句成功插入数据库，没有回滚
-rollback;-- 不管成功与否，回滚
+ROLLBACK;-- 不管成功与否，回滚
 
 
 
