@@ -29,7 +29,8 @@ VALUES
   
   
   
-  UPDATE wms.`product` SET productname='tran12' WHERE ID=7;
+  UPDATE wms.`product` SET productname='tran123' WHERE ID=7;
+  
   
 SELECT *  FROM wms.`product` WHERE ID=7;
   
