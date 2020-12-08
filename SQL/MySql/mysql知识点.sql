@@ -152,3 +152,11 @@ SELECT * FROM mysql.general_log ORDER BY event_time DESC;
 
 
 
+-- 查看注释
+-- DDL
+SHOW CREATE TABLE demo.`Test`;
+
+SHOW FULL COLUMNS FROM demo.`Test`;
+
+
+
