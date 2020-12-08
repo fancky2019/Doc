@@ -86,6 +86,33 @@ TRUNCATE TABLE  WMSData.dbo.Product
 
 
   --LIKE内容含有通配符
- SELECT *
-  FROM WMS.dbo.Product
-  WHERE  [ProductName]  LIKE '%\_%'ESCAPE '\';
+ SELECT * FROM WMS.dbo.Product WHERE  [ProductName]  LIKE '%\_%'ESCAPE '\';
+
+  -- 类型转换
+  select convert(int,'1')+1;
+
+  select cast(1 as varchar)+'12';
+
+  -- 获取年月
+   select   GetDate()
+
+ select  DateName(YEAR,GETDATE())
+ select  DateName(MONTH,GETDATE())
+ SELECT year(GETDATE()), month(GETDATE()), day(GETDATE())
+
+
+ select        count(case when YEAR(CreateDate)= YEAR(GETDATE()) and 
+                               Month(CreateDate)= Month(GETDATE()) then CreateDate 
+                         else null
+                         end
+                   ) MonthAddCustomerSum,
+              count(case when  YEAR(CreateDate)= YEAR(GETDATE()) and 
+                               Month(DATEADD(Month,3, CreateDate))>= Month(GETDATE()) then CreateDate 
+                          else null
+                          end
+                   ) ThreeMonthCustomerSum,
+              count(case when YEAR(CreateDate)= YEAR(GETDATE())  then CreateDate 
+                         else null
+                         end
+                   ) YearAddCustomerSum
+    from [CustomerRelationship_AH].[dbo].[SellerSubject]
