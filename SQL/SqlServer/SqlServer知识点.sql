@@ -1,8 +1,25 @@
  -- 在线文档 https://docs.microsoft.com/zh-cn/sql/t-sql/statements/create-index-transact-sql?view=sql-server-ver15
 
+ -- DML（data manipulation language）： SELECT、UPDATE、INSERT、DELETE
+-- DDL（data definition language）： CREATE、ALTER、DROP等，DDL主要是用在定义或改变表（TABLE）的结构
+-- DCL（Data Control Language）：  设置或更改数据库用户或角色权限的语句，包括（grant,deny,revoke等）语句
 
+-- varchar(n)类型中，n最大到8000。弱存储英文，则占一个字节，存储汉字，则占两个字节。
+-- nvarchar(n)类型中，n最大到4000。无论存储英文还是汉字，都占用两个字节。
 
 --  waitfor time '11:12:12'
+-- 时间戳是指格林威治时间1970年01月01日00时00分00秒(北京时间1970年01月01日08时00分00秒)起至现在的总秒数 
+-- 数据类型
+-- Decimal(n,m)表示数值中共有n位数，其中整数n-m位，小数m位
+-- NUMERIC和DECIMAL没有区别
+-- float 、double 由于不能精确表示，会丢失，用decimal
+--普通时间转换成时间戳
+SELECT DATEDIFF(S,'1970-01-01 00:00:00', GETDATE()) 
+--时间戳转换成普通时间
+SELECT DATEADD(S,1557493321,'1970-01-01 00:00:00')  
+select GETDATE();
+
+select CONVERT(varchar(10),GETDATE(),120);
 
 
 SELECT *  FROM  wms.dbo.product;
