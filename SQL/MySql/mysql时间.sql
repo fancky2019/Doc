@@ -14,7 +14,7 @@ SELECT UNIX_TIMESTAMP()*1000;
 SELECT UUID()
 
 
---ALTER TABLE product ALTER COLUMN UUID SET DEFAULT UUID();
+-- ALTER TABLE product ALTER COLUMN UUID SET DEFAULT UUID();
 
 -- 分页第一个参数偏移量 offset，第二个pageSize
 SELECT @rownum := @rownum +1 AS rownum,product.* FROM  product  LIMIT 5,3;
@@ -28,7 +28,7 @@ DROP TABLE   wms.`TEST`
   -- 查询表结构
   USE wms;
   DESCRIBE product;
---rownumber
+-- rownumber
 SELECT @rownum := @rownum +1 AS rownum,product.* FROM (SELECT 
     @rownum := 0) r,  product 
     
