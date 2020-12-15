@@ -195,13 +195,24 @@ LIMIT 0, 1000;
  -- 查看执行的日志
 SELECT * FROM mysql.general_log ORDER BY event_time DESC;
 
-
+EXPLAIN SELECT  *  FROM demo.`test`;
 
 -- 查看注释
 -- DDL
 SHOW CREATE TABLE demo.`Test`;
 
 SHOW FULL COLUMNS FROM demo.`Test`;
+
+-- 查询表的所有列名并用逗号拼接
+SELECT GROUP_CONCAT(COLUMN_NAME SEPARATOR ",") FROM information_schema.COLUMNS 
+WHERE TABLE_SCHEMA = 'NewClassesAdmin' AND TABLE_NAME = 'UserInfo';
+
+SELECT CONCAT('1','2');
+
+-- 字符串长度
+SELECT DISTINCT LENGTH(  IFNULL(studentid,'')) len
+      FROM demo.`orderhead`
+      GROUP BY studentid
 
 
 

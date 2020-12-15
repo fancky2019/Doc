@@ -13,6 +13,13 @@
 -- Decimal(n,m)表示数值中共有n位数，其中整数n-m位，小数m位
 -- NUMERIC和DECIMAL没有区别
 -- float 、double 由于不能精确表示，会丢失，用decimal
+
+-- DateTime字段类型要用 GETDATE() ，DateTime2字段类型要用 SYSDATETIME() 。
+--datetime:精确到毫秒 2020-12-15 14:13:46.507 yyyy-MM-dd HH:mm:ss.fff 
+select GETDATE();
+-- datetime2:精确到微秒 2020-12-15 14:13:17.7543695  yyyy-MM-dd HH:mm:ss.fffffff ，7个f，精确到0.1微秒(μs)，
+select SYSDATETIME();
+
 --普通时间转换成时间戳
 SELECT DATEDIFF(S,'1970-01-01 00:00:00', GETDATE()) 
 --时间戳转换成普通时间
