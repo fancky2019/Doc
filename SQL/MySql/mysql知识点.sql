@@ -43,6 +43,9 @@ SELECT IFNULL(ProductStyle,'空')ProductStyle  FROM wms.`product`
 -- datetime	'1000-01-01 00:00:00.000000' to '9999-12-31 23:59:59.999999'
 -- timestamp	'1970-01-01 00:00:01.000000' to '2038-01-19 03:14:07.999999'
 
+-- blob ：mssql 里的timestamp对应mysql里的blob。mysql插入不需要插叙此列，会自动生成。
+--        但是更新行数据，不会更新blob值。不想mssql会更新timestamp值。
+
 
 -- F5刷新库树结构
 -- Del删除选定项
@@ -104,7 +107,7 @@ DROP TABLE   wms.`TEST`
 -- `sex` ENUM ('男', '女'),
 
   -- 查询表结构
-  USE wms;
+  USE wms; -- 切换数据库
   DESCRIBE product;
 -- rownumber
 SELECT @rownum := @rownum +1 AS rownum,product.* FROM (SELECT 
