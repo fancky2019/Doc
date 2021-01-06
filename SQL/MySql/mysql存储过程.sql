@@ -35,7 +35,7 @@ OUT TotalCount INT
 -- inout fancky varchar(20)
 )
 BEGIN
-    DECLARE t_error INTEGER;
+    DECLARE t_error INTEGER DEFAULT 0;
     DECLARE tempCount INT ;-- 赋值用set
     
     -- 变量声明在异常处理声明签名

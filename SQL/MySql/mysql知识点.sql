@@ -216,6 +216,116 @@ SELECT CONCAT('1','2');
 SELECT DISTINCT LENGTH(  IFNULL(studentid,'')) len
       FROM demo.`orderhead`
       GROUP BY studentid
+      
+ 
+ 
+--  Ctrl+Shift+C 注释 SQL 窗口选择内容
+--  Ctrl+Shift+R 从选择内容删除注释
+--  F12 格式化当前行所在的SQL
+--  Ctrl+F12    格式化选中的SQL --格式化不太理想
+
+ -- mysql 不支持表变量
+ -- mysql 不支持top n
+ 
+ 
+ 
+ 
+ 
+ -- 变量
+-- 一、局部变量:mysql局部变量，只能用在begin/end语句块中，比如存储过程中的begin/end语句块。
+--  declare关键字声明的变量，只能在存储过程中使用，称为存储过程变量
+
+DECLARE age INT DEFAULT 0;
+
+-- 局部变量的赋值方式一
+SET age=18;
+
+SELECT 1 INTO age;
 
 
+-- -- 局部变量的赋值方式二
+-- select StuAge 
+-- into age
+-- from demo.student 
+-- where StuNo='A001';
 
+
+-- 二、用户变量：mysql用户变量，mysql中用户变量不用提前申明，在用的时候直接用“@变量名”使用就可以了。
+      -- 第一种用法，使用set时可以用“=”或“:=”两种赋值符号赋值
+SET @age=19;
+SET @age:=20;
+-- 第二种用法，使用select时必须用“:=”赋值符号赋值
+SELECT @age:=22 ;
+
+-- 三、会话变量
+-- mysql会话变量，服务器为每个连接的客户端维护一系列会话变量。
+-- 其作用域仅限于当前连接，即每个连接中的会话变量是独立的。
+
+-- 四、全局变量:
+		-- mysql全局变量，全局变量影响服务器整体操作，当服务启动时，它将所有全局变量初始化为默认值。要想更改全局变量，必须具有super权限。
+		-- 其作用域为server的整个生命周期。
+-- if函数
+SELECT  IF(500<1000, 5, 10) result;
+SELECT  IF(500<1, 5, 10) result;
+-- case when
+-- mysql 不支持top n
+SELECT top 1 sex FROM demo.`userinfo` WHERE sex IS NOT NULL;
+
+SELECT CASE sex WHEN '男' THEN 'Man'
+                 ELSE  '女'
+                 END sex1  FROM demo.`userinfo` WHERE sex IS NOT NULL AND sex <>'' LIMIT  0,1;
+                 
+SELECT CASE  WHEN sex='男' THEN 'Man1'
+                 ELSE  '女'
+                 END sex1  
+            FROM demo.`userinfo` WHERE sex IS NOT NULL AND sex <>'' LIMIT  0,1;
+                 
+SELECT @Test:=1;                                  
+SELECT @Test+1 Test;       
+SELECT CONCAT (CAST( @Test AS CHAR ),"23abc") Test;          
+-- SELECT  CONCAT (cast( @Test as nvarchar ),"abc" ) Test;                 
+  SELECT CONVERT('1',SIGNED)+1;
+  SELECT CAST(@Test AS CHAR);  -- +'12';
+--   不支持+              
+--     select "a"+"b" ;   
+
+-- 临时表
+-- 创建方式一
+CREATE TEMPORARY TABLE tmp_ProductNamePrice 
+ SELECT  
+  `ProductName`,
+  `Price`
+FROM
+  `demo`.`product`
+
+-- 使用
+SELECT *  FROM tmp_ProductNamePrice;
+-- 记得删除
+DROP TABLE tmp_ProductNamePrice;
+-- 创建方式二
+CREATE TEMPORARY TABLE tmp_ProductNamePrice (
+ProductName VARCHAR(50) NOT NULL,
+Price DECIMAL(18,2) NOT NULL
+) 
+
+INSERT INTO  tmp_ProductNamePrice    SELECT  
+  `ProductName`,
+  `Price`
+FROM
+  `demo`.`product`    
+ -- 使用
+SELECT *  FROM tmp_ProductNamePrice;
+INSERT INTO tmp_ProductNamePrice( `ProductName`, `Price`) VALUES ('ProductName',90.90);
+-- 记得删除
+DROP TABLE tmp_ProductNamePrice;     
+
+
+-- mysql 不支持select  into（前提表不存在） ,支持insert into select(前提表存在).
+CREATE TABLE ProductNamePrice ( SELECT  
+  `ProductName`,
+  `Price`
+FROM
+  `demo`.`product`    ); 
+                 
+                 
+                 
