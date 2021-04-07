@@ -1,4 +1,4 @@
--- DML（data manipulation language）： SELECT、UPDATE、INSERT、DELETE
+`test`-- DML（data manipulation language）： SELECT、UPDATE、INSERT、DELETE
 -- DDL（data definition language）： CREATE、ALTER、DROP等，DDL主要是用在定义或改变表（TABLE）的结构
 -- DCL（Data Control Language）：  设置或更改数据库用户或角色权限的语句，包括（grant,deny,revoke等）语句
 
@@ -16,7 +16,7 @@ FLUSH PRIVILEGES;
 SHOW TABLE STATUS FROM wms WHERE NAME='product';
 
 
-SHOW VARIABLES LIKE 'ft%';
+SHOW VARIABLES LIKE 'ft%';`demo`
 SHOW VARIABLES LIKE 'innodb_ft_min_token_size%';
 -- 配置
 　-- my.ini配置文件中添加
@@ -328,6 +328,25 @@ CREATE TABLE ProductNamePrice ( SELECT
   `Price`
 FROM
   `demo`.`product`    ); 
-                 
+ 
+ 
+ -- 插入 
+  
+-- 方法1：CREATE TABLE bk(SELECT * FROM USER);
+
+-- 方法2：INSERT INTO bk SELECT * FROM  user
+
+--  SELECT * FROM table LIMIT [offset,] rows | rows OFFSET offset
+-- limit 两种写法 ：一和二参数对调;逗号前偏移，offset后偏移
+  
+  SELECT  * FROM  demo.`orderhead` LIMIT 3,5;
+  
+  SELECT  * FROM  demo.`orderhead` LIMIT 5 OFFSET 3;
+  
+-- limit top 
+
+SELECT *  FROM demo.`orderhead` LIMIT 5
+  
+SELECT *  FROM demo.`orderhead` LIMIT 0,5            
                  
                  
