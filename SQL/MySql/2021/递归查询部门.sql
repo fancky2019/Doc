@@ -31,16 +31,16 @@ SELECT  t.*,IFNULL(p.dept_name,'') parent_dept_name
 								(
 									SELECT
 										t1.id,t1.dept_name,parent_id,
-										IF(FIND_IN_SET(parent_id, @pids) > 0,
-											 @pids := CONCAT(@pids, ',', id),
-										   0) AS ischild
+										-- 如果父节点，就将该节点加入字符串中。FIND_IN_SET(str,strlist) 返回索引位置，索引从1开始
+										IF(FIND_IN_SET(parent_id, @pids) > 0, @pids := CONCAT(@pids, ',', id), 0) AS ischild
 									FROM
 										(
-										SELECT id,parent_id,dept_name
-										FROM `online`.t_dept t
-										ORDER BY parent_id,id 
+											SELECT id,parent_id,dept_name
+											FROM `online`.t_dept t
+											-- 这点一定要排序
+											ORDER BY parent_id,id 
 										) t1,
-									(SELECT @pids := 54) t2  --                                                             此处设置要查询的部门@pids
+									(SELECT @pids := 54) t2  --  此处设置要查询的部门@pids
 					    ) t3
 						WHERE ischild != 0
 						UNION 
