@@ -1,0 +1,22 @@
+-- order_number
+
+-- 走索引
+explain SELECT order_number
+  from  `online`.t_crm_order  
+where order_number
+in ('1284562767634489344','1287587953610809345','1287784852091543552'
+'1287784852091543554','1287785092609720320','1287785092609720321',
+'1287785092609720322','1287785092609720323','1287810003420045312'
+)
+
+-- 走索引
+explain SELECT order_number
+  from  `online`.t_crm_order  
+where order_number='1284562767634489344' or order_number= '1287587953610809345' or order_number='1287784852091543552'
+or order_number='1287784852091543554'or order_number='1287785092609720320'or order_number='1287785092609720321'
+'1287785092609720322'or order_number='1287785092609720323'or order_number='1287810003420045312'
+
+
+
+select  *  from `online`.t_crm_order  
+
