@@ -35,7 +35,7 @@ VALUES
 SELECT *  FROM wms.`product` WHERE ID=7;
   
   
-  
+  UPDATE  test.`t_product` SET product_name='product2';
   
   
   

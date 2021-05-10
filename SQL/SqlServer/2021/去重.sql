@@ -20,8 +20,12 @@ where [studentId] in
 	   ) 
  and id not in (select min(id) from [crm_clue_temp].[dbo].[cc_student_20210331]  group by [studentId] having count(*)>1)
 
-
-
+ -- 分组得到最大的id，删除保留最大id
+ delete from [crm_clue_temp].[dbo].[cc_student_20210331] 
+ where id not in
+ (
+   select max(id) from [crm_clue_temp].[dbo].[cc_student_20210331]  group by [studentId]
+  )
 
 
 

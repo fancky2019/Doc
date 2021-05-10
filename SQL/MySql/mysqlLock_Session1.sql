@@ -178,14 +178,14 @@ SELECT *  FROM wms.`product`;
 
 -- SET [GLOBAL | SESSION] TRANSACTION ISOLATION LEVEL <ISOLATION-LEVEL>
   -- '其中的<isolation-level>可以是：
-    -- READ UNCOMMITTED
-    -- READ COMMITTED
-    -- REPEATABLE READ
+    -- READ UNCOMMITTED 
+    -- READ COMMITTED -- sqlserver oracle 默认隔离级别
+    -- REPEATABLE READ   --   mysql默认隔离级别
     -- SERIALIZABLE
     -- 全局级：对所有的会话有效 
 -- 会话级：只对当前的会话有效 
 
--- READ UNCOMMITTED
+-- READ UNCOMMITTED  -- sqlserver 、oracle 默认隔离级别
 -- 其他事务可以增删改查
 SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 START TRANSACTION ;
@@ -227,6 +227,88 @@ COMMIT ;
 
 SELECT *  FROM  wms.`product`;
 
+
+
+
+
+
+
+
+
+
+
+-- 锁
+
+-- 查看进程
+SHOW PROCESSLIST;
+-- 杀死锁进程：杀sleep的进程16
+KILL 16;
+
+
+-- MyISAM：只支持表锁
+-- InnoDb: 表锁、页面、行锁
+
+-- InnoDB的行锁是针对索引加的锁。只有在通过where检索条件使用索引时，才使用行级锁，否则使用表锁！
+
+
+-- S X  共享排他
+
+-- 意向锁是有数据引擎自己维护的，用户无法手动操作意向锁，在为数据行加共享 / 排他锁之前，InooDB 会先获取该数据行所在在数据表的对应意向锁。
+
+-- IX，IS是表级锁，不会和行级的X，S锁发生冲突。只会和表级的X，S发生冲突
+-- 意向共享锁与排他锁冲突 IS
+-- 意向排他锁与排他锁和共享锁都冲突 IX
+-- 意向锁与意向锁兼容  IS IX 相互兼容
+
+
+
+-- mysql InnoDb引擎中update,delete,insert语句自动加排他锁
+-- INSERT 锁表
+-- DELETE 命中索引锁行，否则锁表
+-- UPDATE 命中索引锁行，否则锁表
+
+
+
+-- 要开启两个sqlyog 客户端
+
+-- X 没有命中所用 (没有where ),锁整个表
+START TRANSACTION ;
+UPDATE  test.`t_product` SET product_name='product_2ee' ;
+SELECT SLEEP(10);
+COMMIT ;
+
+-- update 命中主键索引 锁行。锁id=2的这行
+START TRANSACTION ;
+UPDATE  test.`t_product` SET product_name='product_2ee' WHERE id=2;
+SELECT SLEEP(10);
+COMMIT ;
+
+
+-- X INSERT 锁表
+START TRANSACTION ;
+INSERT INTO `test`.`t_product` ( `product_name`) VALUES( 'product_name');
+SELECT SLEEP(10);
+COMMIT ;
+
+
+-- X DELETE 锁行
+START TRANSACTION ;
+DELETE FROM  `test`.`t_product` WHERE id=5;
+SELECT SLEEP(10);
+COMMIT ;
+
+-- X DELETE 锁表
+START TRANSACTION ;
+DELETE FROM  `test`.`t_product`;
+SELECT SLEEP(10);
+COMMIT ;
+
+
+
+SELECT  *  FROM test.`t_product`;
+
+
+TRUNCATE TABLE test.`t_product`;
 
 
 
