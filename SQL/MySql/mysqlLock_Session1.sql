@@ -241,6 +241,12 @@ SELECT *  FROM  wms.`product`;
 
 -- 查看进程
 SHOW PROCESSLIST;
+
+SHOW VARIABLES LIKE 'performance_schema';
+-- 配置文件设置
+SET performance_schema=ON;
+-- 查看死锁进程
+SELECT blocking_pid FROM sys.schema_table_lock_waits
 -- 杀死锁进程：杀sleep的进程16
 KILL 16;
 
@@ -309,7 +315,6 @@ SELECT  *  FROM test.`t_product`;
 
 
 TRUNCATE TABLE test.`t_product`;
-
 
 
 
