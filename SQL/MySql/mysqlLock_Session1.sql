@@ -15,6 +15,15 @@ SELECT * FROM table_name WHERE ... LOCK IN SHARE MODE
 -- 排他锁（X）：
 SELECT * FROM table_name WHERE ... FOR UPDATE
 
+LOCK TABLES demo.`product` READ, demo.`orderhead` WRITE;
+
+UNLOCK TABLES ;
+
+
+ SELECT *  FROM  demo.`orderhead`;
+ 
+ 
+
 -- 测试开启两个SQLYog客户端，一个执行带锁事务，另一个进行增删改查测试。
 
 -- 共享锁（Ｓ）：
@@ -316,7 +325,21 @@ SELECT  *  FROM test.`t_product`;
 
 TRUNCATE TABLE test.`t_product`;
 
+-- 开两个客户端
+-- read :当前会话连接只能读
+LOCK TABLES test.`t_product` READ;
+-- WRITE;当前会话连接可以写，其他不能增删改查。当前连接客户端可读写，其他客户端不能读写。
+LOCK TABLES test.`t_product` WRITE;
+
+UNLOCK TABLES ;
 
 
+SELECT  *  FROM test.`t_product`;
+ 
+ INSERT INTO `test`.`t_product` ( `product_name`) VALUES( 'product_name');
+
+ DELETE FROM  `test`.`t_product` WHERE id=5;
+ 
+ UPDATE  test.`t_product` SET product_name='product_2ee' WHERE id=2;
 
 
