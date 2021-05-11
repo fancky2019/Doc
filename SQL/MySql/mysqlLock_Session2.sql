@@ -37,5 +37,16 @@ SELECT *  FROM wms.`product` WHERE ID=7;
   
   UPDATE  test.`t_product` SET product_name='product2';
   
+ SELECT *  FROM  demo.`orderhead`;
+ 
+
+SELECT  *  FROM test.`t_product`;
+ 
+ INSERT INTO `test`.`t_product` ( `product_name`) VALUES( 'product_name');
+
+ DELETE FROM  `test`.`t_product` WHERE id=5;
+ 
+ UPDATE  test.`t_product` SET product_name='product_2ee' WHERE id=2;
+  
   
   
