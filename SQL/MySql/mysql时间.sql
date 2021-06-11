@@ -6,6 +6,8 @@ SELECT SYSDATE()
 SELECT LOCALTIME() 
 -- 毫秒
 SELECT CURRENT_TIMESTAMP(3)  ;SELECT NOW(3)
+
+
 -- 微秒
 SELECT CURRENT_TIMESTAMP(6)
 --
@@ -102,4 +104,18 @@ SELECT  *  FROM wms.`product` ,wms.`sku` WHERE wms.`product`.`SkuID`=wms.`sku`.`
 -- 内连接
 SELECT *  FROM wms.`product` p
            JOIN wms.`sku` s ON p.`SkuID`=s.`ID`
+           
+           
+-- 时间相减
+SELECT  DATEDIFF('2021-05-27' ,'2021-05-26');   
+
+ SELECT TIMEDIFF(time1,time2)      
+           
+SELECT DATE_ADD(NOW(), INTERVAL 1 MONTH);    -- 加1月
+
+       
+           
+           
+           
+           
 
