@@ -24,7 +24,7 @@ SELECT * FROM wms.`product` LIMIT 0,5
 
  -- DELIMITER MYSQL的默认结束符为";". 
 DROP PROCEDURE IF EXISTS Pro_PageData; 
-DELIMITER$$
+DELIMITER $$
 CREATE PROCEDURE Pro_PageData
 (
 IN pageSize INT,

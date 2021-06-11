@@ -62,7 +62,8 @@ SELECT STR_TO_DATE('2019-01-20', '%Y-%m-%d');
 						
 
 	
-
+	 --  FIND_IN_SET(str,strlist)  strlist 如果为null 返回null,
+--                         	           不为null 返回str在strlist中的索引。索引从1开始，不包含返回0
 
 
 
