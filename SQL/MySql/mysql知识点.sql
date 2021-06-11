@@ -244,6 +244,16 @@ SET age=18;
 
 SELECT 1 INTO age;
 
+BEGIN
+DECLARE age INT DEFAULT 0;
+
+-- 局部变量的赋值方式一
+SET age=18;
+SELECT age;
+END
+
+
+
 
 -- -- 局部变量的赋值方式二
 -- select StuAge 
