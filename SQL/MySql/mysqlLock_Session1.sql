@@ -185,6 +185,20 @@ SELECT *  FROM wms.`product`;
 
 
 
+
+
+
+
+
+
+-- 查看系统默认事务隔离级别
+SHOW VARIABLES LIKE '%transaction_isolation%';
+
+-- 1.查看当前会话隔离级别
+SELECT @@transaction_isolation;
+-- 2.查看系统当前隔离级别
+SELECT @@global.transaction_isolation;
+
 -- SET [GLOBAL | SESSION] TRANSACTION ISOLATION LEVEL <ISOLATION-LEVEL>
   -- '其中的<isolation-level>可以是：
     -- READ UNCOMMITTED 
@@ -196,6 +210,7 @@ SELECT *  FROM wms.`product`;
 
 -- READ UNCOMMITTED  -- sqlserver 、oracle 默认隔离级别
 -- 其他事务可以增删改查
+-- 设置事务的隔离级别
 SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 START TRANSACTION ;
 SELECT *  FROM wms.`product` WHERE ID=7;
