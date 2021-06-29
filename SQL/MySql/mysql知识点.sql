@@ -332,19 +332,22 @@ INSERT INTO tmp_ProductNamePrice( `ProductName`, `Price`) VALUES ('ProductName',
 DROP TABLE tmp_ProductNamePrice;     
 
 
--- mysql 不支持select  into（前提表不存在） ,支持insert into select(前提表存在).
+-- mysql 不支持select  * into table_target  from table_source（前提表不存在） ,支持insert into select(前提表存在).
 CREATE TABLE ProductNamePrice ( SELECT  
   `ProductName`,
   `Price`
 FROM
   `demo`.`product`    ); 
- 
- 
- -- 插入 
+-- 插入 
   
 -- 方法1：CREATE TABLE bk(SELECT * FROM USER);
 
 -- 方法2：INSERT INTO bk SELECT * FROM  user
+
+
+
+
+
 
 --  SELECT * FROM table LIMIT [offset,] rows | rows OFFSET offset
 -- limit 两种写法 ：一和二参数对调;逗号前偏移，offset后偏移
@@ -357,6 +360,43 @@ FROM
 
 SELECT *  FROM demo.`orderhead` LIMIT 5
   
-SELECT *  FROM demo.`orderhead` LIMIT 0,5            
+SELECT *  FROM demo.`orderhead` LIMIT 0,5      
+
+
+
+
+
+
+
+-- null  统计
+-- MySQL 中 sum 函数没统计到任何记录时，会返回 null 而不是 0，可以使用 IFNULL(null,0) 函数把 null 转换为 0；
+-- 在MySQL中使用count（字段），不会统计 null 值，COUNT(*) 才能统计所有行；
+-- MySQL 中使用诸如 =、<、> 这样的算数比较操作符比较 NULL 的结果总是 NULL，这种比较就显得没有任何意义，需要使用 IS NULL、IS NOT NULL 或 ISNULL() 函数来比较      
                  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+ -- 主从同步方式： 异步复制（默认）、半同步复制（需安装插件semisync_master.so）、并行复制 （需配置）  
+ 
+ 
+ -- 并行复制 配置： MySQL 5.7开启Enhanced Multi-Threaded Slave配置：
+# slave
+ -- slave-parallel-type=LOGICAL_CLOCK
+ -- slave-parallel-workers=16
+ -- master_info_repository=TABLE
+--  relay_log_info_repository=TABLE
+ --  relay_log_recovery=ON  
+    
+    
+    
+    
+    
                  
