@@ -34,13 +34,13 @@ BEGIN
  	-- 开启事务
 	START TRANSACTION;
 	
-	truncate table t_crm_channel_consume_item;
+	TRUNCATE TABLE t_crm_channel_consume_item;
 	
  -- 打开游标
  OPEN channel_consume_cursor;
 	
   -- loop 循环取游标里数据
-  inner_loop:loop
+  inner_loop:LOOP
 	-- 从游标里取一条数据
   FETCH channel_consume_cursor INTO channel_id_var,channel_name_var,start_time_var,end_time_var,amount_var,create_user_var,dept_id_var;
 	
@@ -80,7 +80,7 @@ BEGIN
 		 dept_id_var
 		);
 	
-END WHILE;
+END WHILE;`demo`
 -- 结束游标循环							
 END LOOP inner_loop;
 -- 关闭游标
@@ -88,10 +88,10 @@ CLOSE channel_consume_cursor;
 
 -- 异常回滚
 IF result_code = 1 THEN -- 可以根据不同的业务逻辑错误返回不同的result_code，这里只定义了1和0
-    select  'rallback'; 
+    SELECT  'rallback'; 
     ROLLBACK; 
 ELSE 
-   select  CONCAT('result_code:',result_code); -- mysql  没有print 只能select
+   SELECT  CONCAT('result_code:',result_code); -- mysql  没有print 只能select
    COMMIT; 
 END IF;
 	 
@@ -106,7 +106,7 @@ DELIMITER ;
 CALL pro_loop_insert();
 
 
-select  *  from t_crm_channel_consume_item; 
+SELECT  *  FROM t_crm_channel_consume_item; 
 
 -- truncate table t_crm_channel_consume_item;
 
