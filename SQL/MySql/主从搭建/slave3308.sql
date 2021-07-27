@@ -8,8 +8,8 @@ CHANGE MASTER TO MASTER_HOST='localhost',MASTER_USER='masteraccount',MASTER_PASS
 
 -- Slave_IO_Running 是connecting不是    Slave_IO_Running: Yes 
 -- 解决：
---               masteraccount账号权限密码
---              MASTER_LOG_POS 不对
+--       1、masteraccount账号权限密码
+--       2、MASTER_LOG_POS 不对
 -- 启动slave同步进程：
 START SLAVE;
 
@@ -23,6 +23,31 @@ SHOW SLAVE STATUS\G
 
 
 SELECT * FROM demo.person;
+
+
+
+-- shardingsphere 读写分离校验 读只会执行在slave连接，robbin负载均衡
+
+-- 2、开启日志模式
+
+-- 1、设置
+ SET GLOBAL log_output = 'TABLE';  SET GLOBAL general_log = 'ON';
+ SET GLOBAL log_output = 'TABLE';  SET GLOBAL general_log = 'OFF';
+
+-- 2、查询
+SELECT * FROM mysql.general_log ORDER BY    event_time DESC
+
+-- 3、清空表（delete对于这个表，不允许使用，只能用truncate）
+ TRUNCATE TABLE mysql.general_log;
+
+
+
+
+
+
+
+
+
 
 
 
