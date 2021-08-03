@@ -1,4 +1,4 @@
-`test`-- DML（data manipulation language）： SELECT、UPDATE、INSERT、DELETE
+-- DML（data manipulation language）： SELECT、UPDATE、INSERT、DELETE
 -- DDL（data definition language）： CREATE、ALTER、DROP等，DDL主要是用在定义或改变表（TABLE）的结构
 -- DCL（Data Control Language）：  设置或更改数据库用户或角色权限的语句，包括（grant,deny,revoke等）语句
 
@@ -16,7 +16,7 @@ FLUSH PRIVILEGES;
 SHOW TABLE STATUS FROM wms WHERE NAME='product';
 
 
-SHOW VARIABLES LIKE 'ft%';`demo`
+SHOW VARIABLES LIKE 'ft%';
 SHOW VARIABLES LIKE 'innodb_ft_min_token_size%';
 -- 配置
 　-- my.ini配置文件中添加
@@ -52,8 +52,9 @@ SELECT IFNULL(ProductStyle,'空')ProductStyle  FROM wms.`product`
 SELECT UUID()；
 SELECT SYSDATE();-- 没有毫秒
 SELECT  NOW();-- 没有毫秒
+SELECT  NOW(3); -- 有毫秒
 SELECT LOCALTIME();
-SELECT CURDATE();
+SELECT CURDATE(); -- 日期
 
 SELECT CONCAT('1','e');
 
@@ -75,25 +76,70 @@ SELECT UNIX_TIMESTAMP(NOW());
 -- 等待10秒
 SELECT SLEEP(10);
 
-  -- 类型转换
-  -- cast(values as type) -- convert(values,type)
-  -- 支持的转换类型如下
-  -- 二进制，同带binary前缀的效果 : BINARY 
-  -- 字符型，可带参数 : CHAR()   
-  -- 日期 : DATE   
-  --  时间: TIME   
-  -- 日期时间型 : DATETIME  
-  -- 浮点数 : DECIMAL 
-  -- 整数 : SIGNED   --  无符号整数 : UNSIGNED
-  SELECT CONVERT('1',SIGNED)+1;
-  SELECT CAST(1 AS CHAR);  -- +'12';
+
+-- 类型说明    存储需求
+-- tinyint[(m)]    1字节 8位
+-- smallint[(m)]   2字节
+-- mediumint[(m)]  3字节
+-- int[(m)]    4字节
+-- bigint[(m)] 8字节
+-- float[(m, d)]   4字节
+-- double[(m, d)]  8字节
+-- decimal (m, d)  m字节（mysql < 3.23），m+2字节（mysql > 3.23 ）
 
 
+-- timestamp '1970-01-01 00:00:00'到2037年的某时
+-- 时间 datetime '1000-01-01 00:00:00'到'9999-12-31 23:59:59'
+-- 金额  decimal(18,6)
+-- 字符  varchar(50)
+-- 状态  tinyint
+-- 长整数 bigint
+-- bool  tinyint(1)
+
+
+
+
+
+-- 类型转换
+-- cast(values as type) -- convert(values,type)
+-- 支持的转换类型如下
+-- 二进制，同带binary前缀的效果 : BINARY 
+-- 字符型，可带参数 : CHAR()   
+-- 日期 : DATE   
+--  时间: TIME   
+-- 日期时间型 : DATETIME  
+-- 浮点数 : DECIMAL 
+-- 整数 : SIGNED   --  无符号整数 : UNSIGNED
+
+
+-- 创建指定ZEROFILL
+-- `forward_status` tinyint ZEROFILL DEFAULT '0' COMMENT '0 未预约试听'
+
+-- TINYINT[(M)] [UNSIGNED] [ZEROFILL]  M默认为4
+-- TINYINT(1)：tinyint(1) 和 tinyint(4) 中的1和4并不表示存储长度，只有字段指定zerofill是有用， 如tinyint(4)，如果实际值是2，如果列指定了zerofill，查询结果就是0002，左边用0来填充。
+-- BOOL，BOOLEAN：是TINYINT(1)的同义词。zero值被视为假。非zero值视为真。
+
+-- int(1)和int（4）
+-- 注意数字类型后面括号中的数字，不表示长度，表示的是显示宽度，这点与 varchar、char 后面的数字含义是不同的。
+-- 1.规定类型之后，存储是定长的，int(1)和int（4）从本身长度还是存储方式上都是一样的。mysql里，int（1）和int(4)的区别就是显示的长度，但是要设置一个参数：
+-- 如果列制定了zerofill 就会用0填充显示，如2 int(3)指定后就会显示为002
+
+
+SELECT CONVERT('1',SIGNED)+1;
+SELECT CAST(1 AS CHAR);  -- +'12';
+
+SELECT CAST('2021-08-03' AS DATETIME);  -- 
+
+SELECT CAST('2021-08-03 08:21:32' AS DATETIME);  -- 
+
+SELECT CAST(NOW() AS CHAR);  -- 
+SELECT CONVERT(NOW() , CHAR);  -- 
   
+    
 SELECT IFNULL(NULL,0);
 
 
- SELECT CONCAT(2,'test');
+SELECT CONCAT(2,'test');
 
 -- ALTER TABLE product ALTER COLUMN UUID SET DEFAULT UUID();
 
@@ -101,14 +147,16 @@ SELECT IFNULL(NULL,0);
 SELECT @rownum := @rownum +1 AS rownum,product.* FROM  product  LIMIT 5,3;
 
 
--- F5刷新库树结构
+-- F5 刷新sqlyog库树结构
+
 DROP TABLE   wms.`TEST`
 -- 枚举
 -- `sex` ENUM ('男', '女'),
 
-  -- 查询表结构
-  USE wms; -- 切换数据库
-  DESCRIBE product;
+-- 查询表结构
+USE wms; -- 切换数据库
+DESCRIBE product;
+  
 -- rownumber
 SELECT @rownum := @rownum +1 AS rownum,product.* FROM (SELECT 
     @rownum := 0) r,  product 
@@ -203,7 +251,7 @@ SELECT * FROM mysql.general_log ORDER BY event_time DESC;
 EXPLAIN SELECT  *  FROM demo.`test`;
 
 -- 查看注释
--- DDL
+-- DDL 建表语句
 SHOW CREATE TABLE demo.`Test`;
 
 SHOW FULL COLUMNS FROM demo.`Test`;
@@ -233,7 +281,7 @@ SELECT DISTINCT LENGTH(  IFNULL(studentid,'')) len
  
  
  
- -- 变量
+-- 变量
 -- 一、局部变量:mysql局部变量，只能用在begin/end语句块中，比如存储过程中的begin/end语句块。
 --  declare关键字声明的变量，只能在存储过程中使用，称为存储过程变量
 
@@ -255,7 +303,7 @@ END
 
 
 
--- -- 局部变量的赋值方式二
+-- 局部变量的赋值方式二
 -- select StuAge 
 -- into age
 -- from demo.student 
@@ -263,7 +311,7 @@ END
 
 
 -- 二、用户变量：mysql用户变量，mysql中用户变量不用提前申明，在用的时候直接用“@变量名”使用就可以了。
-      -- 第一种用法，使用set时可以用“=”或“:=”两种赋值符号赋值
+-- 第一种用法，使用set时可以用“=”或“:=”两种赋值符号赋值
 SET @age=19;
 SET @age:=20;
 -- 第二种用法，使用select时必须用“:=”赋值符号赋值
@@ -296,8 +344,8 @@ SELECT @Test:=1;
 SELECT @Test+1 Test;       
 SELECT CONCAT (CAST( @Test AS CHAR ),"23abc") Test;          
 -- SELECT  CONCAT (cast( @Test as nvarchar ),"abc" ) Test;                 
-  SELECT CONVERT('1',SIGNED)+1;
-  SELECT CAST(@Test AS CHAR);  -- +'12';
+SELECT CONVERT('1',SIGNED)+1;
+SELECT CAST(@Test AS CHAR);  -- +'12';
 --   不支持+              
 --     select "a"+"b" ;   
 
@@ -336,8 +384,7 @@ DROP TABLE tmp_ProductNamePrice;
 CREATE TABLE ProductNamePrice ( SELECT  
   `ProductName`,
   `Price`
-FROM
-  `demo`.`product`    ); 
+FROM `demo`.`product`    ); 
 -- 插入 
   
 -- 方法1：CREATE TABLE bk(SELECT * FROM USER);
@@ -356,9 +403,9 @@ INSERT INTO demo.`product_20210701`  SELECT * FROM demo.`product`;
 --  SELECT * FROM table LIMIT [offset,] rows | rows OFFSET offset
 -- limit 两种写法 ：一和二参数对调;逗号前偏移，offset后偏移
   
-  SELECT  * FROM  demo.`orderhead` LIMIT 3,5;
+SELECT  * FROM  demo.`orderhead` LIMIT 3,5;
   
-  SELECT  * FROM  demo.`orderhead` LIMIT 5 OFFSET 3;
+SELECT  * FROM  demo.`orderhead` LIMIT 5 OFFSET 3;
   
 -- limit top 
 
@@ -397,43 +444,45 @@ SELECT CURDATE();
 SELECT STR_TO_DATE('2019-01-20', '%Y-%m-%d');
  	
 				
-		-- mysql 8支持 ROW_NUMBER()				
-	SELECT ROW_NUMBER() OVER (ORDER BY id DESC) row_num FROM t_crm_clue t;		
-  -- 代替方案
-	  SET @row_num=0;
-		SELECT @row_num:=@row_num+1 row_num FROM t_crm_clue t;		
-	-- 不支持 ORDER BY 1 ；sqlserver支持
-  SELECT ROW_NUMBER() OVER (ORDER BY 1) FROM t_crm_clue t;		
-
-		
-	-- 查看mysql版本
-	SELECT VERSION();
+-- mysql 8支持 ROW_NUMBER()				
+SELECT ROW_NUMBER() OVER (ORDER BY id DESC) row_num FROM t_crm_clue t;	
 	
-	-- 使用 字段->'$.json属性'进行查询条件
+  -- 代替方案
+SET @row_num=0;
+SELECT @row_num:=@row_num+1 row_num FROM t_crm_clue t;		
+-- 不支持 ORDER BY 1 ；sqlserver支持
+SELECT ROW_NUMBER() OVER (ORDER BY 1) FROM t_crm_clue t;		
+-- 用此种代替
+SELECT ROW_NUMBER() OVER (ORDER BY (SELECT 1)) FROM t_crm_clue t;
+		
+-- 查看mysql版本
+SELECT VERSION();
+
+	
+-- 使用 字段->'$.json属性'进行查询条件
 -- 使用json_extract函数查询，json_extract(字段,"$.json属性")
 -- 根据json数组查询，用JSON_CONTAINS(字段,JSON_OBJECT('json属性', "内容"))
 -- '$[*].productPrice'  所有  '$[0].productPrice'  第一个
 
-
-	SELECT  id ,liveProList->'$[*].productPrice' productPriceAray FROM (	
-		SELECT  Id,    
-		                     CAST(   JSON_EXTRACT(package_content,'$.liveProList')  AS JSON) liveProList
-																						  FROM (
-	SELECT co.id,  CAST(package_content AS JSON)package_content 
-	       FROM 		`online`.t_crm_order co 
-					JOIN 	`online`.t_crm_order_detail cod 	ON co.order_number=cod.order_number							
-				 WHERE cod.ispackage=2             	
-				ORDER BY co.id  DESC			
-		
-		)t1
-		) t2
+SELECT  id ,liveProList->'$[*].productPrice' productPriceAray 
+FROM (	
+	SELECT  Id,    
+		 CAST(   JSON_EXTRACT(package_content,'$.liveProList')  AS JSON) liveProList
+		 FROM (
+			SELECT co.id,  CAST(package_content AS JSON)package_content 
+			FROM `online`.t_crm_order co 
+			JOIN `online`.t_crm_order_detail cod ON co.order_number=cod.order_number							
+			WHERE cod.ispackage=2             	
+		        ORDER BY co.id  DESC			
+	             )t1
+    ) t2
 		
 		
 						
 
 	
-	 --  FIND_IN_SET(str,strlist)  strlist 如果为null 返回null,
---                         	           不为null 返回str在strlist中的索引。索引从1开始，不包含返回0
+--  FIND_IN_SET(str,strlist)  strlist 如果为null 返回null,
+--  不为null 返回str在strlist中的索引。索引从1开始，不包含返回0
 
 
 
@@ -443,29 +492,29 @@ SELECT STR_TO_DATE('2019-01-20', '%Y-%m-%d');
 -- MySQL 中使用诸如 =、<、> 这样的算数比较操作符比较 NULL 的结果总是 NULL，这种比较就显得没有任何意义，需要使用 IS NULL、IS NOT NULL 或 ISNULL() 函数来比较      
                  
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+  
     
  -- 主从同步方式： 异步复制（默认）、半同步复制（需安装插件semisync_master.so）、并行复制 （需配置）  
  
  
  -- 并行复制 配置： MySQL 5.7开启Enhanced Multi-Threaded Slave配置：
 # slave
- -- slave-parallel-type=LOGICAL_CLOCK
- -- slave-parallel-workers=16
- -- master_info_repository=TABLE
---  relay_log_info_repository=TABLE
- --  relay_log_recovery=ON  
+-- slave-parallel-type=LOGICAL_CLOCK
+-- slave-parallel-workers=16
+-- master_info_repository=TABLE
+-- relay_log_info_repository=TABLE
+-- relay_log_recovery=ON  
     
-    
-    
+
+-- PREPARE 语句     
+SET @selectCommand='select *  from person';
+-- 注：拼接 where 前加空格；单引号转义
+SET @selectCommand :=CONCAT( @selectCommand , ' where id = ? and name like \'%na%\' ');
+-- select  @selectCommand; 
+PREPARE stmt1 FROM @selectCommand ;
+SET @a=3;
+EXECUTE stmt1 USING @a;
+DEALLOCATE PREPARE stmt1;  
     
     
                  
