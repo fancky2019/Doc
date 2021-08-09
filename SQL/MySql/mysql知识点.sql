@@ -300,7 +300,8 @@ SET age=18;
 SELECT age;
 END
 
-
+-- uuid mysql  无法指定默认值，通过触发器；插入之后更新uuid 值
+SELECT UUID();
 
 
 -- 局部变量的赋值方式二
@@ -349,7 +350,9 @@ SELECT CAST(@Test AS CHAR);  -- +'12';
 --   不支持+              
 --     select "a"+"b" ;   
 
--- 临时表
+
+-- 临时表、 内存表
+-- 临时表  数据库不显示表名称
 -- 创建方式一
 CREATE TEMPORARY TABLE tmp_ProductNamePrice 
  SELECT  
@@ -362,6 +365,9 @@ FROM
 SELECT *  FROM tmp_ProductNamePrice;
 -- 记得删除
 DROP TABLE tmp_ProductNamePrice;
+DROP TABLE IF EXISTS tmp_ProductNamePrice;
+
+
 -- 创建方式二
 CREATE TEMPORARY TABLE tmp_ProductNamePrice (
 ProductName VARCHAR(50) NOT NULL,
@@ -379,12 +385,45 @@ INSERT INTO tmp_ProductNamePrice( `ProductName`, `Price`) VALUES ('ProductName',
 -- 记得删除
 DROP TABLE tmp_ProductNamePrice;     
 
+-- 创建临时表
+CREATE TEMPORARY  TABLE person_temp_table (
+SELECT  
+  `name`,
+  age
+FROM `demo`.`person`
+   ) ; 
+
+
+DROP  TABLE IF EXISTS person_temp_table;
+
+
+SHOW CREATE TABLE demo.`person`;
+
+-- 默认 engine=innodb
+-- 内存表 ：指定  ENGINE = MEMORY。左侧数据库会显示表名称
+
+CREATE TABLE [IF NOT EXISTS]  内存表名
+(
+	...
+) ENGINE = MEMORY
 
 -- mysql 不支持select  * into table_target  from table_source（前提表不存在） ,支持insert into select(前提表存在).
-CREATE TABLE ProductNamePrice ( SELECT  
-  `ProductName`,
-  `Price`
-FROM `demo`.`product`    ); 
+CREATE TABLE person_memory_table (
+   `name` VARCHAR(50) NOT NULL,
+  `age` INT DEFAULT NULL
+   ) ENGINE = MEMORY; 
+
+
+
+-- select  生成表
+CREATE TABLE person_memory_table (
+SELECT  
+  `name`,
+  age
+FROM `demo`.`person` 
+   ) 
+   
+DROP TABLE IF EXISTS person_memory_table;  
 -- 插入 
   
 -- 方法1：CREATE TABLE bk(SELECT * FROM USER);
