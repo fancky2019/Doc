@@ -555,5 +555,9 @@ SET @a=3;
 EXECUTE stmt1 USING @a;
 DEALLOCATE PREPARE stmt1;  
     
-    
+
+
+-- 批量插入
+-- bulk_insert_buffer_size=100M
+-- insert  into ('col1','col2')value (),()
                  
