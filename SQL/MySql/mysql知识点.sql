@@ -229,6 +229,7 @@ FIND_IN_SET('字符', 字段名);
          --  全文索引： 
 -- 组合索引
 
+-- 连接查询：如果关联字段字段类型、字符类型不一样将不走索引。join tableNameB po on convert (tr.columC using utf8) = po.columC 
 
 
 SELECT * FROM `wms`.`product`
@@ -561,3 +562,48 @@ DEALLOCATE PREPARE stmt1;
 -- bulk_insert_buffer_size=100M
 -- insert  into ('col1','col2')value (),()
                  
+
+
+-- 1添加表字段
+
+ALTER TABLE table1 ADD transactor VARCHAR(10) NOT NULL;
+
+ALTER TABLE   table1 ADD id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY
+
+
+-- 修改列
+-- alter table tablename change old_column new_column int(11) not null
+ALTER TABLE `online`.t_sales_target CHANGE data_permission_id dept_data_permission_id BIGINT  NOT NULL
+ALTER TABLE `online`.t_crm_order CHANGE buy_user_id buy_user_id BIGINT  NOT NULL DEFAULT 0;
+-- FORCE INDEX
+SELECT  * FROM `online`.t_crm_order FORCE INDEX(adviser)
+
+
+EXPLAIN
+SELECT   dp.dept_name,d.dept_name group_name,u.major_dept_id,
+SUM(	( IFNULL(co.deal_amount,0)+IFNULL( co.refund_amount,0)*-1 ) * ROUND(1-IFNULL(co.profit_percent,0),2) ) actual_sale_amount ,
+co.buy_user_id ,st.sales_amount,st.person_num
+FROM `online`.t_user  u
+JOIN `online`.t_dept d ON u.major_dept_id =d.id
+LEFT JOIN `online`.t_dept dp ON d.parent_id=dp.id					
+LEFT JOIN `online`.t_crm_order co FORCE INDEX(adviser) ON co.adviser=u.Id    AND co.pay_time>='2021-01-21' AND co.pay_time<='2021-04-12'
+JOIN `online`.t_sales_target st	ON st.salesman_id =u.Id	  AND  st.effective_time  BETWEEN '202101' AND '202104'
+GROUP BY dp.dept_name,d.dept_name ,u.major_dept_id,co.buy_user_id ,st.sales_amount,st.person_num
+
+
+-- 查看表中列定义
+SELECT * FROM 	information_schema.`COLUMNS` 
+WHERE (table_schema='online' AND  table_name='t_crm_order' AND column_name='buy_user_id')
+OR (table_schema='online' AND  table_name='t_clues' AND column_name='id')
+
+
+
+-- 连接查询	A JOIN B JOIN C	
+-- JOIN ON AND and 右表条件
+-- A表条件放在where
+
+-- JOIN ON AND  先过滤后连接
+-- where 先on笛卡尔积后过滤
+
+
+
