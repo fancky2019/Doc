@@ -34,13 +34,13 @@ BEGIN
  	-- 开启事务
 	START TRANSACTION;
 	
-	truncate table t_crm_channel_consume_item;
+	TRUNCATE TABLE t_crm_channel_consume_item;
 	
  -- 打开游标
  OPEN channel_consume_cursor;
 	
   -- loop 循环取游标里数据
-  inner_loop:loop
+  inner_loop:LOOP
 	-- 从游标里取一条数据
   FETCH channel_consume_cursor INTO channel_id_var,channel_name_var,start_time_var,end_time_var,amount_var,create_user_var,dept_id_var;
 	
@@ -69,16 +69,16 @@ BEGIN
   `dept_id`
 	)
 	VALUES
-		(
-			channel_id_var,
-			channel_name_var,
-			@date,
+	(
+	channel_id_var,
+	channel_name_var,
+	@date,
 -- 			'dddddd',-- 制造插入异常
-			@day_amount,
-			NOW(3),
-		 create_user_var,
-		 dept_id_var
-		);
+	@day_amount,
+	NOW(3),
+	 create_user_var,
+	 dept_id_var
+	);
 	
 END WHILE;
 -- 结束游标循环							
