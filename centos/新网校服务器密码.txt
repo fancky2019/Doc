@@ -1,0 +1,55 @@
+
+dev-121.36.192.114   online         online1
+
+test-121.36.203.64    root            Abc258258
+
+test-124.70.167.177   root            OnlyEdu1015!
+
+test-124.70.167.177    online        Abc258258
+
+预发环境数据库地址
+IP：1.15.145.175 端口：3306
+只读用户：only_readonly  only_readonly@1234
+
+
+
+
+
+
+生产环境查看日志：
+先登录下面的外网，在使用ssh命令跳过其他内网服务器
+49.234.149.240（49.234.86.131该ip已换）
+devlog bqDAJq71iL6eMmY0
+使用ssh xxx 登录下面的服务器
+crm:          172.17.16.8  172.17.48.14
+school:  172.17.16.7  172.17.48.12
+
+预发布环境：172.17.0.14 
+
+/onlyedu/logs/online-crm
+
+
+
+
+
+
+
+
+
+log  路径
+/var/log/only-online-crm
+
+cat -n common-default.log |grep "SeaAreaJob"
+cat -n common-default.log |grep "TCrmSaleLineMapper"
+TCrmSaleLineMapper
+tail -n 20 common-default.log
+
+--正则
+ grep -E '.*SeaAreaJob.*1122.*' common-default.log
+
+cat -n common-default.log|grep -E '.*SeaAreaJob.*1122.*'
+
+
+
+
+

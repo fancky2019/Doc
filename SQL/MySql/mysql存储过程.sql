@@ -108,6 +108,7 @@ START TRANSACTION;
      -- print  出SQL语句
       SELECT  @strsql ;
      EXECUTE sqlCommand;
+     -- 释放
    DEALLOCATE PREPARE strsql;
    
    SET fancky=CONCAT(fancky,':xin test');

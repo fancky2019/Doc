@@ -88,10 +88,10 @@ CLOSE channel_consume_cursor;
 
 -- 异常回滚
 IF result_code = 1 THEN -- 可以根据不同的业务逻辑错误返回不同的result_code，这里只定义了1和0
-    select  'rallback'; 
+    SELECT  'rallback'; 
     ROLLBACK; 
 ELSE 
-   select  CONCAT('result_code:',result_code); -- mysql  没有print 只能select
+   SELECT  CONCAT('result_code:',result_code); -- mysql  没有print 只能select
    COMMIT; 
 END IF;
 	 
@@ -106,7 +106,7 @@ DELIMITER ;
 CALL pro_loop_insert();
 
 
-select  *  from t_crm_channel_consume_item; 
+SELECT  *  FROM t_crm_channel_consume_item; 
 
 -- truncate table t_crm_channel_consume_item;
 

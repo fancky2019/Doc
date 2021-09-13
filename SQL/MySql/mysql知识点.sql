@@ -293,13 +293,34 @@ SET age=18;
 
 SELECT 1 INTO age;
 
+
+-- 有错，begin end 一般begin-end、流程控制语句、局部变量只能用于函数、存储过程内部、游标、触发器的定义内部
 BEGIN
-DECLARE age INT DEFAULT 0;
+DECLARE @age INT DEFAULT 0;
 
 -- 局部变量的赋值方式一
-SET age=18;
-SELECT age;
+SET @age=18;
+SELECT @age;
 END
+
+
+BEGIN
+-- 局部变量的赋值方式一
+SET @age=18;
+SELECT @age;
+END
+
+
+START TRANSACTION;
+
+-- DECLARE age INT DEFAULT 0;
+
+-- 局部变量的赋值方式一
+SET @age=18;
+SELECT @age;
+ 
+COMMIT;
+
 
 -- uuid mysql  无法指定默认值，通过触发器；插入之后更新uuid 值
 SELECT UUID();
