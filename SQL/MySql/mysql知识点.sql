@@ -628,3 +628,49 @@ OR (table_schema='online' AND  table_name='t_clues' AND column_name='id')
 
 
 
+						
+SELECT VERSION();
+--  FIND_IN_SET(str,strlist)  strlist 如果为null 返回null,
+--         不为null 返回str在strlist中的索引。索引从1开始，不包含返回0
+
+ SHOW VARIABLES LIKE 'datadir';
+ 
+ 
+SHOW VARIABLES WHERE Variable_name LIKE 'character_set_%' OR Variable_name LIKE 'collation%';
+
+SHOW VARIABLES LIKE'%char%';
+
+SHOW VARIABLES LIKE 'log_%';
+
+-- 开启二进制日志 log_bin=on;默认开启
+SHOW VARIABLES LIKE 'log_bin%';
+SHOW MASTER LOGS;
+SHOW MASTER STATUS;
+
+
+-- 　　MySQL 5.7.7 之前，binlog 的默认格式都是 STATEMENT，在 5.7.7 及更高版本中，binlog_format 的默认值才是 ROW
+--   binlog_format=statement
+SHOW VARIABLES LIKE 'binlog_format%';
+
+
+
+-- 修改列		
+ALTER TABLE `online`.t_sales_target CHANGE data_permission_id dept_data_permission_id BIGINT  NOT NULL
+
+
+-- ALTER TABLE <数据表名> CHANGE COLUMN <字段名> <数据类型> DEFAULT <默认值>;
+ALTER TABLE `online`.t_sales_target CHANGE dept_data_permission_id BIGINT  NOT NULL DEFAULT 1;
+
+
+-- utf8的是隐式的，等价于utf8mb3，
+-- utf8 应该设置utf8mb4
+
+
+-- character_set_system 存储元数据的数据格式  不用设置
+
+
+
+
+
+
+
