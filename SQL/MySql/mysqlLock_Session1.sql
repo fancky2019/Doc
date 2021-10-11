@@ -277,6 +277,7 @@ KILL 16;
 
 -- MyISAM：只支持表锁
 -- InnoDb: 表锁、页面、行锁
+-- 行锁算法：Record Lock、Gap Lock 和 Next-key Lock。
 
 -- InnoDB的行锁是针对索引加的锁。只有在通过where检索条件使用索引时，才使用行级锁，否则使用表锁！
 
@@ -307,7 +308,7 @@ UPDATE  test.`t_product` SET product_name='product_2ee' ;
 SELECT SLEEP(10);
 COMMIT ;
 
--- update 命中主键索引 锁行。锁id=2的这行
+-- X update 命中主键索引 锁行。锁id=2的这行
 START TRANSACTION ;
 UPDATE  test.`t_product` SET product_name='product_2ee' WHERE id=2;
 SELECT SLEEP(10);
@@ -356,5 +357,47 @@ SELECT  *  FROM test.`t_product`;
  DELETE FROM  `test`.`t_product` WHERE id=5;
  
  UPDATE  test.`t_product` SET product_name='product_2ee' WHERE id=2;
+
+
+-- 写操作的时候，默认都是加排他锁
+-- 事务的隔离级别是通过锁来实现
+
+-- 隔离级别与锁的关系
+-- 在Read Uncommitted级别下，读取数据不需要加共享锁，这样就不会跟被修改的数据上的排他锁冲突
+
+-- 在Read Committed级别下，读操作需要加共享锁，但是在语句执行完以后释放共享锁；
+
+-- 在Repeatable Read级别下，读操作需要加共享锁，但是在事务提交之前并不释放共享锁，也就是必须等待事务执行完毕以后才释放共享锁。
+
+-- SERIALIZABLE 是限制性最强的隔离级别，因为该级别锁定整个范围的键，并一直持有锁，直到事务完成。读加共享锁，写加排他锁，读写互斥
+
+
+
+
+-- 不可重复读重点在于update和delete，而幻读的重点在于insert,条数变化。
+
+
+-- 原子性(A)：undo log就是回滚日志
+                -- 如：
+                -- (1)当你delete一条数据的时候，就需要记录这条数据的信息，回滚的时候，insert这条旧数据
+		-- (2)当你update一条数据的时候，就需要记录之前的旧值，回滚的时候，根据旧值执行update操作
+		-- (3)当年insert一条数据的时候，就需要这条记录的主键，回滚的时候，根据主键执行delete操
+-- 隔离性(I)：通过设置事务隔离级别--内部通过锁机制和MVCC来保证的，保证了最终数据的一致性了。
+-- 持久性(D)：Mysql是通过redo log就是重做日志来实现的
+-- 一致性(C)：数据库必须要实现AID三大特性，才有可能实现一致性
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

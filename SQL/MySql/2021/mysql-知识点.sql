@@ -91,8 +91,17 @@ ALTER TABLE `online`.t_sales_target CHANGE data_permission_id dept_data_permissi
 
 -- ALTER TABLE <数据表名> CHANGE COLUMN <字段名> <数据类型> DEFAULT <默认值>;
 ALTER TABLE `online`.t_sales_target CHANGE dept_data_permission_id BIGINT  NOT NULL DEFAULT 1;
-		
-		
+
+
+-- limit 优化	:前提id自增	
+SELECT id,NAME,balance 
+FROM account 
+WHERE  
+id >= (
+         SELECT a.id FROM account a WHERE a.update_time >= '2020-09-19' LIMIT 100000, 1
+       )
+ AND update_time >= '2020-09-19'
+LIMIT 10; -- 写漏了，可以补下时间条件在外面		
 		
 		
 	
