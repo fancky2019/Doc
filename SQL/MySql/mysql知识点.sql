@@ -673,7 +673,12 @@ SHOW VARIABLES LIKE '%engine%'
 
 SHOW ENGINES;
 
--- limit 优化	:前提id自增	
+
+
+
+-- mysql  limit offset 数据过大会有性能问题，sqlserver rownum() over() 用between and 没有性能问题
+-- limit 优化	:前提id自增
+--  join id :先查询出id 然后用待查询表join  id	
 SELECT id,NAME,balance 
 FROM account 
 WHERE  
@@ -688,18 +693,26 @@ LIMIT 10;
 SELECT  acct1.id,acct1.name,acct1.balance
  FROM account acct1
  INNER JOIN (
-                SELECT a.id FROM account a WHERE a.update_time >= '2020-09-19' ORDER BY a.update_time LIMIT 100000, 10
+                SELECT a.id FROM account a WHERE a.update_time >= '2020-09-19' ORDER BY a.update_time LIMIT 500000, 10
                ) AS  acct2 ON acct1.id= acct2.id
 
-
+SELECT a.*  
+FROM demo.`userinfo` a
+JOIN (
+	SELECT id
+	FROM demo.`userinfo`
+	-- WHERE AddedTime>'2015-09-01'
+	LIMIT 600000,10
+)b ON a.id=b.id
 -- 以下借助rownum()
 -- 标签
 SELECT  id,NAME,balance FROM account WHERE id > 100000 ORDER BY id LIMIT 10;
 
 -- between ...and 
-SELECT  id,NAME,balance FROM account WHERE id BETWEEN 100000 AND 100010 ORDER BY id;
+SELECT  id,NAME,balance FROM account WHERE id BETWEEN 500000 AND 500010 ORDER BY id;
 
 
+-- 查看索引
+SHOW INDEX FROM demo.`userinfo`;
 
-
-
+SHOW KEYS  FROM demo.`userinfo`;
