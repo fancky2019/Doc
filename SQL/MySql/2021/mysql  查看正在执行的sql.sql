@@ -10,11 +10,13 @@
 -- 2、开启日志模式
 
 -- 1、设置
--- SET GLOBAL log_output = 'TABLE';  SET GLOBAL general_log = 'ON';
+SET GLOBAL log_output = 'TABLE';  SET GLOBAL general_log = 'ON';
 -- SET GLOBAL log_output = 'TABLE';  SET GLOBAL general_log = 'OFF';
 
 -- 2、查询
-SELECT * FROM mysql.general_log ORDER BY    event_time DESC
+SELECT * FROM mysql.general_log 
+WHERE argument LIKE '%t_crm_tag_info%'
+ORDER BY    event_time DESC
 
 -- 3、清空表（delete对于这个表，不允许使用，只能用truncate）
--- truncate table mysql.general_log;
+TRUNCATE TABLE mysql.general_log;
