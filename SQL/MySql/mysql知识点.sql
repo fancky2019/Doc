@@ -39,7 +39,7 @@ SELECT IFNULL(ProductStyle,'空')ProductStyle  FROM wms.`product`
 
 -- NUMERIC和DECIMAL没有区别
 -- float 、double 由于不能精确表示，会丢失，用decimal
--- boolean在MySQL里的类型为tinyint(1),
+-- boolean在MySQL里的类型为tinyint(1),bit(1)。bit(1)是tinyint(1)的同义词
 -- datetime	'1000-01-01 00:00:00.000000' to '9999-12-31 23:59:59.999999'
 -- timestamp	'1970-01-01 00:00:01.000000' to '2038-01-19 03:14:07.999999'
 
