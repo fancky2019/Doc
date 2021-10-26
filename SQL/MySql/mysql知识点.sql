@@ -45,7 +45,11 @@ SELECT IFNULL(ProductStyle,'空')ProductStyle  FROM wms.`product`
 
 -- blob ：mssql 里的timestamp对应mysql里的blob。mysql插入不需要插叙此列，会自动生成。
 --        但是更新行数据，不会更新blob值。不想mssql会更新timestamp值。
-
+--  tinyint ：1个字节，
+--  smallint ：2个字节，
+--  mediumint ：3个字节，
+--  int ：4个字节，
+--  bigint ：8个字节。
 
 -- F5刷新库树结构
 -- Del删除选定项
