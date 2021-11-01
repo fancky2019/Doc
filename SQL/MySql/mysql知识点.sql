@@ -212,9 +212,22 @@ CREATE  INDEX index_Count ON `wms`.`product` (`Count`);
 
 CREATE  INDEX index_ProductName ON `wms`.`product` (ProductName);
 
-CREATE UNIQUE INDEX Index_Timestamp ON `wms`.`product` (`timestamp`);
+CREATE UNIQUE INDEX Index_Timestamp ON `wms`.`product` (`ModifyTime`);
 -- 删除索引
-DROP INDEX index_ProductName ON `wms`.`product` 
+DROP INDEX index_ProductName ON `wms`.`product` ;
+CREATE UNIQUE INDEX Index_id ON `wms`.`product` (`StockID` ,`BarCodeID`, `SkuID`);
+
+-- 创建约束：创建约束默认创建唯一索引索引，删除约束通过删除索引。
+-- ALTER TABLE <数据表名> ADD CONSTRAINT <唯一约束名> UNIQUE<列名>；
+
+ALTER TABLE `wms`.`product` ADD CONSTRAINT Index_ids UNIQUE  (`StockID` ,`BarCodeID`, `SkuID`);
+ -- 删除约束
+DROP INDEX Index_ids ON `wms`.`product` ;
+
+-- 查看索引
+SHOW INDEX FROM `wms`.`product`;
+
+
 
 -- 字符串包含 :字段名必须以","隔开
 FIND_IN_SET('字符', 字段名);
@@ -232,25 +245,25 @@ FIND_IN_SET('字符', 字段名);
          --  普通索引：
          --  全文索引： 
 -- 组合索引
-
 -- 连接查询：如果关联字段字段类型、字符类型不一样将不走索引。join tableNameB po on convert (tr.columC using utf8) = po.columC 
+-- 注：创建组合索引根据最左原则，不用再创建单列索引。联合索引（a,b,c）相当于建立了索引：（a）,(a,b)，(a,b,c)
 
-
+--  UNIQUE KEY 和 PRIMARY KEY
+-- 注：UNIQUE 和 PRIMARY KEY 的区别：一个表可以有多个字段声明为 UNIQUE，但只能有一个 PRIMARY KEY 
+--     声明；声明为 PRIMAY KEY 的列不允许有空值，但是声明为 UNIQUE 的字段允许空值（只允许一个空置）的存在。
 SELECT * FROM `wms`.`product`
 LIMIT 0, 1000;
 -- 1、使用processlist，但是有个弊端，就是只能查看正在执行的sql语句，对应历史记录，查看不到。好处是不用设置，不会保存。
 
-   USE information_schema;
-   SHOW PROCESSLIST;
+USE information_schema;
+SHOW PROCESSLIST;
    
 -- 2、开启日志模式
 
 -- 1、设置日志开启，默认是关闭的
-
 -- SET GLOBAL log_output = 'TABLE';SET GLOBAL general_log = 'ON';  -- //日志开启
-
 -- SET GLOBAL log_output = 'TABLE'; SET GLOBAL general_log = 'OFF'; -- //日志关闭
- -- 查看执行的日志
+-- 查看执行的日志
 SELECT * FROM mysql.general_log ORDER BY event_time DESC;
 
 EXPLAIN SELECT  *  FROM demo.`test`;
@@ -720,3 +733,19 @@ SELECT  id,NAME,balance FROM account WHERE id BETWEEN 500000 AND 500010 ORDER BY
 SHOW INDEX FROM demo.`userinfo`;
 
 SHOW KEYS  FROM demo.`userinfo`;
+
+-- 新建数据库，设置字符集
+-- 字符集
+-- utf8mb4
+-- 排序规则
+-- utf8mb4_general_ci
+-- 表的字符集默认为库的字符集
+
+
+
+-- id 自增达到最大值，报异常
+-- Duplicate entry '2147483647' for key 'PRIMARY'
+-- 解决办法：设置id类型为bigint (8byte) `id` bigint unsigned NOT NULL,
+
+
+

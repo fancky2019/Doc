@@ -1,4 +1,19 @@
 
+-- 查看锁记录等待时间：
+SHOW VARIABLES LIKE 'innodb_lock_wait_timeout';
+-- mysql  解决死锁
+-- 等待，直到超时（innodb_lock_wait_timeout=50s），自动回滚事务。回滚开销小的
+
+-- 发起死锁检测，主动回滚一条事务，让其他事务继续执行（innodb_deadlock_detect=on）。
+
+
+--  mysql InnoDb引擎中update,delete,insert语句自动加排他锁
+-- select是不加任何行锁的~事务可以通过以下语句显示给记录集加共享锁或排他锁。
+
+-- 共享锁(S)：SELECT * FROM table_name WHERE ... LOCK IN SHARE MODE
+-- 排他锁(X)：SELECT * FROM table_name WHERE ... FOR UPDATE
+
+
 -- 意向锁 （表锁）：在获取共享锁，排他锁之前系统自动获取，不需要手动干预。为了不全表扫描行是否有锁。
 -- 行锁、页锁、表锁
 -- 如果精确到行行锁，否则表锁
