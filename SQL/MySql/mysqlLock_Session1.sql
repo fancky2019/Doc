@@ -391,6 +391,7 @@ SELECT  *  FROM test.`t_product`;
 
 -- 不可重复读重点在于update和delete，而幻读的重点在于insert,条数变化。
 
+-- 事务日志;undo log、redo log
 
 -- 原子性(A)：undo log就是回滚日志
                 -- 如：
