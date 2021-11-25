@@ -748,4 +748,8 @@ SHOW KEYS  FROM demo.`userinfo`;
 -- 解决办法：设置id类型为bigint (8byte) `id` bigint unsigned NOT NULL,
 
 
+-- 用于记录mysql的数据更新或者潜在更新(比如DELETE语句执行删除而实际并没有符合条件的数据)，在mysql主从复制中就是依靠的binlog
+SHOW VARIABLES LIKE 'binlog_format'
+
+
 
