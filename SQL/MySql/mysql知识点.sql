@@ -751,5 +751,17 @@ SHOW KEYS  FROM demo.`userinfo`;
 -- 用于记录mysql的数据更新或者潜在更新(比如DELETE语句执行删除而实际并没有符合条件的数据)，在mysql主从复制中就是依靠的binlog
 SHOW VARIABLES LIKE 'binlog_format'
 
+-- mysql 如果字段值为null 则该字段不能使用 <> !=进行比较
+
+
+
+
+
+
+
+
+
+
+
 
 
