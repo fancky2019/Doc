@@ -1,2 +1,2 @@
 # gitKraken 更新屏蔽
-127.0.0.1 release.gitkraken.com
+127.0.0.1 release.gitkraken.com api.gitkraken
