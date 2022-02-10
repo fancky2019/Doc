@@ -1,40 +1,4 @@
 
-dev-121.36.192.114   online         online1
-
-test-121.36.203.64    root            Abc258258
-
-test-124.70.167.177   root            OnlyEdu1015!
-
-test-124.70.167.177    online        Abc258258
-
-预发环境数据库地址
-IP：1.15.145.175 端口：3306
-只读用户：only_readonly  only_readonly@1234
-
-
-
-
-
-
-生产环境查看日志：
-先登录下面的外网，在使用ssh命令跳过其他内网服务器
-49.234.149.240（49.234.86.131该ip已换）
-devlog bqDAJq71iL6eMmY0
-使用ssh xxx 登录下面的服务器
-crm:          172.17.16.8  172.17.48.14
-school:  172.17.16.7  172.17.48.12
-
-预发布环境：172.17.0.14 
-
-/onlyedu/logs/online-crm
-
-
-
-
-
-
-
-
 
 log  路径
 /var/log/only-online-crm
@@ -59,7 +23,7 @@ cat log.log | head -n 200
  cat -n 命令可以给文件的每行都加上行号
 
 cat命令显示文件指定行
-cat -n filename | tail -n 100 显示文件最后100行
+cat -n filename | tail -n+10000 100 显示文件最后100行
 
 cat -n filename | head -n 100 显示文件前面100行
 
@@ -73,21 +37,31 @@ cat filename | head -n 500 | tail -n +100
 
 
 
-
-
-
-
-
-
-
 top 查看进程命令
 ctrl+c 停止
-pwd 命令用于显示工作目录
+pwd 命令用于显示当前目录
 
 
 
 
 
+查看文件头10行
+
+head -n 10 example.txt
+查看文件尾10行
+
+tail -n 10 example.txt
+
+显示所有进程信息，连同命令行
+
+命令： ps -ef    　ps -ef|grep ssh
+
+
+-- grep 中过滤条件可以不加单引号
+-- 从过滤条件中查看多少条数据
+grep -n horse error.log|head -n 100
+
+grep -n 'hor*' error.log
 
 
 
