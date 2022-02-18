@@ -41,6 +41,10 @@ top 查看进程命令
 ctrl+c 停止
 pwd 命令用于显示当前目录
 
+wq!：强制保存退出
+x:保存退出
+
+
 
 
 
@@ -55,7 +59,7 @@ tail -n 10 example.txt
 显示所有进程信息，连同命令行
 
 命令： ps -ef    　ps -ef|grep ssh
-
+          PS aux
 
 -- grep 中过滤条件可以不加单引号
 -- 从过滤条件中查看多少条数据
