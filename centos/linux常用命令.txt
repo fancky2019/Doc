@@ -1,8 +1,3 @@
-
-
-log  路径
-/var/log/only-online-crm
-
 --i 不出分大小写
 cat -n common-default.log |grep -ai "SeaAreaJob"
 cat -n common-default.log |grep -ai "TCrmSaleLineMapper"
@@ -64,6 +59,10 @@ grep -n horse error.log|head -n 100
 grep -n 'hor*' error.log
 
 
+0.查看当前系统时间
+date
 
+1. 修改当前系统时间
+sudo date -s "2022-02-25 16:10:15"
 
 
