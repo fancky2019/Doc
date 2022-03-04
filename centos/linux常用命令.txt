@@ -29,7 +29,7 @@ cat -n filename | tail -n +100     从100行开始显示，显示100行以后的
 
 显示100行到500行
 
-cat filename | head -n 500 | tail -n +100
+cat filename | head -n 500 | tail -n+100
 
 
 
