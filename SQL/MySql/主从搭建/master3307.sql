@@ -22,6 +22,43 @@
 
  
  FLUSH PRIVILEGES;   #刷新权限
+ 
+ 
+ 
+ 
+ 
+ -- 创建只读账号
+ 
+ # 创建用户canalMysql
+create user canalMysql identified by '123456';
+# 给canal1授权访问
+GRANT SELECT, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'canalMysql'@'%';
+# 刷新权限
+flush privileges;
+
+-- 测试只能查询，不能删除
+select  *  from demo.demo_product;
+delete from demo.demo_product where id=2;
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 
 SHOW MASTER STATUS;
 
