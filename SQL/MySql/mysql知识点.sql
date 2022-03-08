@@ -1,16 +1,38 @@
+
+select VERSION();
+select @@VERSION;
 -- DML（data manipulation language）： SELECT、UPDATE、INSERT、DELETE
 -- DDL（data definition language）： CREATE、ALTER、DROP等，DDL主要是用在定义或改变表（TABLE）的结构
 -- DCL（Data Control Language）：  设置或更改数据库用户或角色权限的语句，包括（grant,deny,revoke等）语句
 
+-- 语法已不能用
+-- -- % 表示所有的IP都能访问，也可以修改为专属的
+-- GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123456' WITH GRANT OPTION;
+-- -- 阿里云
+-- GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'Li5rui31987.' WITH GRANT OPTION;
+-- 
+-- 
+-- UPDATE MySQL.user SET authentication_string=PASSWORD('12345678') WHERE USER='root';
+-- -- mypassword 为连接密码 需要修改为你自己的
+-- FLUSH PRIVILEGES;
+
+
+
+
+
+
+
+
+-- mysql8 创建用户分三步 1、创建账号 二、授权  三、刷新权限
+--  grant 权限 on 数据库对象　to 用户@主机
+-- 查看mysql用户
 -- % 表示所有的IP都能访问，也可以修改为专属的
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123456' WITH GRANT OPTION;
--- 阿里云
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'Li5rui31987.' WITH GRANT OPTION;
+SELECT  *  FROM mysql.user ;
+-- 创建账号all权限(除了grant权限),授权只能是root用户
+ CREATE USER 'fancky'@'%' IDENTIFIED BY '123456'; -- 创建用户
+ GRANT ALL ON *.* TO 'fancky'@'%'; -- 分配所有权限，除了grant权限
+ FLUSH PRIVILEGES;   #刷新权限
 
-
-UPDATE MySQL.user SET authentication_string=PASSWORD('12345678') WHERE USER='root';
--- mypassword 为连接密码 需要修改为你自己的
-FLUSH PRIVILEGES;
 
 -- 查看表存储引擎
 SHOW TABLE STATUS FROM wms WHERE NAME='product';
@@ -57,7 +79,7 @@ SELECT UUID()；
 SELECT SYSDATE();-- 没有毫秒
 SELECT  NOW();-- 没有毫秒
 SELECT  NOW(3); -- 有毫秒
-SELECT LOCALTIME();
+SELECT LOCALTIME(); -- 没有毫秒
 SELECT CURDATE(); -- 日期
 
 SELECT CONCAT('1','e');
@@ -645,8 +667,7 @@ OR (table_schema='online' AND  table_name='t_clues' AND column_name='id')
 
 
 
-						
-SELECT VERSION();
+	
 --  FIND_IN_SET(str,strlist)  strlist 如果为null 返回null,
 --         不为null 返回str在strlist中的索引。索引从1开始，不包含返回0
 
@@ -771,9 +792,11 @@ SHOW VARIABLES LIKE 'binlog_format'
 
 
 
+-- 1、创建账号 二、授权  三、刷新权限
 
 -- 创建账号
 
+-- 查看mysql用户
 SELECT  *  FROM mysql.user 
  
   -- 删除用户
@@ -792,19 +815,27 @@ SELECT  *  FROM mysql.user
  
  GRANT ALL ON *.* TO 'masteraccount'@'%'; -- 分配所有权限
  
-  #root 为你数据库要连接用户的用户名，后面为密码
- 
  FLUSH PRIVILEGES;   #刷新权限
  
  
- 
- 
+
+-- 创建账号all权限(除了grant权限),授权只能是root用户
+ CREATE USER 'fancky'@'%' IDENTIFIED BY '123456'; -- 创建用户
+ GRANT ALL ON *.* TO 'fancky'@'%'; -- 分配所有权限，除了grant权限
+ FLUSH PRIVILEGES;   #刷新权限
+
  
  -- 创建只读账号
  
+ -- *.*：表示所有数据库中的所有表。
+ -- testdb.* 表示testdb库中的所有表
+ 
+ -- ‘%’ 通配符 @‘%’ 表示任何主机
+ 
+  DROP USER 'canalMysql'@'%';
  # 创建用户canalMysql
-create user canalMysql identified by '123456';
-# 给canal1授权访问
+create user 'canalMysql' identified by '123456';
+# 给canal1授权访问  SELECT, INSERT, UPDATE, DELETE
 GRANT SELECT, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'canalMysql'@'%';
 # 刷新权限
 flush privileges;
@@ -812,6 +843,25 @@ flush privileges;
 -- 测试只能查询，不能删除
 select  *  from demo.demo_product;
 delete from demo.demo_product where id=2;
+ 
+ 
+ 
+ 
+ --  grant 权限 on 数据库对象　to 用户@主机
+grant select,insert,update,delete on testdb.* to 'canalMysql'@'%';-- 'canalMysql' 用户增删改查权限 
+FLUSH PRIVILEGES;   #刷新权限
+
+
+ -- 单库权限
+ grant select on testdb.* to 'canalMysql'@localhost; -- 'canalMysql' 可以查询 testdb 中的表。
+ flush privileges;
+ 
+ -- 查看当前用户权限
+ show grants;
+ 
+ 
+
+
  
 
 
