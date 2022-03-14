@@ -150,6 +150,14 @@ SELECT SLEEP(10);
 -- 1.规定类型之后，存储是定长的，int(1)和int（4）从本身长度还是存储方式上都是一样的。mysql里，int（1）和int(4)的区别就是显示的长度，但是要设置一个参数：
 -- 如果列制定了zerofill 就会用0填充显示，如2 int(3)指定后就会显示为002
 
+SELECT  NOW(3);
+
+
+-- 不带毫秒
+select DATE_FORMAT(NOW(3),'%Y-%m-%d %H:%i:%s');
+-- 带微秒
+select DATE_FORMAT(NOW(3),'%Y-%m-%d %T:%f');
+
 
 SELECT CONVERT('1',SIGNED)+1;
 SELECT CAST(1 AS CHAR);  -- +'12';
@@ -832,11 +840,11 @@ SELECT  *  FROM mysql.user
  
  -- ‘%’ 通配符 @‘%’ 表示任何主机
  
-  DROP USER 'canalMysql'@'%';
+  DROP USER 'canal'@'%';
  # 创建用户canalMysql
-create user 'canalMysql' identified by '123456';
+create user 'canal' identified by 'canal';
 # 给canal1授权访问  SELECT, INSERT, UPDATE, DELETE
-GRANT SELECT, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'canalMysql'@'%';
+GRANT SELECT, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'canal'@'%';
 # 刷新权限
 flush privileges;
 
