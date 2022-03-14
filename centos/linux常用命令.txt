@@ -10,8 +10,8 @@ cat -n common-default.log|grep -E '.*SeaAreaJob.*1122.*'
 最后100行
  cat error.log|grep horse| tail -n 100
 
-1000行后的最新100，即：从1000行后开始查
- cat error.log|grep horse| tail -n+1000 100
+1000行后所有行，即：从1000行后开始查
+ cat error.log|grep horse| tail -n+1000
 
 前200行
 cat log.log | head -n 200
@@ -19,7 +19,7 @@ cat log.log | head -n 200
  cat -n 命令可以给文件的每行都加上行号
 
 cat命令显示文件指定行
-cat -n filename | tail -n+10000 100      显示10000行后的100行
+cat -n filename | tail -n+10000
 
 cat -n filename | head -n 100       显示文件前面100行
 

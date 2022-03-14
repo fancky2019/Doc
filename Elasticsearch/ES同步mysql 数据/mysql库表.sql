@@ -31,5 +31,8 @@ CREATE TABLE `demo_product` (
   `status` tinyint DEFAULT NULL,
   `description` varchar(1000) DEFAULT NULL,
   `timestamp` timestamp NULL DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
+  `count` bigint DEFAULT NULL,
+  `produce_address` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
