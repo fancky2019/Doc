@@ -454,16 +454,48 @@ INSERT INTO tmp_ProductNamePrice( `ProductName`, `Price`) VALUES ('ProductName',
 -- 记得删除
 DROP TABLE tmp_ProductNamePrice;     
 
--- 创建临时表
-CREATE TEMPORARY  TABLE person_temp_table (
+
+-- 临时表和内存表
+
+-- 
+--               临时表	                                        内存表
+-- 存储	         表结构和数据都存储在内存中	                    表结构存储在磁盘中，表数据存储在内存中
+-- 会话	         单个会话独享的，是会话级别的	                  可以多个会话共享
+-- 引擎	         临时表默认，InnoDB	                                  内存表默认，memory
+-- 断开连接	     表结构和表数据都没了	                          表结构和表数据都存在
+-- 服务重启      表结构和表数据都没了	                          表结构存在，表数据不存在
+-- 性能	         由于表数据都是存放在内存中，所以相对来说，查询速度较快，但是数据的维护较为困难
+
+
+-- 创建临时表:临时表回话级别，关闭回话，数据丢失。如关闭查询窗口重新打开查询窗口查询不到刚才建立的临时表
+CREATE TEMPORARY  TABLE IF NOT EXISTS person_temp_table (
 SELECT  
   `name`,
   age
 FROM `demo`.`person`
-   ) ; 
+   );-- [ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci]; 
+
+
+
+CREATE TEMPORARY TABLE person_temp_table
+AS SELECT  
+  `name`,
+  age
+FROM `demo`.`person`;
+
+
+select  *  from person_temp_table;
+
+
+show create table person_temp_table;
 
 
 DROP  TABLE IF EXISTS person_temp_table;
+
+CREATE TEMPORARY TABLE `person_temp_table` (
+  `name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `age` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 
 SHOW CREATE TABLE demo.`person`;
@@ -484,6 +516,18 @@ CREATE TABLE person_memory_table (
 
 
 
+CREATE TABLE `person_memory_table` (
+  `name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `age` int DEFAULT NULL
+) ENGINE=MEMORY DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+show create table person_memory_table;
+
+select *  from person_memory_table;
+
+
+
+
 -- select  生成表
 CREATE TABLE person_memory_table (
 SELECT  
@@ -493,6 +537,7 @@ FROM `demo`.`person`
    ) 
    
 DROP TABLE IF EXISTS person_memory_table;  
+
 -- 插入 
   
 -- 方法1：CREATE TABLE bk(SELECT * FROM USER);
@@ -782,7 +827,10 @@ SHOW VARIABLES LIKE 'binlog_format'
 
 -- mysql 如果字段值为null 则该字段不能使用 <> !=进行比较
 
+show VARIABLES like '%autocommit%';
 
+-- 不自动提交事务
+SET autocommit=0;
 
 -- 开启事务就自动加锁。
 
