@@ -1,5 +1,28 @@
+show engines;
 
-SELECT *  FROM test.`job`
+--  mysql事务支持的引擎是InnoDB，autocommit默认值为1
+START TRANSACTION;
+-- DML
+-- commit;
+ROLLBACK; -- 已经提交无法回滚。 若未提交可回滚。
+
+
+-- COMMIT 和ROLLBACK 可使用在隐式事务中。autocommit 只在隐式事务中有效，因为显式事务要显式执行COMMIT或ROLLBACK。
+
+
+-- SET autocommit=0; 只在当前会话有效，
+
+-- 修改配置文件永久有效
+-- [mysqld]
+-- autocommit=0
+
+
+select @@autocommit;
+
+
+show VARIABLES like '%autocommit%';
+
+
 
 START TRANSACTION;
 UPDATE job SET jobname='ts12' WHERE id=1;
@@ -14,43 +37,111 @@ ROLLBACK; -- 已经提交无法回滚。 若未提交可回滚。
 
 
 
+--  autocommit 只针对隐式事务有效，对显式事务无效。
+-- COMMIT; -- 报错语句没有插成功，
+-- ROLLBACK;-- 不管成功与否，回滚
+show VARIABLES like '%autocommit%';
+
+-- 不自动提交事务。
+SET autocommit=0;
+
+-- 测试事务要在两个会话中测试
+
+
+-- 开启事务，mysql 默认隔离级别RR。
+
+-- 事务一般分为两种：隐式事务和显示事务。在Mysql中，事务默认是自动提交的，所以说每个DML语句实际上就是一次事务的过程。
+-- 隐式事务：没有开启和结束的标志，默认执行完SQL语句就自动提交，比如我们经常使用的INSERT、UPDATE、DELETE语句就属于隐式事务。
+-- 显示事务：需要显示的开启关闭，然后执行一系列操作，最后如果全部操作都成功执行，则提交事务释放连接，如果操作有异常，则回滚事务中的所有操作。
 
 
 
+
+-- 数据库遵循的是两段锁协议，将事务分成两个阶段，加锁阶段和解锁阶段（所以叫两段锁）
+-- 【1】加锁阶段：在该阶段可以进行加锁操作。在对任何数据进行读操作之前要申请并获得S锁（共享锁，其它事务可以继续加共享锁，但不能加排它锁），
+--                 在进行写操作之前要申请并获得X锁（排它锁，其它事务不能再获得任何锁）。加锁不成功，则事务进入等待状态，直到加锁成功才继续执行。
+-- 【2】解锁阶段：当事务释放了一个封锁以后，事务进入解锁阶段，在该阶段只能进行解锁操作不能再进行加锁操作。
+
+
+
+
+
+
+show VARIABLES like '%autocommit%';
 -- 不自动提交事务
 SET autocommit=0;
--- 正常
-  INSERT INTO `wms`.`product` (
-  `GUID`, `StockID`, `BarCodeID`,
-  `SkuID`, `ProductName`,`ProductStyle`, `Price`,
-  `Status`,`Count`
-)
-VALUES
-  ( UUID(),   1,1, 1,  'successROLLBAC', NULL, 3,   3,  3 );
-  
-  -- 报错，Count不有插入
-    INSERT INTO `wms`.`product` (
-  `GUID`, `StockID`, `BarCodeID`,
-  `SkuID`, `ProductName`,`ProductStyle`, `Price`,
-  `Status`,`Count`
-)
-VALUES
-  ( UUID(),   1,1, 1,  'no count', NULL, 3,   3 );
--- COMMIT; -- 报错语句没有插成功，但是第一句成功插入数据库，没有回滚
+-- 隐式事务：多个语句有一个错误，事务回滚
+INSERT INTO `person` VALUES ( 'shiwu', 27, '2022-03-09 19:54:11', '2022-03-01 10:36:48')
+                     VALUES ( 'shiwu2', 'sd', '2022-03-08 19:54:29', '2022-03-02 10:36:54');
+
+-- COMMIT; -- 报错语句没有插成功，
 ROLLBACK;-- 不管成功与否，回滚
 
 
 
+-- 设置当前会话隐式事务不自动提交，当前查询窗口执行插入语句可以执行成功，也能查询到。但是在另一个查询窗口却查询不到新插入的语句
+--  关闭当前会话，事务没有提交，再打开会话，查询不到刚才插入的数据
+SET autocommit=0;
 
-SELECT *  FROM wms.`product`;
-
-
-
-
-
+INSERT INTO `person` (name,age,person.birthday,person.update_time) VALUES ( 'shiwu_COMMIT', 27, '2022-03-09 19:54:11', '2022-03-01 10:36:48');
 
 
+-- COMMIT; 
 
+select  *  from demo.person;
+
+
+
+-- 设置事务自动提交。在另一个会话中可以查询到新增数据
+SET autocommit=1;
+
+INSERT INTO `person` (name,age,person.birthday,person.update_time) VALUES ( 'shiwu1', 27, '2022-03-09 19:54:11', '2022-03-01 10:36:48');
+-- ROLLBACK;  -- 设置回滚，数据没有新增成功
+
+
+
+
+-- 设置当前会话隐式事务不自动提交，当前查询窗口执行插入语句可以执行成功，也能查询到。但是在另一个查询窗口却查询不到新插入的语句
+--  关闭当前会话，事务没有提交，再打开会话，查询不到刚才插入的数据
+SET autocommit=0;
+
+INSERT INTO `person` (name,age,person.birthday,person.update_time) VALUES ( 'shiwu_COMMIT', 27, '2022-03-09 19:54:11', '2022-03-01 10:36:48');
+
+
+ COMMIT; -- 提交当前事务操作，保存数据操作，另一个会话可以查询到数据。
+
+select  *  from demo.person;
+
+
+
+
+
+show VARIABLES like '%autocommit%';
+
+
+
+-- 显式开启事务，如果不提交，虽然当前会话能查询到新增数据，其他会话查询不到，断开会话数据丢失。
+
+START TRANSACTION;
+INSERT INTO `person` (name,age,person.birthday,person.update_time) VALUES ( 'START TRANSACTIO1', 27, '2022-03-09 19:54:11', '2022-03-01 10:36:48');
+-- commit;
+-- ROLLBACK; -- 已经提交无法回滚。 若未提交可回滚。
+
+
+-- 显式事务，显式提交数据可以保存
+START TRANSACTION;
+INSERT INTO `person` (name,age,person.birthday,person.update_time) VALUES ( 'START TRANSACTIO2', 27, '2022-03-09 19:54:11', '2022-03-01 10:36:48');
+commit;
+-- ROLLBACK; -- 已经提交无法回滚。 若未提交可回滚。
+
+
+-- 显式事务，模拟异常回滚，数据没保存
+START TRANSACTION;
+INSERT INTO `person` (name,age,person.birthday,person.update_time) VALUES ( 'START TRANSACTIO3', 27, '2022-03-09 19:54:11', '2022-03-01 10:36:48');
+-- commit;
+ROLLBACK; -- 已经提交无法回滚。 若未提交可回滚。
+
+select  *  from demo.person;
 
 
 
