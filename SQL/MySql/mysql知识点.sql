@@ -1,4 +1,10 @@
 
+show collation;
+show variables like 'collation_%';
+-- mysql8 默认utf8mb4编码  排序规则 utf8mb4_0900_ai_ci ，地板版排序规则utf8mb4_general_ci,为了兼容低版本可设置成utf8mb4_general_ci
+-- 字符集:utf8mb4 排序规则(collation):utf8_general_ci
+-- utf8mb4_unicode_ci 排序准确高，utf8mb4_general_ci 排序快
+-- 推荐utf8mb4_unicode_ci
 select VERSION();
 select @@VERSION;
 -- DML（data manipulation language）： SELECT、UPDATE、INSERT、DELETE
@@ -237,8 +243,15 @@ EXPLAIN SELECT * FROM `wms`.`product`  WHERE  ProductName LIKE 'cnndfyns%';
 -- 给字段名加上 ` 号 (键盘数字键1左边的那个键)
 EXPLAIN SELECT * FROM `wms`.`product`  WHERE `Count`>500 AND ProductName LIKE '%nndfyns%'; -- 5.014s
 
+
+-- 函数索引、虚拟列
 -- 创建索引
 CREATE  INDEX index_Count ON `wms`.`product` (`Count`);
+-- 创建普通索引
+ALTER TABLE demo_product ADD INDEX index_Price(Price desc);
+-- 创建函数索引，mysql8.0.13版本以上支持。
+ALTER TABLE demo_product ADD INDEX functional_index_price((cast(price as SIGNED )) asc);
+
 
 CREATE  INDEX index_ProductName ON `wms`.`product` (ProductName);
 
@@ -853,7 +866,7 @@ SET autocommit=0;
 -- 创建账号
 
 -- 查看mysql用户
-SELECT  *  FROM mysql.user 
+SELECT  *  FROM mysql.user ;
  
   -- 删除用户
  DROP USER 'masteraccount'@'%';
