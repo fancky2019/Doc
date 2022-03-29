@@ -41,6 +41,34 @@ CREATE  INDEX index_Count ON `wms`.`product` (`Count`);
 -- 删除索引
 DROP INDEX index_Count ON `wms`.`product`;
 
+SHOW   VARIABLES like  '%optimizer_switch%';
+
+-- index_merge = ON,
+-- index_merge_union = ON,
+-- index_merge_sort_union = ON,
+-- index_merge_intersection = ON,
+-- engine_condition_pushdown = ON,
+-- index_condition_pushdown = ON,
+-- mrr = ON,
+-- mrr_cost_based = ON,
+-- block_nested_loop = ON,
+-- batched_key_access = off,
+-- materialization = ON,
+-- semijoin = ON,
+-- loosescan = ON,
+-- firstmatch = ON,
+-- duplicateweedout = ON,
+-- subquery_materialization_cost_based = ON,
+-- use_index_extensions = ON,
+-- condition_fanout_filter = ON,
+-- derived_merge = ON,
+-- use_invisible_indexes = off,
+-- skip_scan = ON,
+-- hash_join = ON,
+-- subquery_to_derived = off,
+-- prefer_ordering_index = ON,
+-- hypergraph_optimizer = off,
+-- derived_condition_pushdown = ON
 
 -- unique CONSTRAINT ，唯一索引：确保唯一，唯一索引还是使用了 唯一约束。
 
@@ -95,6 +123,143 @@ EXPLAIN SELECT  productstyle, productname  FROM `wms`.`product`  WHERE productst
 EXPLAIN SELECT  productstyle, productname  FROM `wms`.`product`  WHERE productname= 'aaaclnwjga';
 
 EXPLAIN SELECT  productstyle, productname  FROM `wms`.`product`  WHERE productname= 'a%' AND productstyle LIKE 'pro%' ;
+
+
+select  *  from demo.demo_product
+
+
+CREATE  INDEX index_Price ON demo_product (`Price` desc);
+
+-- 创建普通索引
+ALTER TABLE demo_product ADD INDEX index_Price(Price desc);
+-- 创建函数索引，mysql8.0.13版本以上支持。
+ALTER TABLE demo_product ADD INDEX functional_index_price((cast(price as SIGNED )) asc);
+
+
+CREATE  INDEX index_create_time ON demo_product (`create_time`);
+
+
+CREATE  INDEX index_price_name_create_time ON demo_product (  price,product_name, `create_time`);
+
+
+-- 查看索引
+show index  from demo_product;
+-- 删除索引
+drop INDEX index_name_price_create_time on demo_product;
+
+drop INDEX functional_index_price on demo_product;
+
+explain select  *  from demo.demo_product where price=9
+
+
+explain  select*from demo.demo_product where  cast(price as SIGNED )=9;
+
+
+-- 
+
+explain select  *  from demo.demo_product where price=9 and create_time>='2022-03-07 20:51:54.000'
+
+
+
+-- product_name like '上海%'
+
+truncate table product
+
+
+select  *  from product
+
+
+
+CREATE  INDEX index_price ON product (  price);
+
+
+CREATE  INDEX index_createtime ON product (  createtime);
+
+
+CREATE  INDEX index_name ON product (  productName);
+
+
+CREATE  INDEX index_price_name_create_time ON product (  price,productName, `createtime`);
+
+
+drop INDEX index_createtime on product;
+
+SHOW  INDEX  from product
+
+
+-- 会跳过name字段命中index_price_name_create_time  extra Using index condition  : “索引条件下推”，称为 Index Condition Pushdown (ICP)
+explain select  *  from demo.product where price=782.9 and createtime>='2020-03-07 20:51:54.000'
+
+explain select id, price ,productName,count from demo.product where price>=782.9
+
+ explain select id, price ,productName,count from demo.product where price=7892.9
+ 
+  explain select id, price ,productName,count from demo.product where productName ='krURAiKUl'
+ 
+ 
+select p.id, p.price ,p.productName,p.count 
+ from (
+ select id from demo.product where price>=782.9
+)t  join  demo.product p on t.id=p.id
+
+-- 索引下推还是会遵循最左原则，只有命中最左侧的索引，才会下推。
+-- 索引下推针对符合索引
+
+explain select  *  from demo.product where price=8012.33and createtime>='2020-03-07 20:51:54.000'
+
+
+
+
+-- or  连接  查询调节 索引合并，尽量别使用模糊匹配虽然走索引也是很慢
+explain select  *  from demo.product where productName = 'KrUuNBMJuEw' or createtime='2011-03-23 16:00:00' 
+
+
+
+
+index_name,index_createtime
+Using sort_union(index_name,index_createtime); Using where
+
+index_merge
+
+
+select count(1) from product;
+
+
+select count(is) from product;
+
+select count(*) from product;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
