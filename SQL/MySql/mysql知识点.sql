@@ -258,13 +258,30 @@ CREATE  INDEX index_ProductName ON `wms`.`product` (ProductName);
 CREATE UNIQUE INDEX Index_Timestamp ON `wms`.`product` (`ModifyTime`);
 -- 删除索引
 DROP INDEX index_ProductName ON `wms`.`product` ;
+
 CREATE UNIQUE INDEX Index_id ON `wms`.`product` (`StockID` ,`BarCodeID`, `SkuID`);
+
+
+-- 创建唯一索引
+ALTER TABLE product ADD UNIQUE INDEX unique_index_id (id) ;
+
 
 -- 创建约束：创建约束默认创建唯一索引索引，删除约束通过删除索引。
 -- ALTER TABLE <数据表名> ADD CONSTRAINT <唯一约束名> UNIQUE<列名>；
 
+-- UNIQUE约束和UNIQUE索引比较
+-- 共同点
+-- 都能保证记录数据的唯一性, 因为UNIQUE约束是基于UNIQUE索引;
+-- 不同点
+-- 如果某列有多个NULL值, 可以添加UNIQUE约束, 但是不能添加UNIQUE索引;
+
 ALTER TABLE `wms`.`product` ADD CONSTRAINT Index_ids UNIQUE  (`StockID` ,`BarCodeID`, `SkuID`);
+
+-- 创建唯一索引
+ALTER TABLE product ADD UNIQUE INDEX unique_index_id (id) ;
  -- 删除约束
+ -- 删除约束
+ALTER TABLE product  drop constraint Index_ids  ;
 DROP INDEX Index_ids ON `wms`.`product` ;
 
 -- 查看索引
@@ -283,9 +300,9 @@ FIND_IN_SET('字符', 字段名);
 -- 当查询得到条数越多索引作用很小，和全表扫描差不多。
 
 -- 单列索引： 
-         --  主键索引：是一种特殊的唯一索引，一个表只能有一个主键，不允许有空值
-         --  唯一索引：值必须唯一，但允许有空值
-         --  普通索引：
+         --  主键索引 PRIMARY KEY：是一种特殊的唯一索引，一个表只能有一个主键，不允许有空值
+         --  唯一索引 UNIQUE KEY：值必须唯一，但允许有空值
+         --  普通索引 KEY：
          --  全文索引： 
 -- 组合索引
 -- 连接查询：如果关联字段字段类型、字符类型不一样将不走索引。join tableNameB po on convert (tr.columC using utf8) = po.columC 
@@ -654,10 +671,12 @@ FROM (
 
 -- null  统计
 -- MySQL 中 sum 函数没统计到任何记录时，会返回 null 而不是 0，可以使用 IFNULL(null,0) 函数把 null 转换为 0；
--- 在MySQL中使用count（字段），不会统计 null 值，COUNT(*) 才能统计所有行；
+-- 在MySQL中使用count（字段），不会统计 null 值，COUNT(*) 才能统计所有行,包含null行。
 -- MySQL 中使用诸如 =、<、> 这样的算数比较操作符比较 NULL 的结果总是 NULL，这种比较就显得没有任何意义，需要使用 IS NULL、IS NOT NULL 或 ISNULL() 函数来比较      
-                 
-    
+  结论：1.count(1)与count(*)得到的结果一致，包含null值。
+--       2.count(字段)不计算null值
+--       3.count(null)结果恒为0               
+--     
   
     
  -- 主从同步方式： 异步复制（默认）、半同步复制（需安装插件semisync_master.so）、并行复制 （需配置）  
@@ -930,8 +949,52 @@ FLUSH PRIVILEGES;   #刷新权限
  
  
 
+--  慢查询开关，默认off
+show VARIABLES  like '%slow_query_log%';
+-- 开启了慢查询日志，MySQL重启后则会失效
+set global slow_query_log=1  
+-- 慢查询时间临界点默认10s  改成1秒
+show VARIABLES  like '%long_query_time%';
 
- 
+-- #慢查询配置
+-- #开启慢查询
+-- slow_query_log =1
+-- #慢查询阈值1s默认10s
+-- long_query_time =1
+-- #慢查询日志
+-- slow_query_log_file=D:\work\mysql\data\mysql_slow.log
+
+
+-- 慢查询日志
+-- # Time: 2022-03-31T08:28:46.908672Z
+-- # User@Host: root[root] @ localhost [::1]  Id:     9
+-- # Query_time: 13.398945  Lock_time: 0.000068 Rows_sent: 1  Rows_examined: 0
+-- SET timestamp=1648715313;
+-- select count(id) from product;
+
+
+
+-- count(*) 性能最好
+
+-- 结论：1.count(1)与count(*)得到的结果一致，包含null值。
+--       2.count(字段)不计算null值
+--       3.count(null)结果恒为0
+
+-- 对于count(*)，优化器专门优化count(*)的语义为“取行数”，其他“显而易见”的优化并没有做
+-- 
+-- 对于count(主键id)来说，InnoDB引擎会遍历整张表，把每一行的id值都取出来，返回给server层。server层拿到id后，判断是不可能为空的，就按行累加。
+-- 
+-- 对于count(1)来说，InnoDB引擎遍历整张表，但不取值。server层对于返回的每一行，放一个数字“1”进去，判断是不可能为空的，按行累加。
+
+
+
+
+
+
+
+
+
+
 
 
 
