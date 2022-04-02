@@ -184,7 +184,22 @@ CREATE  INDEX index_price_name_create_time ON product (  price,productName, `cre
 
 drop INDEX index_createtime on product;
 
-SHOW  INDEX  from product
+SHOW  INDEX  from product;
+
+
+show create table  product;
+
+
+-- 创建唯一索引
+ALTER TABLE product ADD CONSTRAINT Index_ids UNIQUE  (`StockID` ,`BarCodeID`, `SkuID`);
+ -- 删除约束
+DROP INDEX Index_ids ON `wms`.`product` ;
+
+-- 删除约束
+ALTER TABLE product  drop constraint Index_ids  ;
+
+-- 创建唯一索引
+ALTER TABLE product ADD UNIQUE INDEX unique_index_id (id) ;
 
 
 -- 会跳过name字段命中index_price_name_create_time  extra Using index condition  : “索引条件下推”，称为 Index Condition Pushdown (ICP)
@@ -216,23 +231,37 @@ explain select  *  from demo.product where productName = 'KrUuNBMJuEw' or create
 
 
 
-index_name,index_createtime
-Using sort_union(index_name,index_createtime); Using where
+-- index_name,index_createtime
+-- Using sort_union(index_name,index_createtime); Using where
+-- 
+-- index_merge
 
-index_merge
+
+
+--  yISAM表保存条数，虽然count(*)很快，但是不支持事务。尽量使用count(*)
+select count(id) from product;
 
 
 select count(1) from product;
 
-
-select count(is) from product;
-
-select count(*) from product;
+explain  select count(*) from product;
 
 
 
+--  慢查询开关，默认off
+show VARIABLES  like '%slow_query_log%';
+-- 开启了慢查询日志，MySQL重启后则会失效
+set global slow_query_log=1  
+-- 慢查询时间临界点默认10s  改成1秒
+show VARIABLES  like '%long_query_time%';
 
-
+-- #慢查询配置
+-- #开启慢查询
+-- slow_query_log =1
+-- #慢查询阈值1s默认10s
+-- long_query_time =1
+-- #慢查询日志
+-- slow_query_log_file=D:\work\mysql\data\mysql_slow.log
 
 
 
