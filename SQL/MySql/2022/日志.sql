@@ -11,4 +11,17 @@ show  VARIABLES like 'innodb_log_files_in_group';
 -- 缓冲池（Buffer Pool）
  -- Redo Log Buffer 机制
  
- --  sync_binlog 
+ --  sync_binlog ：0 os  cache,1 事务提交时候写盘
+ 
+ 
+
+ -- redo log buffer： innodb_flush_log_at_trx_commit:0,1,2 . 1最安全
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
