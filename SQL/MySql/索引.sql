@@ -1,11 +1,27 @@
 
+-- MySQL5.0之前，一个表一次只能使用一个索引，无法同时使用多个索引分别进行条件扫描。从5.1开始，引入了 index merge 优化技术，对同一个表可以使用多个索引分别进行条件扫描，不能用于全文索引
+
+-- 多列索引最左原则：MySQL中的索引，使用的是B+tree, 也就是说他是：先按照复合索引的 第一个字段的大小来排序，插入到 B+tree 中的，当第一个字段值相同时，在按照第二个字段的值比较来插入的。
+             
+-- 多列索引精确匹配：精确匹配（即"="和"IN"）。 =和in可以乱序。mysql会一直向右匹配直到遇到范围查询(>、<、between、like)就停止匹配。
+
+-- 多列索引：
+--  b+树的数据项是复合的数据结构，比如(name,age,sex)的时候，b+树是按照从左到右的顺序来建立搜索树的，比如当(张三,20,F)这样的数据来检索的时候，b+树会优先比较name来确定下一步的所搜方向，
+-- 如果name相同再依次比较age和sex，最后得到检索的数据；但当(20,F)这样的没有name的数据来的时候，b+树就不知道第一步该查哪个节点，因为建立搜索树的时候name就是第一个比较因子，
+-- 必须要先根据name来搜索才能知道下一步去哪里查询。
+
+
+
+
+
+
 -- 聚集索引和非聚集索引的区别及优缺点：
 -- 区别： 
-  --   1).聚集索引一个表只能有一个，而非聚集索引一个表可以存在多个 
-   --   2).聚集索引存储记录是物理上连续存在，而非聚集索引是逻辑上的连续，物理存储并不连续 
-　-- 3).聚集索引:物理存储按照索引排序；聚集索引是一种索引组织形式，索引的键值逻辑顺序决定了表数据行的物理存储顺序 
-　-- 　非聚集索引:物理存储不按照索引排序；非聚集索引则就是普通索引了，仅仅只是对数据列创建相应的索引，不影响整个表的物理存储顺序. 
-  --   4).索引是通过二叉树的数据结构来描述的，我们可以这么理解聚簇索引：索引的叶节点就是数据节点。而非聚簇索引的叶节点仍然是索引节点，只不过有一个指针指向对应的数据块。 
+--   1).聚集索引一个表只能有一个，而非聚集索引一个表可以存在多个 
+--   2).聚集索引存储记录是物理上连续存在，而非聚集索引是逻辑上的连续，物理存储并不连续 
+--   3).聚集索引:物理存储按照索引排序；聚集索引是一种索引组织形式，索引的键值逻辑顺序决定了表数据行的物理存储顺序 
+-- 　            非聚集索引:物理存储不按照索引排序；非聚集索引则就是普通索引了，仅仅只是对数据列创建相应的索引，不影响整个表的物理存储顺序. 
+--   4).索引是通过二叉树的数据结构来描述的，我们可以这么理解聚簇索引：索引的叶节点就是数据节点。而非聚簇索引的叶节点仍然是索引节点，只不过有一个指针指向对应的数据块。 
 --  优势与缺点: 
    --   聚集索引插入数据时速度要慢（时间花费在“物理存储的排序”上，也就是首先要找到位置然后插入）,查询数据比非聚集数据的速度快 
 
@@ -94,7 +110,7 @@ CREATE INDEX PRODUCT_INDEX_PRODUCTMULTIPLE ON WMS.`product`
 
 -- using where：在查找使用索引的情况下，需要回表去查询所需的数据
 
--- using index condition：查找使用了索引，但是需要回表查询数据
+-- using index condition：查找使用了索引条件下推，减少回表查询，mysql 5.6+
 
 
 -- 命中索引 index_ProductName 
@@ -190,7 +206,7 @@ SHOW  INDEX  from product;
 show create table  product;
 
 
--- 创建唯一索引
+-- 创建唯一约束
 ALTER TABLE product ADD CONSTRAINT Index_ids UNIQUE  (`StockID` ,`BarCodeID`, `SkuID`);
  -- 删除约束
 DROP INDEX Index_ids ON `wms`.`product` ;
@@ -217,16 +233,19 @@ select p.id, p.price ,p.productName,p.count
  select id from demo.product where price>=782.9
 )t  join  demo.product p on t.id=p.id
 
+
+-- and  索引条件下推（index_condition_pushdown ICP）  or 索引合并
+
+
 -- 索引下推还是会遵循最左原则，只有命中最左侧的索引，才会下推。
 -- 索引下推针对符合索引
+explain select  *  from demo.product where price=8012.33 and createtime>='2020-03-07 20:51:54.000'
 
-explain select  *  from demo.product where price=8012.33and createtime>='2020-03-07 20:51:54.000'
-
-
+-- Using index condition
 
 
 -- or  连接  查询调节 索引合并，尽量别使用模糊匹配虽然走索引也是很慢
-explain select  *  from demo.product where productName = 'KrUuNBMJuEw' or createtime='2011-03-23 16:00:00' 
+explain select  *  from demo.product where productName = 'KrUuNBMJuEw' OR createtime='2011-03-23 16:00:00' 
 
 
 
@@ -238,7 +257,24 @@ explain select  *  from demo.product where productName = 'KrUuNBMJuEw' or create
 
 
 
---  yISAM表保存条数，虽然count(*)很快，但是不支持事务。尽量使用count(*)
+
+explain select  *  from  demo.product p
+           join demo.stock s on p.StockID=s.id
+ where ( p.productName = 'KrUuNBMJuEw' OR p.createtime='2011-03-23 16:00:00' )
+	and  s.stock_name like 'stock%'
+    
+
+
+
+
+
+
+
+
+
+
+
+--  myISAM表保存条数，虽然count(*)很快，但是不支持事务。尽量使用count(*)
 select count(id) from product;
 
 
