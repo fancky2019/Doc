@@ -11,7 +11,7 @@
 -- 必须要先根据name来搜索才能知道下一步去哪里查询。
 
 
-
+-- 概念   主键索引，其实就是聚簇索引（Clustered Index）;主键索引之外，其他的都称之为非主键索引，非主键索引也被称为二级索引（Secondary Index），或者叫作辅助索引。
 
 
 
@@ -38,7 +38,8 @@
 -- 主索引：叶子节点保存完整行数据。
 -- 辅助索引：叶子节点包含Key值和主索引。覆盖索引就是找到Key值才不用二次查询。
 
--- 回表查询：根据值查询到辅助索引的Key值和主键索引，然后根据主键索引再去查询完整行数据。
+-- 回表查询：根据字段值查询到辅助索引的Key值和主键索引，然后根据主键索引值再去查询完整行数据。
+             -- 两阶段查询：1、辅助索引查询到主键索引。 2、主键索引查询到主键索引叶子节点完整行数据。
 
 -- MyISAM 索引存的是数据地址
 
@@ -51,6 +52,24 @@
 -- 覆盖索引：概念：需要查询的字段在索引中，不需要再回到表中查询。如 select col1,col2都在索引中就不需要回表查询，如果col1在索引中，col2不在，就要回到表中差col2。
     --       设计：将被查询的字段，建立到联合索引里去。
     --       场景：分页查询
+		
+		
+	-- 数据结构		
+		
+-- 		群集索引：非叶子节点保存了主键的值，叶子节点保存了主键的值以及对应的数据行的其他字段值 （整个数据行），并且每个页有分别指向前后两页的指针。
+		
+-- 非群集索引：INNODB 二级索引的非叶子节点保存索引的字段值，上图索引为表 t1 的字段 age。叶子节点含有索引字段值和对应的主键值。
+
+-- 	主键索引的叶子结点存储的是一行完整的数据。非叶子节点保存了主键的值
+
+-- 非主键索引的叶子结点存储的则是主键值。非叶子节点保存索引的字段值
+	
+-- 	注：mysql 存储在数据页上，每个数据页可以存储多行数据，具体条数按照行大小计算
+		
+		
+		
+		
+		
 
 -- 创建索引
 CREATE  INDEX index_Count ON `wms`.`product` (`Count`);
@@ -256,13 +275,67 @@ explain select  *  from demo.product where productName = 'KrUuNBMJuEw' OR create
 -- index_merge
 
 
+create index   index_stock_name ON stock (  stock_name);
+
+
+
+create index   index_stock_name ON stock ( id, stock_name);
+
+
+show index from stock
+
+drop index index_stock_name on stock
 
 
 explain select  *  from  demo.product p
            join demo.stock s on p.StockID=s.id
  where ( p.productName = 'KrUuNBMJuEw' OR p.createtime='2011-03-23 16:00:00' )
 	and  s.stock_name like 'stock%'
-    
+	
+	
+	
+	-- ---------------- JOIN --------------------------
+	-- JOIN 分成多步骤单独查询表
+	
+	
+	
+-- 	
+-- 驱动表定义
+-- explain执行计划第一行的是驱动表。当进行多表连接查询时， mysql 优化器会选择表作为驱动表，不一定是小表。
+
+		
+-- 1.以小表驱动大表
+-- 2.给被驱动表建立索引
+
+-- 1.当使用left join时，左表是驱动表，右表是被驱动表
+-- 2.当使用right join时，右表时驱动表，左表是驱动表
+-- 3.当使用join时，mysql会选择数据量比较小的表作为驱动表，大表作为被驱动表
+--  小表作为驱动表 ，大表作为被驱动表。
+-- 被驱动表要建立索引，最好连接是主键索引
+
+
+-- 最好把小表作为被驱动表，mysql优化器有时候选择不会选择小表作为被驱动表
+explain select  p.id,s.stock_name from  demo.stock s 
+           join  demo.product p on p.StockID=s.id
+ where ( p.productName = 'KrUuNBMJuEw' OR p.createtime='2011-03-23 16:00:00' )
+	and  s.stock_name like 'stock%'
+	
+	
+	
+
+Using union(index_name,index_createtime); Using where; Using join buffer (hash join)
+
+
+-- Simple Nested-Loop Join Index Nested-Loop Join Block Nested-Loop Join
+-- hash join  mysql8
+select version();
+
+
+-- explain format=tree select  *  from  demo.product p
+explain select  *  from  demo.product p
+           join demo.stock s on p.StockID=s.id
+ where ( p.productName = 'KrUuNBMJuEw' OR p.createtime='2011-03-23 16:00:00' )
+	and  s.stock_name like 'stock%'
 
 
 
@@ -271,6 +344,13 @@ explain select  *  from  demo.product p
 
 
 
+-- -> Inner hash join (p.StockID = s.id)  (cost=294.14 rows=3)
+--     -> Filter: ((p.ProductName = 'KrUuNBMJuEw') or (p.CreateTime = TIMESTAMP'2011-03-23 16:00:00'))  (cost=29.34 rows=26)
+--         -> Index range scan on p using union(index_name,index_createtime)  (cost=29.34 rows=255)
+--     -> Hash
+--         -> Filter: (s.stock_name like 'stock%')  (cost=0.75 rows=1)
+--             -> Table scan on s  (cost=0.75 rows=5)
+-- 
 
 
 
@@ -300,7 +380,7 @@ show VARIABLES  like '%long_query_time%';
 -- slow_query_log_file=D:\work\mysql\data\mysql_slow.log
 
 
-
+select  *  from stock where sTock_name='Stock1'
 
 
 
