@@ -16,6 +16,8 @@ ROLLBACK; -- 已经提交无法回滚。 若未提交可回滚。
 -- [mysqld]
 -- autocommit=0
 
+-- 事务隔离级别
+show VARIABLES like '%iso%';
 
 select @@autocommit;
 
