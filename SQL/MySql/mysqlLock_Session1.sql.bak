@@ -416,32 +416,10 @@ SELECT  *  FROM test.`t_product`;
 
 
 
---  事务 读共享锁，写排他锁
 
 
--- InnoDB 加锁方法：
--- 
--- 意向锁是 InnoDB 自动加的， 不需用户干预。
--- 对于 UPDATE、 DELETE 和 INSERT 语句， InnoDB会自动给涉及数据集加排他锁（X)；
--- 对于普通 SELECT 语句，InnoDB 不会加任何锁；事务可以通过以下语句显式给记录集加共享锁或排他锁：
--- 共享锁（S）：SELECT * FROM table_name WHERE ... LOCK IN SHARE MODE。 其他 session 仍然可以查询记录，并也可以对该记录加 share mode 的共享锁。但是如果当前事务需要对该记录进行更新操作，则很有可能造成死锁。
--- 排他锁（X)：SELECT * FROM table_name WHERE ... FOR UPDATE。其他 session 可以查询该记录，但是不能对该记录加共享锁或排他锁，而是等待获得锁
 
 
--- 隐式锁定：
--- InnoDB在事务执行过程中，使用两阶段锁协议：
--- 加锁阶段： 随时都可以执行锁定，InnoDB会根据隔离级别在需要的时候自动加锁；
--- 解锁阶段：锁只有在执行commit或者rollback的时候才会释放，并且所有的锁都是在同一时刻被释放。
-
-
--- 显示锁定：
--- select for update：
--- 在执行这个 select 查询语句的时候，会将对应的索引访问条目进行上排他锁（X 锁），也就是说这个语句对应的锁就相当于update带来的效果。
--- select *** for update 的使用场景：为了让自己查到的数据确保是最新数据，并且查到后的数据只允许自己来修改的时候，需要用到 for update 子句。
--- select lock in share mode：
--- 
--- in share mode 子句的作用就是将查找到的数据加上一个 share 锁，这个就是表示其他的事务只能对这些数据进行简单的select 操作，并不能够进行 DML 操作。
--- select *** lock in share mode 使用场景：为了确保自己查到的数据没有被其他的事务正在修改，也就是说确保查到的数据是最新的数据，并且不允许其他人来修改数据。但是自己不一定能够修改数据，因为有可能其他的事务也对这些数据 使用了 in share mode 的方式上了 S 锁。
 
 
 

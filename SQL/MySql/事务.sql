@@ -1,3 +1,27 @@
+
+-- InnoDB 加锁方法：
+-- 
+-- 意向锁是 InnoDB 自动加的， 不需用户干预。
+-- 对于 UPDATE、 DELETE 和 INSERT 语句， InnoDB会自动给涉及数据集加排他锁（X)；
+-- 对于普通 SELECT 语句，InnoDB 不会加任何锁；事务可以通过以下语句显式给记录集加共享锁或排他锁：
+-- 共享锁（S）：SELECT * FROM table_name WHERE ... LOCK IN SHARE MODE。 其他 session 仍然可以查询记录，并也可以对该记录加 share mode 的共享锁。但是如果当前事务需要对该记录进行更新操作，则很有可能造成死锁。
+-- 排他锁（X)：SELECT * FROM table_name WHERE ... FOR UPDATE。其他 session 可以查询该记录，但是不能对该记录加共享锁或排他锁，而是等待获得锁
+
+
+-- 开启事务隐式加锁，两阶段加锁：start tran  加锁， commit rollback 解锁。锁的类型看是当前度还是快照度。
+
+
+-- 当前读：select lock in share mode (共享锁), select for update; update; insert; delete (排他锁)
+
+-- 快照读(非阻塞读)：普通select语句。，不包括select ... lock in share mode, select ... for update。　　　　
+
+								-- 　　Read Committed隔离级别：每次select都生成一个快照读。
+								-- 
+								-- 　　Read Repeatable隔离级别：开启事务后第一个select语句才是快照读的地方，而不是一开启事务就快照读。
+-- 
+
+
+
 show engines;
 
 --  mysql事务支持的引擎是InnoDB，autocommit默认值为1
