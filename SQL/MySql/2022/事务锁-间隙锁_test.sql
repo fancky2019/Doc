@@ -35,13 +35,31 @@ INSERT INTO `person` VALUES (16, 'shiwu_COMMIT', 13, '2022-03-09 19:54:11', '202
 SET FOREIGN_KEY_CHECKS = 1;
 
 
+-- age
+-- 
+-- 2
+-- 6
+-- 7
+-- 10
+-- 13
+-- 15
+-- 16
+-- 18
+-- 20
+-- 22
+-- 27
+-- 31
 
+-- 查看数据锁 https://dev.mysql.com/doc/mysql-perfschema-excerpt/8.0/en/performance-schema-data-locks-table.html
+select * from performance_schema.data_locks
+where index_name='index_age'
 
 
 
 
 SELECT * FROM `person` for update;
 
+INSERT INTO `person` (`name`,age,`birthday`,`update_time`) VALUES ( 'fancky', 15, '2022-04-13 19:54:11', '2022-04-19 10:36:48');
 
 INSERT INTO `person` (`name`,age,`birthday`,`update_time`) VALUES ( 'fancky', 21, '2022-04-13 19:54:11', '2022-04-19 10:36:48');
 
@@ -64,6 +82,12 @@ INSERT INTO `person`  (`name`,age,`birthday`,`update_time`)VALUES( 'fancky', 31,
 
 
 INSERT INTO `person`  (`name`,age,`birthday`,`update_time`)VALUES( 'fancky', 32, '2022-04-13 19:54:11', '2022-04-19 10:36:48');
+
+
+
+UPDATE person SET name='gap_lock_test1' WHERE id=7;
+
+
 
 
 

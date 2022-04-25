@@ -8,10 +8,10 @@
 -- innodb  默认锁  next-key lock
 --  gap  锁住区间   普通索引 条件具体值：值的上一个值和下一个值这段区间和相等的值（值允许重复）。如27的锁定区间[<27>]。InnoDB会给数据加上行锁和间隙锁
 --                           范围     ：锁定条件范围
---                  群集索引：net_key lock降级为行锁，锁住当前行。行锁。
+--                  群集索引：值存在net_key lock降级为行锁，锁住当前行，行锁。不存在或范围，间隙锁。
 --                  没有索引：锁表
  
- 
+ select VERSION();
  
 show index  from  person;
 
@@ -70,6 +70,14 @@ SELECT * FROM `person` WHERE age>22;
 commit;
 
 
+-- 查看数据锁 https://dev.mysql.com/doc/mysql-perfschema-excerpt/8.0/en/performance-schema-data-locks-table.html
+select * from performance_schema.data_locks;
+
+-- LOCK_DATA  索引值,主键值
+
+
+
+select * from performance_schema.data_lock_waits
 
 delete  from person  where id>18;
 
