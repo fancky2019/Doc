@@ -20,6 +20,11 @@
 								-- 　　Read Repeatable隔离级别：开启事务后第一个select语句才是快照读的地方，而不是一开启事务就快照读。
 -- 
 
+-- 事务加锁、解锁
+
+-- 加锁：start  TRANSACTION 之后在需要加锁的时候加锁，并不是开启事务时候就加所有的锁，不然不会产生死锁。 锁占用行顺序a--b 和占用行b--a。
+-- COMMIT 和ROLLBACK：解锁
+
 
 
 show engines;
