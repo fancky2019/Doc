@@ -11,5 +11,11 @@ select  *  from demo.person;
 
 
 
+update  demo.person set name='rr_update2' where id=5;
+
+
+
+
+
 
 

@@ -54,12 +54,12 @@ SET FOREIGN_KEY_CHECKS = 1;
 select * from performance_schema.data_locks
 where index_name='index_age'
 
-
+select * from performance_schema.data_lock_waits
 
 
 SELECT * FROM `person` for update;
 
-INSERT INTO `person` (`name`,age,`birthday`,`update_time`) VALUES ( 'fancky', 15, '2022-04-13 19:54:11', '2022-04-19 10:36:48');
+INSERT INTO `person` (`name`,age,`birthday`,`update_time`) VALUES ( 'fancky', 7, '2022-04-13 19:54:11', '2022-04-19 10:36:48');
 
 INSERT INTO `person` (`name`,age,`birthday`,`update_time`) VALUES ( 'fancky', 21, '2022-04-13 19:54:11', '2022-04-19 10:36:48');
 

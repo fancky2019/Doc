@@ -20,7 +20,7 @@
 								-- 　　Read Repeatable隔离级别：开启事务后第一个select语句才是快照读的地方，而不是一开启事务就快照读。
 -- 
 
--- 事务加锁、解锁
+-- 两阶段协议：事务加锁、解锁
 
 -- 加锁：start  TRANSACTION 之后在需要加锁的时候加锁，并不是开启事务时候就加所有的锁，不然不会产生死锁。 锁占用行顺序a--b 和占用行b--a。
 -- COMMIT 和ROLLBACK：解锁
@@ -245,3 +245,36 @@ SELECT SLEEP(10);
 SELECT *  FROM wms.`product` ;
 SELECT COUNT(id) FROM wms.`product` ;
 COMMIT ;
+
+
+
+
+show VARIABLES like '%iso%';
+
+select @@autocommit;
+
+SET autocommit=0;
+
+
+
+-- RR 快照度
+
+START TRANSACTION ;
+select  *  from   demo.person where id=5;
+-- RR 解决了不能重复读取问题，但是在两次读取中间如果另一个事务进行修改，提交则无法读取到最新修改的值
+select  *  from   demo.person where id=5;
+COMMIT ;
+
+
+
+-- RR 当前度.加了s锁
+
+START TRANSACTION ;
+select  *  from   demo.person where id=5 lock in share mode;
+-- RR 解决了不能重复读取问题，但是在两次读取中间如果另一个事务进行修改，提交则无法读取到最新修改的值
+select  *  from   demo.person where id=5  lock in share mode;
+COMMIT ;
+
+
+
+
