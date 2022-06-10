@@ -234,7 +234,7 @@ SELECT SLEEP(10);
 SELECT *  FROM wms.`product` WHERE ID=7;
 COMMIT ;
 
---'SERIALIZABLE
+-- SERIALIZABLE，事务串行执行，一个一个执行，读加共享锁，写加排它锁
 --  解决：脏读、重复读取、幻读
 -- 其他事务可以查
 SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE;
@@ -274,6 +274,52 @@ select  *  from   demo.person where id=5 lock in share mode;
 -- RR 解决了不能重复读取问题，但是在两次读取中间如果另一个事务进行修改，提交则无法读取到最新修改的值
 select  *  from   demo.person where id=5  lock in share mode;
 COMMIT ;
+
+
+
+-- 1、类丢失更新，回滚
+START TRANSACTION ;
+-- 局部变量直接使用不需要声明
+update  demo.person  set name='fancky' where id=5;
+SELECT SLEEP(10);
+
+-- RR 解决了不能重复读取问题，但是在两次读取中间如果另一个事务进行修改，提交则无法读取到最新修改的值
+-- rr 解决回滚丢失更新，没有解决2类丢失更新（更新覆盖）问题。
+COMMIT ;
+
+
+
+-- 丢失更新：1、A事务回滚，造成B事务的修改丢失。2、B事务覆盖A事务的修改。至于不是并发造成的覆盖只能用乐观锁解决（版本号 时间戳）。
+START TRANSACTION ;
+-- 局部变量直接使用不需要声明
+select @age:=age from   demo.person where id=5;
+select @age;
+SELECT SLEEP(10);
+update  demo.person  set age=@age+2 where id=5;
+-- RR 解决了不能重复读取问题，但是在两次读取中间如果另一个事务进行修改，提交则无法读取到最新修改的值
+-- rr 解决回滚丢失更新，没有解决2类丢失更新（更新覆盖）问题。
+COMMIT ;
+
+
+-- SERIALIZABLE 解决1、2类事务并发的丢失更新问题，至于前后事务的更新覆盖只能用乐观锁解决。
+-- SERIALIZABLE： 串化解决事务并发问题，事务一个一个排队执行，读加S锁，写加X锁。
+-- SERIALIZABLE 容易造成死锁，同一个事务内先读后改。
+SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+START TRANSACTION ;
+-- 局部变量直接使用不需要声明
+select @age:=age from   demo.person where id=5;
+select @age;
+SELECT SLEEP(10);
+update  demo.person  set age=@age+2 where id=5;
+-- RR 解决了不能重复读取问题，但是在两次读取中间如果另一个事务进行修改，提交则无法读取到最新修改的值
+-- rr 解决回滚丢失更新，没有解决2类丢失更新（更新覆盖）问题。
+-- 
+COMMIT ;
+
+
+
+
+
 
 
 
