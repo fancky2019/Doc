@@ -209,19 +209,38 @@ SELECT @@global.transaction_isolation;
 -- READ UNCOMMITTED  -- sqlserver 、oracle 默认隔离级别
 -- 其他事务可以增删改查
 -- 设置事务的隔离级别
+
+-- A
 SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 START TRANSACTION ;
 SELECT *  FROM wms.`product` WHERE ID=7;
 SELECT SLEEP(10);
+ROLLBACK;  
+
+-- B 脏读了A修改的数据
+SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+START TRANSACTION ;
+SELECT *  FROM wms.`product` WHERE ID=7;
 COMMIT ;
+
+
+
 
 -- 'READ COMMITTED
 --  解决：脏读
 -- 其他事务可以增删改查
+-- A 两次读取的数据不一致
 SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;
 START TRANSACTION ;
 SELECT *  FROM wms.`product`  WHERE ID=7;
 SELECT SLEEP(10);
+SELECT *  FROM wms.`product`  WHERE ID=7;
+COMMIT ;
+
+-- B 修改了A事务要读取的数值
+SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;
+START TRANSACTION ;
+UPDATE  wms.`product` SET product_name='fanc'  WHERE ID=7;
 COMMIT ;
 
 -- --'REPEATABLE READ  
@@ -233,6 +252,9 @@ SELECT *  FROM wms.`product` WHERE ID=7;
 SELECT SLEEP(10);
 SELECT *  FROM wms.`product` WHERE ID=7;
 COMMIT ;
+
+
+
 
 -- SERIALIZABLE，事务串行执行，一个一个执行，读加共享锁，写加排它锁
 --  解决：脏读、重复读取、幻读
