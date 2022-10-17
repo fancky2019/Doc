@@ -1,3 +1,9 @@
+-- 带pom指定过滤行后的100行信息，不加-A只能查出过滤行
+cat -n info.log|grep pom -A 100
+
+
+
+
 --i 不出分大小写
 cat -n common-default.log |grep -ai "SeaAreaJob"
 cat -n common-default.log |grep -ai "TCrmSaleLineMapper"

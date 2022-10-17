@@ -1,0 +1,76 @@
+
+-- 创建序列
+CREATE SEQUENCE mq_fail_log_seq
+INCREMENT BY 1
+START WITH 1
+NOMAXvalue
+NOCYCLE;
+
+-- 查看序列
+select SEQUENCE_OWNER,SEQUENCE_NAME from dba_sequences where sequence_owner='用户名';
+
+select SEQUENCE_OWNER,SEQUENCE_NAME from dba_sequences where sequence_owner='sys';
+
+select * from dba_sequences
+
+-- 日期
+update t_gx_share_list set GX_EFFECT_FIRST_TIME= to_date ( '2022-08-16 10:54:02' , 'YYYY-MM-DD HH24:MI:SS' ) ;
+
+
+--分页
+
+-- 40为pageCurrent * pageSize，30 应为为(pageCurrent - 1) * pageSize
+-- 由于oracle排序算法问题，如果排序遇到相同的条件，比如时间，会使分页后一页包含前一页的内容，所以这个时候要把方法改成下面这两种。
+
+select  *  from mq_fail_log;
+
+-- 方法一，order by 加上id主键
+SELECT * FROM  
+(  
+    SELECT A.*, ROWNUM RN 
+    FROM (
+        SELECT * FROM mq_fail_log 
+        WHERE 1 = 1 
+        ORDER BY CREATE_TIME DESC,id
+        ) A  
+ )B
+WHERE RN>3 AND RN<=6
+ --WHERE RN BETWEEN 4 AND 6
+
+-- ROW_NUMBER() OVER(order by id) 
+SELECT * FROM  
+(  
+    SELECT A.*, ROW_NUMBER() OVER(order by id) RN
+    FROM (
+        SELECT * FROM mq_fail_log 
+        WHERE 1 = 1 
+        ORDER BY CREATE_TIME DESC
+        ) A  
+ )B
+WHERE RN>3 AND RN<=6
+
+-- 性能好点
+-- 注意：内层用的是ROWNUM<=6 不是别名RN，也不能用ROWNUM>3 AND ROWNUM<=6否则查不出数据
+SELECT * FROM  
+(  
+    SELECT A.*, ROWNUM RN 
+    FROM (
+        SELECT * FROM mq_fail_log 
+        WHERE 1 = 1 
+        ORDER BY CREATE_TIME DESC,id
+        ) A  
+    where  ROWNUM<=6
+ )B
+WHERE RN>3 
+
+
+
+
+
+
+
+
+
+-- like      and t.name LIKE concat(CONCAT('%',#{uniInsuranceName}),'%')
+       
+--   and t.cust_name like ('%' || #{gxBizRequest.custName} || '%')
