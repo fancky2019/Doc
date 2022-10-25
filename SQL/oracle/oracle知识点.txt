@@ -74,3 +74,60 @@ WHERE RN>3
 -- like      and t.name LIKE concat(CONCAT('%',#{uniInsuranceName}),'%')
        
 --   and t.cust_name like ('%' || #{gxBizRequest.custName} || '%')
+
+
+-- 获取所有用户的表
+select table_name from all_tables;
+-- 获取当前用户的表
+select table_name from user_tables;
+-- 获取所有表（包括系统表）
+select table_name from dba_tables;
+-- 获取指定用户下的所有表
+select table from dba_tables where owner = 'xxx';
+
+
+
+SELECT 
+  a.OWNER 模式,
+  a.TABLE_NAME 表名, 
+  a.COLUMN_NAME 列名, 
+  a.DATA_TYPE 数据类型, 
+  a.DATA_LENGTH 长度, 
+  a.NULLABLE 非空, 
+  --(CASE WHEN a.NULLABLE = 'N' THEN 'Y' ELSE 'N' END) 非空,
+  b.COMMENTS 注释
+FROM all_tab_columns a
+LEFT JOIN all_col_comments b ON a.OWNER = b.OWNER AND a.TABLE_NAME = b.TABLE_NAME AND a.COLUMN_NAME = b.COLUMN_NAME
+WHERE a.OWNER = 'sys' AND a.TABLE_NAME = 'TABLE_NAME '
+ORDER BY a.TABLE_NAME, a.COLUMN_ID
+
+--或者
+
+SELECT 
+  a.TABLE_NAME 表名, 
+  c.COMMENTS 表名称,
+  a.COLUMN_NAME 列名, 
+  a.DATA_TYPE 数据类型, 
+  a.DATA_LENGTH 长度, 
+  a.NULLABLE 非空, 
+  --(CASE WHEN a.NULLABLE = 'N' THEN 'Y' ELSE 'N' END) 非空,
+  b.COMMENTS 列注释
+FROM user_tab_columns a
+LEFT JOIN user_col_comments b ON a.TABLE_NAME = b.TABLE_NAME AND a.COLUMN_NAME = b.COLUMN_NAME
+left join user_tab_comments c on a.TABLE_NAME=c.TABLE_NAME
+WHERE 1=1
+--  and  a.TABLE_NAME = 'TABLE_NAME '
+ORDER BY a.TABLE_NAME
+
+
+
+
+#查看表名称注释
+SELECT * FROM user_tab_comments WHERE TABLE_NAME='CODE_GENERAL'
+
+select * from user_col_comments
+where TABLE_NAME not in (select TABLE_NAME from user_tab_columns)
+      or COLUMN_NAME not in (select COLUMN_NAME from user_tab_columns)
+
+
+
