@@ -992,11 +992,21 @@ show VARIABLES  like '%long_query_time%';
 
 
 
-
-
-
-
-
+-- 自动更新时间
+-- 
+-- 方法一：
+-- 
+-- 建表时使用以下语句：
+-- 
+-- default current_timestamp on update current_timestamp
+-- 方法二：
+-- 
+-- 或者单独添加
+-- 
+-- ALTER TABLE testtimestamp CHANGE gmt_update  gmt_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP  ON UPDATE CURRENT_TIMESTAMP
+-- ​
+-- 
+-- 
 
 
 
