@@ -321,10 +321,20 @@ SHOW PROCESSLIST;
 -- 2、开启日志模式
 
 -- 1、设置日志开启，默认是关闭的
--- SET GLOBAL log_output = 'TABLE';SET GLOBAL general_log = 'ON';  -- //日志开启
+SET GLOBAL log_output = 'TABLE';SET GLOBAL general_log = 'ON';  -- //日志开启
 -- SET GLOBAL log_output = 'TABLE'; SET GLOBAL general_log = 'OFF'; -- //日志关闭
 -- 查看执行的日志
 SELECT * FROM mysql.general_log ORDER BY event_time DESC;
+
+
+select  *  from (
+select a.*,convert(argument using utf8) sqlCommand from mysql.general_log a order by event_time desc
+)t where sqlCommand like '%product_test%'
+
+truncate  TABLE mysql.general_log;
+
+SELECT *  from product_test;
+
 
 EXPLAIN SELECT  *  FROM demo.`test`;
 

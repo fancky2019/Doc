@@ -130,4 +130,71 @@ where TABLE_NAME not in (select TABLE_NAME from user_tab_columns)
       or COLUMN_NAME not in (select COLUMN_NAME from user_tab_columns)
 
 
+-- 插入指定序列
+CREATE SEQUENCE RULE_FACTOR_SEQ
+INCREMENT BY 1
+START WITH 1
+NOMAXvalue
+NOCYCLE;
 
+INSERT INTO "RULE_FACTOR"("ID", "RULE_ID", "FACTOR_NAME", "FACTOR", "CONDITION", "CONDITION_VALUE") 
+VALUES(RULE_FACTOR_SEQ.nextval , 1,'分公','company','like','上海'),
+
+(RULE_FACTOR_SEQ.nextval , 2,'使用性质','property','in','1,23,3'),
+(RULE_FACTOR_SEQ.nextval , 3,'在保车辆','cars','=','1'),
+(RULE_FACTOR_SEQ.nextval , 4,'上一年签单保费规模','fee','between','[100,400]');
+
+-- 行转列
+
+SELECT RULE_ID,
+MAX(CASE  WHEN FACTOR_NAME ='分公' THEN CONDITION_VALUE END) AS 分公,
+MAX(CASE  WHEN FACTOR_NAME ='使用性质' THEN CONDITION_VALUE END )AS 使用性质,
+MAX(CASE  WHEN FACTOR_NAME ='在保车辆' THEN CONDITION_VALUE END) AS 在保车辆,
+MAX(CASE  WHEN FACTOR_NAME ='上一年签单保费规模' THEN CONDITION_VALUE END) AS 上一年签单保费规模
+FROM RULE_FACTOR WHERE FACTOR_NAME IN('分公' ,'使用性质' ,'在保车辆' ,'上一年签单保费规模')
+GROUP BY RULE_ID;
+
+
+SELECT * FROM (
+    SELECT RULE_ID,FACTOR_NAME,CONDITION_VALUE FROM  RULE_FACTOR
+    ) t
+PIVOT( 
+      max(CONDITION_VALUE) FOR FACTOR_NAME 
+      IN (
+          '分公' as 分工 ,
+          '使用性质' as 使用性质,
+          '在保车辆' as 在保车辆,
+          '上一年签单保费规模' as上一年签单保费规模)
+    );
+	
+	
+-- 行转多列	
+SELECT RULE_ID,
+MAX(CASE  WHEN FACTOR_NAME ='分公' THEN CONDITION_VALUE END) AS company,
+MAX(CASE  WHEN FACTOR_NAME ='使用性质' THEN CONDITION_VALUE END )AS property,
+MAX(CASE  WHEN FACTOR_NAME ='在保车辆' THEN CONDITION_VALUE END) AS cars,
+MAX(CASE  WHEN FACTOR_NAME ='上一年签单保费规模' THEN CONDITION_VALUE END) AS fee,
+
+MAX(CASE  WHEN FACTOR_NAME ='分公' THEN FACTOR END) AS company_FACTOR,
+MAX(CASE  WHEN FACTOR_NAME ='使用性质' THEN FACTOR END )AS property_FACTOR,
+MAX(CASE  WHEN FACTOR_NAME ='在保车辆' THEN FACTOR END) AS cars_FACTOR,
+MAX(CASE  WHEN FACTOR_NAME ='上一年签单保费规模' THEN FACTOR END) AS fee_FACTOR,
+
+MAX(CASE  WHEN FACTOR_NAME ='分公' THEN CONDITION END) AS company_CONDITION,
+MAX(CASE  WHEN FACTOR_NAME ='使用性质' THEN CONDITION END )AS property_CONDITION,
+MAX(CASE  WHEN FACTOR_NAME ='在保车辆' THEN CONDITION END) AS cars_CONDITION,
+MAX(CASE  WHEN FACTOR_NAME ='上一年签单保费规模' THEN CONDITION END) AS fee_CONDITION
+
+FROM RULE_FACTOR WHERE FACTOR_NAME IN('分公' ,'使用性质' ,'在保车辆' ,'上一年签单保费规模')
+GROUP BY RULE_ID;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
