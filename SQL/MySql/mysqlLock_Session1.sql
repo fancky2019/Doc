@@ -233,25 +233,82 @@ SELECT SLEEP(10);
 COMMIT ;
 
 -- 'READ COMMITTED
---  解决：脏读
+--  解决：脏读，mvcc  readview 事务可见性 。
 -- 其他事务可以增删改查
 SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;
 START TRANSACTION ;
-SELECT *  FROM wms.`product`  WHERE ID=7;
 SELECT SLEEP(10);
+SELECT *  FROM demo.`demo_product`  WHERE ID=7;
+
 COMMIT ;
 
 -- --'REPEATABLE READ  
---  解决：脏读、重复读取
+--  解决：脏读、重复读取，只能解决快照度的幻读，当前读通过在事务中加锁（next_key lock）解决。
+--         注：mysql 锁加在索引上，主键锁降级行锁
+-- 其他事务两个读取期间要是更新了数据读取的是更新前的值。rr  readview 第一次读生成快照
 -- 其他事务可以增删改查
 SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;
 START TRANSACTION ;
-SELECT *  FROM wms.`product` WHERE ID=7;
+SELECT *  FROM demo.`demo_product` WHERE ID=7;
 SELECT SLEEP(10);
-SELECT *  FROM wms.`product` WHERE ID=7;
+SELECT *  FROM demo.`demo_product` WHERE ID=7;
 COMMIT ;
 
---'SERIALIZABLE
+-- 快照度幻读
+SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;
+START TRANSACTION ;
+SELECT count(*)  FROM demo.`demo_product` ;
+SELECT SLEEP(10);
+SELECT  count(*)   FROM demo.`demo_product` ;
+COMMIT ;
+
+-- 快照度 不存在快照度幻读
+SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+START TRANSACTION ;
+SELECT count(*)  FROM demo.`demo_product` ;
+SELECT SLEEP(10);
+SELECT  count(*)   FROM demo.`demo_product` ;
+COMMIT ;
+
+-- 当前读 幻读问题
+SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+START TRANSACTION ;
+SELECT count(*)  FROM demo.`demo_product` ;
+SELECT SLEEP(10);
+-- 快照度不会有幻读问题，当前读就会有幻读问题
+SELECT  count(*)   FROM demo.`demo_product` lock in share MODE ;
+COMMIT ;
+
+
+-- id 为主键mysql  默认next-key  lock  命中会降级为record lock 
+SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+START TRANSACTION ;
+SELECT count(*)  FROM demo.`demo_product` ;
+-- 不让命中，使其为next-key lock  锁无穷大区间，其他事务不能操作该区间,直到该事务结束其他事务才能操作
+SELECT * FROM demo.`demo_product` where  id=309000 for UPDATE;
+SELECT SLEEP(10);
+SELECT count(*)  FROM demo.`demo_product` lock in share MODE ;;
+COMMIT ;
+
+-- id 为主键mysql  默认next-key  lock  命中会降级为record lock 
+SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+START TRANSACTION ;
+-- 当前读id=7,其他事务不能操作id=7数据,直到该事务结束其他事务才能操作
+UPDATE  demo.demo_product SET product_name='product7' WHERE ID=7;
+SELECT SLEEP(10);
+SELECT product_name  FROM demo.`demo_product` WHERE ID=7 lock in share MODE ;;
+COMMIT ;
+
+
+SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+START TRANSACTION ;
+-- 当前读锁表，其他事物等待该事务完成才能操作
+SELECT count(*) from person FOR UPDATE;
+SELECT SLEEP(10);
+SELECT count(*) from person  lock in share MODE ;
+COMMIT ;
+
+-- SERIALIZABLE
 --  解决：脏读、重复读取、幻读
 -- 其他事务可以查
 SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE;

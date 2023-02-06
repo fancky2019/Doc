@@ -38,7 +38,7 @@ update  demo.person  set name='fancky' where id=5;
 ROLLBACK;
 
 
--- 更新覆盖
+-- 2、更新覆盖
 START TRANSACTION ;
 
 -- 局部变量直接使用不需要声明

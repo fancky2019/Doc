@@ -319,8 +319,9 @@ USE information_schema;
 SHOW PROCESSLIST;
    
 -- 2、开启日志模式
-
+-- 修改配置文件要重启服务
 -- 1、设置日志开启，默认是关闭的
+-- 注：设置mysql 参数看是global 还是session
 SET GLOBAL log_output = 'TABLE';SET GLOBAL general_log = 'ON';  -- //日志开启
 -- SET GLOBAL log_output = 'TABLE'; SET GLOBAL general_log = 'OFF'; -- //日志关闭
 -- 查看执行的日志
@@ -348,7 +349,20 @@ SHOW FULL COLUMNS FROM demo.`Test`;
 SELECT GROUP_CONCAT(COLUMN_NAME SEPARATOR ",") FROM information_schema.COLUMNS 
 WHERE TABLE_SCHEMA = 'NewClassesAdmin' AND TABLE_NAME = 'UserInfo';
 
+-- group_concat
+-- 2、语法：group_concat( [distinct] 要连接的字段 [order by 排序字段 asc/desc ] [separator] )
+-- 
+-- 说明：通过使用distinct可以排除重复值；如果希望对结果中的值进行排序，可以使用order by子句；separator分隔符是一个字符串值，缺省为一个逗号。
+
+select group_concat(COLUMN_NAME order by ORDINAL_POSITION) from information_schema.COLUMNS 
+where table_name = 'mq_fail_log'
+
+-- concat(str1, str2,...)
 SELECT CONCAT('1','2');
+-- 可以指定分割符号
+-- concat_ws(separator, str1, str2, ...)
+SELECT concat_ws(',', '1','2');
+
 
 -- 字符串长度
 SELECT DISTINCT LENGTH(  IFNULL(studentid,'')) len
@@ -958,7 +972,7 @@ FLUSH PRIVILEGES;   #刷新权限
  show grants;
  
  
-
+-- 配置要写在配置文件里，不然下次重启服务配置的信息没有保存到配置文件又丢失
 --  慢查询开关，默认off
 show VARIABLES  like '%slow_query_log%';
 -- 开启了慢查询日志，MySQL重启后则会失效
@@ -1016,9 +1030,9 @@ show VARIABLES  like '%long_query_time%';
 -- ALTER TABLE testtimestamp CHANGE gmt_update  gmt_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP  ON UPDATE CURRENT_TIMESTAMP
 -- ​
 -- 
--- 
+-- wait_timeout: 默认28800(8h) 单位s.超过8小时就要心跳测试连接
 
-
+show variables like '%timeout%';
 
 
 
