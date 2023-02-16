@@ -1035,4 +1035,29 @@ show VARIABLES  like '%long_query_time%';
 show variables like '%timeout%';
 
 
+-- 查存在时候找到就返回，避免全表扫描
+select id from demo_product m
+where EXISTS (SELECT id from demo_product n
+               where m.id=n.id
+							 and n.product_name like '%productName%'
+							 )
+limit 1
+
+
+select 1 from demo_product m
+where EXISTS (SELECT 1 from demo_product n
+               where m.id=n.id
+							 and n.product_name like '%productName%'
+							 )
+limit 1
+
+select count(*) from demo_product m
+where EXISTS (SELECT 1 from demo_product n
+               where m.id=n.id
+							 and n.product_name like '%productName%'
+							 )
+
+
+
+
 
