@@ -13,6 +13,8 @@ select SEQUENCE_OWNER,SEQUENCE_NAME from dba_sequences where sequence_owner='sys
 
 select * from dba_sequences
 
+
+select  RULE_FACTOR_SEQ.nextval from dual;
 -- 日期
 update t_gx_share_list set GX_EFFECT_FIRST_TIME= to_date ( '2022-08-16 10:54:02' , 'YYYY-MM-DD HH24:MI:SS' ) ;
 

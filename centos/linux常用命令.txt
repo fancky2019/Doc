@@ -2,7 +2,7 @@
 cat -n info.log|grep pom -A 100
 
 
-
+cat -n info.log|grep ERROR.*pom -A 100
 
 --i 不出分大小写
 cat -n common-default.log |grep -ai "SeaAreaJob"
