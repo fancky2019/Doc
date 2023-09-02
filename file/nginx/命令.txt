@@ -1,0 +1,10 @@
+
+nginx.exe 目录下 执行下面命令
+
+start nginx        启动nginx
+nginx -s quit      安全关闭
+nginx -s stop      强制关闭
+nginx -s reload    改变配置文件时，重启nginx工作进程，使配置生效
+nginx -s reopen    打开日志文件
+nginx -v           查看版本
+nginx -h           查看帮助信息

@@ -1,0 +1,11 @@
+参考连接:https://blog.csdn.net/jingyu333/article/details/131610911
+
+登录
+
+https://localhost:9201/_nodes/stats?pretty
+
+查询集群节点信息
+https://localhost:9201/_cluster/health?pretty=true
+
+
+https://127.0.0.1:9201/_cat/health?v

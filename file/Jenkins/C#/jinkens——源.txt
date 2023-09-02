@@ -1,0 +1,48 @@
+::将CMD的字符编码设置为UTF-8，防止乱码
+chcp 65001
+@echo off
+::设置构建项目全路径名称,相对workspace下构建任务下（C:\ProgramData\Jenkins\.jenkins\workspace\wms_dev）的目录 
+set prjName=code\aspnet-core\src\GensongWms3.HttpApi.Host\GensongWms3.HttpApi.Host
+::生成的项目exe名称
+set prjAppName=GensongWms3.HttpApi.Host
+::避免jinkens构建完任务杀子进程（衍生出的进程）
+set BUILD_ID=dontKillMe
+set JENKINS_NODE_COOKIE=dontKillMe
+
+echo *************以下内容可不调整**********************
+::发布的目的地址
+set appFolder=D:\app\%prjAppName%
+set appName=%prjAppName%.exe
+::exe的启动地址
+set appPath=%appFolder%\%appName%
+
+::打印
+echo prjName=%prjName%
+echo appPath=%appPath%
+
+echo ****创建文件夹*******************************
+if exist %appFolder% (
+   echo "已经存在文件夹"
+) else (
+   md %appFolder%
+)
+
+echo ****结束程序*******************************
+taskkill /f /t /im %appName%
+
+echo ****构建程序*******************************
+dotnet build %prjName%.csproj
+dotnet publish %prjName%.csproj -c Release -o %appFolder%
+
+echo ****启动程序*******************************
+:: /d直接切换目录
+::cd  /d %appFolder%
+::start "" %appName%
+
+::当前目录
+dir
+start "" %appPath%
+
+
+echo ****Tasklist*******************************
+:: tasklist|find /i "%appName%"
