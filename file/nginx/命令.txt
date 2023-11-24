@@ -8,3 +8,5 @@ nginx -s reload    改变配置文件时，重启nginx工作进程，使配置�
 nginx -s reopen    打开日志文件
 nginx -v           查看版本
 nginx -h           查看帮助信息
+
+taskkill /fi "imagename eq nginx.exe" /f

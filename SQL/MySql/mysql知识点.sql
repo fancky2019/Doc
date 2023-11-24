@@ -1,4 +1,7 @@
 
+
+-- 数据库字符集 排序规则参照mysql 默认数据库mysql 的配置：utf8mb4 utf8mb4_unicode_ci
+
 show collation;
 show variables like 'collation_%';
 -- mysql8 默认utf8mb4编码  排序规则 utf8mb4_0900_ai_ci ，地板版排序规则utf8mb4_general_ci,为了兼容低版本可设置成utf8mb4_general_ci
@@ -163,7 +166,7 @@ SELECT  NOW(3);
 select DATE_FORMAT(NOW(3),'%Y-%m-%d %H:%i:%s');
 -- 带微秒
 select DATE_FORMAT(NOW(3),'%Y-%m-%d %T:%f');
-
+SELECT DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s.%f') AS formatted_time FROM demo_product;
 
 SELECT CONVERT('1',SIGNED)+1;
 SELECT CAST(1 AS CHAR);  -- +'12';
@@ -1056,6 +1059,60 @@ where EXISTS (SELECT 1 from demo_product n
                where m.id=n.id
 							 and n.product_name like '%productName%'
 							 )
+
+SHOW COLUMNS FROM demo_product;
+
+SELECT COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, IS_NULLABLE from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='demo_product';
+
+
+SELECT COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, IS_NULLABLE from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='demo_product';
+
+
+-- 查询表所有列名
+select GROUP_CONCAT(COLUMN_NAME SEPARATOR ',') from  (
+SELECT COLUMN_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='demo_product'
+)t
+
+--  效率和  select  count(*) from  demo_product  基本一样
+
+select  count(id)
+from (
+select  id,guid,product_name,product_style,image_path,create_time,modify_time,status,description,timestamp
+ from  demo_product 
+) t;
+
+-- ip 权限
+select host, user from user;
+
+update user set host='%' where user='root';
+
+flush privileges;
+
+
+
+-- 查询最新一条
+select  *  from demo_product
+ where id = (
+ SELECT MAX(id) from demo_product
+ )
+ 
+ 
+select  *  from demo_product ORDER BY id DESC
+LIMIT 100
+
+
+delete  from demo_product where product_name= 'productNameshish事务0';
+
+
+SELECT id,guid,product_name,product_style,image_path,
+DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s.%f') create_time,
+DATE_FORMAT(modify_time, '%Y-%m-%d %H:%i:%s.%f') modify_time,
+DATE_FORMAT(timestamp, '%Y-%m-%d %H:%i:%s.%f') timestamp,
+status,description
+from demo_product;
+
+
+
 
 
 

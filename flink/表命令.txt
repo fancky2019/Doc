@@ -1,0 +1,98 @@
+  CREATE TABLE demo_product_flink (
+    id INT,
+    guid STRING,
+    product_name STRING,
+	product_style STRING,
+	image_path STRING,
+	create_time  TIMESTAMP(0),
+	modify_time  TIMESTAMP(0),
+	status INT,
+	description STRING,
+    PRIMARY KEY (id) NOT ENFORCED
+  ) WITH (
+    'connector' = 'mysql-cdc',
+    'hostname' = '192.168.8.85',
+    'port' = '3306',
+    'username' = 'root',
+    'password' = '123456',
+   'server-time-zone' = 'Asia/Shanghai',
+    'database-name' = 'demo',
+    'scan.startup.mode' = 'initial',
+    'table-name' = 'demo_product_copy'
+  );
+
+----------------------------------------es------------------------------
+   CREATE TABLE demo_product_flink_es (
+    id INT,
+    guid STRING,
+    product_name STRING,
+	product_style STRING,
+	image_path STRING,
+	create_time  TIMESTAMP(0),
+	modify_time  TIMESTAMP(0),
+	status INT,
+	description STRING,
+    PRIMARY KEY (id) NOT ENFORCED
+  ) WITH (
+     'connector' = 'elasticsearch-7',
+     'hosts' = 'http://192.168.8.85:9200',
+     'index' = 'demo_product'
+ );
+
+
+ INSERT INTO demo_product_flink_es SELECT * FROM demo_product_flink ;
+
+------------------------------------------------------------------------------
+
+----------------------------------ch---------------------------------------------
+-- flink 创建关联ch表
+ -- 删除同步   'sink.ignore-delete'='false','sink.update-strategy'='update',
+
+
+CREATE TABLE demo_product_ch (
+    `id` BIGINT,
+    `guid` STRING,
+    `product_name` STRING,
+    `product_style` STRING,
+    `image_path` STRING,
+    `create_time`  TIMESTAMP(0),
+    `modify_time`  TIMESTAMP(0),
+   `status` INTEGER,
+   `description` STRING,
+    PRIMARY KEY (`id`) NOT ENFORCED
+) WITH (
+    'connector' = 'clickhouse',
+    'url' = 'clickhouse://172.16.112.137:8123',
+    'database-name' = 'default',
+    'table-name' = 'demo_product_ch',
+    'sink.batch-size' = '500',
+    'sink.flush-interval' = '1000',
+    'sink.ignore-delete'='false',
+    'sink.update-strategy'='update',
+    'sink.max-retries' = '3'
+);
+
+
+
+ INSERT INTO demo_product_ch SELECT * FROM demo_product_flink ;
+-----------------------------------------------------------------------------
+
+-- clickhouse 创建表---------------------------------------------
+  CREATE TABLE demo_product_ch (
+    id Int64,
+    guid String,
+    product_name String,
+	product_style String,
+	image_path String,
+	create_time  DateTime64,
+	modify_time  DateTime64,
+	status Int32,
+	description String
+  )
+ENGINE = MergeTree()
+PARTITION BY toYYYYMM(create_time)
+ORDER BY (intHash32(id))
+SAMPLE BY intHash32(id)
+
+select  count(*)  from default.demo_product_ch;
+------------------------------------------------------------------

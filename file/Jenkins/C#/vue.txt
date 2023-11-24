@@ -1,0 +1,7 @@
+#jenkins 下载的源码目录： C:\ProgramData\Jenkins\.jenkins\workspace
+#如果git worksspace 不是要打包的目录，要切换到打包的目录，否则不执行目录切换 。dir
+cd /d C:\ProgramData\Jenkins\.jenkins\workspace\wms_front\wms-prod
+npm install & npm run build
+
+#拷贝到nginx 目录。注意：此步骤要新建构建步骤，不能和前面的在一起，否则无法拷贝
+xcopy "C:\ProgramData\Jenkins\.jenkins\workspace\wms_front\wms-prod\dist" "D:\WMS3\Vue\nginx-1.24.0\app\wms" /y /e /i /q

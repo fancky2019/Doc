@@ -1,0 +1,8 @@
+tar -zxvf D:\work\openCode\datax\datax.tar.gz
+
+tar -zxvf D:\work\dev\flink\flink-1.17.0-bin-scala_2.12.tgz
+
+tar -zxvf D:\work\dev\flink\flink-1.18.0-bin-scala_2.12.tgz
+
+
+tar -zxvf D:\work\dev\flink\new\flink-1.17.0-bin-scala_2.12.tgz

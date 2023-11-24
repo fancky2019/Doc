@@ -1,0 +1,27 @@
+#加载环境变量
+source /etc/profile
+#安装依赖
+npm install
+#删除打包后的dist文件
+rm -rf ./dist/*
+#执行项目打包命令
+npm run build
+# 复制到指定的nginx映射的目录
+cp -rf dist/ /web/web-ui
+
+windows 
+npm install & npm run build
+xcopy "C:\ProgramData\Jenkins\.jenkins\workspace\wms_fron_gitee\dist" "D:\work\dev\nginx\nginx-1.22.0\app\wms" /y /e /i /q
+
+
+#安装依赖
+npm install
+#执行项目打包命令
+npm run build
+
+#安装依赖
+npm install
+#启动前段项目
+npm run serve
+
+

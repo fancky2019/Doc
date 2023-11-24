@@ -1,0 +1,173 @@
+启动
+./bin/start-cluster.sh
+
+
+停止
+
+./bin/stop-cluster.sh
+
+
+#启动flink sql客户端
+./bin/sql-client.sh
+
+
+clickhouse-client
+
+
+无法访问服务器的8081端口，需要修改配置文件${flink_home}/conf/flink-conf.yaml,并重启。
+
+修改前：
+rest.bind-address: localhost
+修改后：
+rest.bind-address: 0.0.0.0
+
+访问
+172.16.112.137:8081
+
+SET 'table.local-time-zone' = 'Asia/Shanghai';
+
+SET execution.checkpointing.interval = 3s;
+
+注意：localhost 由于虚拟机不能使用localhost，要使用ip
+
+  CREATE TABLE demo_product_flink (
+    id INT,
+    guid STRING,
+    product_name STRING,
+	product_style STRING,
+	image_path STRING,
+	create_time  TIMESTAMP(0),
+	modify_time  TIMESTAMP(0),
+	status INT,
+	description STRING,
+    PRIMARY KEY (id) NOT ENFORCED
+  ) WITH (
+    'connector' = 'mysql-cdc',
+    'hostname' = '192.168.9.230',
+    'port' = '3306',
+    'username' = 'root',
+    'password' = '123456',
+   'server-time-zone' = 'Asia/Shanghai',
+    'database-name' = 'demo',
+    'scan.startup.mode' = 'initial',
+    'table-name' = 'demo_product_flink_test'
+  );
+  
+select  *  from demo_product_flink;
+
+drop  table demo_product_flink;
+  
+   CREATE TABLE demo_product_flink_es (
+    id INT,
+    guid STRING,
+    product_name STRING,
+	product_style STRING,
+	image_path STRING,
+	create_time  TIMESTAMP(0),
+	modify_time  TIMESTAMP(0),
+	status INT,
+	description STRING,
+    PRIMARY KEY (id) NOT ENFORCED
+  ) WITH (
+     'connector' = 'elasticsearch-7',
+     'hosts' = 'http://192.168.9.230:9200',
+     'index' = 'product_flink'
+ );
+
+
+
+
+
+
+ INSERT INTO demo_product_flink_es SELECT * FROM demo_product_flink ;
+
+
+
+
+ 'hosts' = 'http://192.168.9.230:9200',
+
+select  *  from  demo_product_flink_es;
+
+
+
+select  *  from demo_product_flink;
+
+
+
+
+
+
+create table Flink_target(
+    id INT,
+    guid STRING,
+    product_name STRING,
+	product_style STRING,
+	image_path STRING,
+	create_time  TIMESTAMP(0),
+	modify_time  TIMESTAMP(0),
+	status INT,
+	description STRING,
+    PRIMARY KEY (id) NOT ENFORCED
+)
+with(
+    'connector' = 'jdbc',
+    'url' = 'jdbc:mysql://192.168.9.230:3306/demo',
+    'username'='root',
+    'password'='123456',
+    'table-name' = 'Flink_target',
+    'sink.buffer-flush.max-rows'='1',
+    'sink.buffer-flush.interval'='0'
+);
+
+
+
+insert into Flink_target select * from demo_product_flink ;
+
+select  *  from  Flink_target;
+
+show tables;
+describe demo_product_flink;
+
+refresh demo_product_flink;
+
+
+
+
+-- 
+CREATE TABLE demo_product_ch (
+    `id` BIGINT,
+    `guid` INTEGER,
+    `product_name` STRING,
+    `product_style` STRING,
+    `image_path` STRING,
+    `create_time` DateTime,
+    `modify_time` DateTime,
+   `status` INTEGER,
+   `description` STRING,
+    PRIMARY KEY (`id`) NOT ENFORCED
+) WITH (
+    'connector' = 'clickhouse',
+    'url' = 'clickhouse://192.168.8.85:8123',
+    'database-name' = 'default',
+    'table-name' = 'demo_product_ch',
+    'sink.batch-size' = '500',
+    'sink.flush-interval' = '1000',
+     'sink.ignore-delete'='false',
+    'sink.max-retries' = '3'
+);
+
+ INSERT INTO demo_product_ch SELECT * FROM demo_product_flink ;
+
+
+
+sudo date -s "2023-11-18 13:44:46"
+
+
+
+
+
+
+
+
+
+
