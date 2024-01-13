@@ -24,7 +24,7 @@
  FLUSH PRIVILEGES;   #刷新权限
  
  
- 
+
  
  
  -- 创建只读账号
@@ -44,7 +44,10 @@ delete from demo.demo_product where id=2;
  
  
 
+ -- ---------------------GTID------------------------
  
+--  查看GTID模式状态
+ show variables like "%GTID%";
  
  
  
@@ -177,5 +180,42 @@ SET GLOBAL super_read_only = ON;
 --  
  
  -- 集群mgr
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ -- 改变主
+ 
+stop slave;
+change master to
+    master_host='192.168.1.36',
+    master_port=3308,
+    master_user='repuser',
+    master_password='repuser123',
+    master_auto_position=1;
+start slave;
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  
  

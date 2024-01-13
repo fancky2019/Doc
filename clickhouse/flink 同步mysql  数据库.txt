@@ -1,0 +1,72 @@
+
+
+
+
+
+
+
+
+MaterializedMySQL
+一、配置mysql,重启服务
+mysql 配置
+[mysqld]
+port=3306
+#utf8mb4 配置
+character-set-client-handshake = FALSE 
+character-set-server = utf8mb4 
+collation-server = utf8mb4_unicode_ci 
+init_connect='SET NAMES utf8mb4'
+#character_set_server=utf8
+
+#安装路径
+basedir=D:\mysql
+#数据路径
+datadir=D:\mysql\data
+sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
+
+
+#cdc 必须配置
+## binlog d的日志模式
+binlog-format=ROW
+## 开启 bin log  生成binlog 日志的基础名称
+log-bin=mysqlbinlog
+## 集群环境下 需要设置一个不重复的id
+server-id=1
+
+#开启GTID复制模式
+gtid-mode=on    
+#强制GTID一致性      
+enforce-gtid-consistency=true   
+#从库强制更新binlog日志  
+log-slave-updates=1 
+#the MaterializedMySQL engine requires default_authentication_plugin='mysql_native_password       
+default_authentication_plugin=mysql_native_password
+
+
+
+
+
+
+
+
+
+
+二、clickhouse操作
+clickhouse-client 执行
+
+set allow_experimental_database_materialized_mysql=1;
+
+注意：要设置setting 不然查询不到
+CREATE DATABASE demo_ch ENGINE = MaterializeMySQL('192.168.7.204:3306', 'demo', 'root', '123456')
+   SETTINGS
+        allows_query_when_mysql_lost=true,
+        max_wait_time_when_mysql_unavailable=10000;
+
+--测试
+use demo_ch;
+show tables;
+select count(*) from demo_ch.demo_product_copy;
+
+
+
+

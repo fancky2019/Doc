@@ -5,7 +5,7 @@
 -- localhost   
 CHANGE MASTER TO MASTER_HOST='localhost',MASTER_USER='masteraccount',MASTER_PASSWORD='123456',MASTER_PORT=3307,MASTER_LOG_FILE='mysql-bin.000006',MASTER_LOG_POS=14718;
 
-
+-- gtid  要指定  master_auto_position=1;
 -- Slave_IO_Running 是connecting不是    Slave_IO_Running: Yes 
 -- 解决：
 --       1、masteraccount账号权限密码
