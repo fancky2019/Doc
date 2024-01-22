@@ -308,11 +308,13 @@ select  *  from   demo.person where id=5  lock in share mode;
 COMMIT ;
 
 
+-- 两个事务写同一条数据，mysql 内部会加锁（默认临间锁），只有第一个事务完成释放锁。
+-- 第二个事务才能获得锁执行，这样就解决回滚丢失更新问题
 
 -- 1、类丢失更新，回滚
 START TRANSACTION ;
 -- 局部变量直接使用不需要声明
-update  demo.person  set name='fancky' where id=5;
+update  demo.person  set name='fancky2223' where id=5;
 SELECT SLEEP(10);
 
 -- RR 解决了不能重复读取问题，但是在两次读取中间如果另一个事务进行修改，提交则无法读取到最新修改的值
@@ -329,7 +331,7 @@ select @age;
 SELECT SLEEP(10);
 update  demo.person  set age=@age+2 where id=5;
 -- RR 解决了不能重复读取问题，但是在两次读取中间如果另一个事务进行修改，提交则无法读取到最新修改的值
--- rr 解决回滚丢失更新，没有解决2类丢失更新（更新覆盖）问题--因为更新覆盖是两个事务写，而MVCC作用与两个读写事务
+-- rr mysql自己解决回滚丢失更新，没有解决2类丢失更新（更新覆盖）问题--因为更新覆盖是两个事务写，而MVCC作用与两个读写事务
 --    不加锁，即不能作用于写写事务(不是线程安全的操作)，写写事务通过加锁来实现（乐观锁、悲观锁)。
 COMMIT ;
 

@@ -29,7 +29,7 @@ COMMIT ;
 -- 1、类丢失更新，回滚
 START TRANSACTION ;
 -- 局部变量直接使用不需要声明
-update  demo.person  set name='fancky' where id=5;
+update  demo.person  set name='fancky111' where id=7;
 -- SELECT SLEEP(10);
 
 -- RR 解决了不能重复读取问题，但是在两次读取中间如果另一个事务进行修改，提交则无法读取到最新修改的值
@@ -37,6 +37,7 @@ update  demo.person  set name='fancky' where id=5;
 -- COMMIT ;
 ROLLBACK;
 
+select  *   from  demo.person where id=5;
 
 -- 2、更新覆盖
 START TRANSACTION ;
