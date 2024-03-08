@@ -1,0 +1,4 @@
+--telnet
+New-Object System.Net.Sockets.TcpClient("10.100.200.33",1883)
+
+tasklist|find "GensongWms3.HttpApi.Host"
