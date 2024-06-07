@@ -1,0 +1,1973 @@
+# Click the Variables button, above, to create your own variables.
+POST demo_product/_doc/1
+{
+ "id":1,
+ "guid":"334ba1d9-c722-4da2-a677-2e5adb8110f4",
+ "product_name":"productname",
+ "product_style":"fancky",
+   "image_path":"productname",
+ "create_time":"2022-03-07 20:51:57.000",
+ "modify_time":"2022-03-07 20:51:57.000",
+  "status": 1,
+ "description": "上海",
+ "timestamp": "2022-03-07 20:51:57"
+}
+PUT /demo_product/_mapping
+{
+  "properties": {
+      "create_time": {
+       "type": "date",
+      "format": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'||yyyy-MM-dd HH:mm:ss.S||yyyy-MM-dd HH:mm:ss.SS||yyyy-MM-dd HH:mm:ss.SSS||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis" 
+    }
+  }
+}
+DELETE demo_product
+GET demo_product/_mapping
+#ES8.8.2
+PUT /demo_product
+{
+    "mappings": {
+      "properties": {
+        "create_time": {
+        "type": "date",
+      "format": "yyyy-MM-dd HH:mm:ss.S||yyyy-MM-dd HH:mm:ss.SS||yyyy-MM-dd HH:mm:ss.SSS||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis" 
+        },
+        "description": {
+          "type": "text"
+        },
+        "guid": {
+          "type": "keyword"
+        },
+        "id": {
+          "type": "long"
+        },
+        "image_path": {
+          "type": "text"
+        },
+        "modify_time": {
+            "type": "date",
+      "format": "yyyy-MM-dd HH:mm:ss.S||yyyy-MM-dd HH:mm:ss.SS||yyyy-MM-dd HH:mm:ss.SSS||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis" 
+        },
+        "product_name": {
+          "type": "text",
+           "analyzer": "ik_max_word",
+          "search_analyzer": "ik_max_word"
+        },
+        "product_style": {
+          "type": "keyword"
+        },
+        "status": {
+          "type": "long"
+        }
+      }
+    }
+}
+
+GET demo_product/_search
+{
+  "query": {
+    "match_all": {}
+  },
+"track_total_hits":true
+}
+GET /demo_product/_search
+{
+ "query":{
+      "bool": {
+        "must": [
+          {"term":{"id":199}},
+          {"term":{"guid":"334ba1d9-c722-4da2-a677-2e5adb8110f4"}},
+          {"match":{"product_name":"产品名称1570018"}},
+          {"wildcard":{"product_style":"*productStyle1200*"}},
+          { "range" : {
+                        "create_time" : {
+                            "gt" : "2003-11-06 06:29:11.394",
+                            "lt" : "2024-11-06 06:29:11.394",
+                            "format": "yyyy-MM-dd HH:mm:ss.SSS"
+                        }
+                   }
+          
+          }
+        ]
+      }
+  },
+"track_total_hits":true
+
+}
+DELETE demo_product
+GET /demo_product/_mapping
+GET /demo_product/_search
+
+#ES7.17.5
+PUT /demo_product
+{
+    "mappings": {
+      "properties": {
+        "create_time": {
+        "type": "date",
+ "format": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'||yyyy-MM-dd HH:mm:ss.S||yyyy-MM-dd HH:mm:ss.SS||yyyy-MM-dd HH:mm:ss.SSS||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis" 
+        },
+        "description": {
+          "type": "text"
+        },
+        "guid": {
+          "type": "keyword"
+        },
+        "id": {
+          "type": "long"
+        },
+        "image_path": {
+          "type": "text"
+        },
+        "modify_time": {
+            "type": "date",
+ "format": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'||yyyy-MM-dd HH:mm:ss.S||yyyy-MM-dd HH:mm:ss.SS||yyyy-MM-dd HH:mm:ss.SSS||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis" 
+        },
+        "product_name": {
+          "type": "text",
+           "analyzer": "ik_max_word",
+          "search_analyzer": "ik_max_word"
+        },
+        "product_style": {
+          "type": "keyword"
+        },
+        "status": {
+          "type": "long"
+        }
+      }
+    }
+}
+DELETE product_flink
+GET product_flink/_mapping
+GET /product_flink/_search
+POST product_flink21/_doc/4
+{
+ "id":199,
+ "guid":"334ba1d9-c722-4da2-a677-2e5adb8110f4",
+ "product_name":"产品名称1570018",
+ "product_style":"productstyle",
+ "create_time":"2022-03-07 20:51:57.000",
+ "modify_time":"2022-03-07 20:51:57.000",
+ "description": "上海",
+ "price":1232.3,
+ "count":12,
+ "produce_address":"上海市青浦区"
+}
+
+#解除最大10000的限制,
+#查询语句添加"track_total_hits":true
+
+put _all/_settings
+{
+"index.max_result_window":20000000
+}
+
+PUT /_all/_settings?preserve_existing=true
+{"index.max_result_window":"2000000000"}
+
+PUT demo_product/_settings
+{
+  "index": {
+    "max_result_window": 2147483647
+  }
+}
+
+PUT demo_product/_mapping
+{
+  "properties": {
+    "guid": {
+      "type": "keyword"
+
+    }
+}
+}
+
+
+
+GET demo_product/_mapping
+#TERM 精确匹配一个值 terms 类似sql in
+GET demo_product/_search/
+#ES8 "guid.keyword ES 类型就是Keyword
+GET /demo_product/_search
+{
+ "query":{
+      "bool": {
+        "must": [
+          {"term":{"id":199}},
+          {"term":{"guid.keyword":"334ba1d9-c722-4da2-a677-2e5adb8110f4"}},
+          {"match":{"product_name":"产品名称1570018"}},
+          {"wildcard":{"product_style":"*productstyle*"}},
+          { "range" : {
+                        "create_time" : {
+                            "gt" : "2003-11-06 06:29:11.394",
+                            "lt" : "2024-11-06 06:29:11.394",
+                            "format": "yyyy-MM-dd HH:mm:ss.SSS"
+                        }
+                   }
+          
+          }
+        ]
+      }
+  },
+"track_total_hits":true
+
+}
+GET /demo_product/_search
+{
+ "query":{
+      "bool": {
+        "must": [
+          {"match":{"product_name":"产品名称1570018"}},
+          {"wildcard":{"product_style":"*productstyle*"}}
+        ]
+      }
+  },
+  "sort": [
+    {
+      "id": {
+        "order": "desc"
+      }
+    }
+  ],
+  "from": 999000,
+  "size": 5,
+"track_total_hits":true
+
+}
+
+
+DELETE datax_test1
+
+PUT /demo_product1
+{
+  "mappings": {
+    "properties": {
+      "id": {
+        "type": "long"
+      },
+      "product_name": {
+        "type": "text"
+      },
+      "product_style": {
+        "type": "text"
+      },
+      "create_time": {
+        "type": "date",
+        "format": "yyyy-MM-dd HH:mm:ss.SSS||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis" 
+      },
+      "modify_time": {
+        "type": "date",
+        "format": "yyyy-MM-dd HH:mm:ss.SSS||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis" 
+      },
+      "description": {
+        "type": "text"
+      },
+      "price": {
+        "type": "double"
+      },
+      "count": {
+        "type": "long"
+      },
+      "produce_address": {
+        "type": "text"
+      }
+    }
+  }
+}
+
+GET /product_flink222/_search/
+
+PUT /product_flink21
+{
+    "mappings": {
+      "properties": {
+        "create_time": {
+        "type": "date",
+     "format": "yyyy-MM-dd HH:mm:ss.SSS" 
+        },
+        "description": {
+          "type": "text"
+        },
+        "guid": {
+          "type": "keyword"
+        },
+        "id": {
+          "type": "long"
+        },
+        "image_path": {
+          "type": "text"
+        },
+        "modify_time": {
+            "type": "date",
+        "format": "yyyy-MM-dd HH:mm:ss.SSS" 
+        },
+        "product_name": {
+          "type": "text",
+           "analyzer": "ik_max_word",
+          "search_analyzer": "ik_max_word"
+        },
+        "product_style": {
+          "type": "text"
+        },
+        "status": {
+          "type": "long"
+        }
+      }
+    }
+}
+GET /product_flink21/_search
+{
+ "query":{
+      "bool": {
+        "must": [
+          {"term":{"id":199}},
+          {"term":{"guid":"334ba1d9-c722-4da2-a677-2e5adb8110f4"}},
+          {"match":{"product_name":"产品名称1570018"}},
+          {"wildcard":{"product_style":"*productstyle*"}}
+        ]
+      }
+  },
+"track_total_hits":true
+
+}
+GET product_flink21/_mapping
+GET /product_flink21/_search/
+POST product_flink21/_doc/4
+{
+ "id":199,
+ "guid":"334ba1d9-c722-4da2-a677-2e5adb8110f4",
+ "product_name":"产品名称1570018",
+ "product_style":"productstyle",
+ "create_time":"2022-03-07 20:51:57.000",
+ "modify_time":"2022-03-07 20:51:57.000",
+ "description": "上海",
+ "price":1232.3,
+ "count":12,
+ "produce_address":"上海市青浦区"
+}
+
+POST product_flink21/_doc/1
+{
+ "id":1,
+ "guid":"334ba1d9-c722-4da2-a677-2e5adb8110f4",
+ "product_name":"productname",
+ "product_style":"fancky",
+   "image_path":"productname",
+ "create_time":"2022-03-07 20:51:57.000",
+ "modify_time":"2022-03-07 20:51:57.000",
+  "status": 1,
+ "description": "上海",
+ "timestamp": "2022-03-07 20:51:57"
+}
+
+GET datax_test1/_mapping
+DELETE datax_test1
+PUT /datax_test1
+{
+    "mappings": {
+      "properties": {
+        "create_time": {
+        "type": "date",
+        "format": "yyyy-MM-dd HH:mm:ss.SSS" 
+        },
+        "description": {
+          "type": "text"
+        },
+        "guid": {
+          "type": "text"
+        },
+        "id": {
+          "type": "long"
+        },
+        "image_path": {
+          "type": "text"
+        },
+        "modify_time": {
+            "type": "date",
+        "format": "yyyy-MM-dd HH:mm:ss.SSS" 
+        },
+        "product_name": {
+          "type": "text",
+           "analyzer": "ik_max_word",
+          "search_analyzer": "ik_max_word"
+        },
+        "product_style": {
+          "type": "text"
+        },
+        "status": {
+          "type": "long"
+        },
+        "timestamp": {
+            "type": "date",
+         "format": "yyyy-MM-dd HH:mm:ss.SSS" 
+        }
+      }
+    }
+}
+PUT /datax_test1/_mapping
+{
+  "properties": {
+      "product_name": {
+      "type": "text",
+      "analyzer": "ik_max_word",
+      "search_analyzer": "ik_max_word",
+      "fields":{
+        "keyword":{
+          "type":"keyword"
+          
+        }
+      }
+    }
+  }
+}
+
+DELETE demo_product
+POST datax_test1/_doc/1
+{
+ "id":1,
+  "guid":"productname",
+ "product_name":"productname",
+ "product_style":"fancky",
+   "image_path":"productname",
+ "create_time":"2022-03-07 20:51:57.000",
+ "modify_time":"2022-03-07 20:51:57.000",
+  "status": 1,
+ "description": "上海",
+ "timestamp": "2022-03-07 20:51:57"
+}
+
+GET demo_product/_search
+GET demo_product/_mapping
+GET datax_test1/_mapping
+DELETE datax_test1
+
+GET demo_product/_mapping
+GET /demo_product/_search/
+{
+  "query": {
+    "match": {
+      "produce_address": "上海市"
+    }
+  },
+  "from": 0,
+  "size": 100
+}
+GET /datax_test2/_search
+
+GET /datax_test2/_search
+{
+  "query": {
+    "match": {
+      "product_style": "*le*"
+    }
+  },
+  "from": 2,
+  "size": 100
+}
+
+GET datax_test1/_search
+{
+  "query": {
+    "wildcard": {
+      "product_name.keyword": {
+        "value": "*产品名称*",
+        "boost": 1.0,
+        "rewrite": "constant_score_blended"
+      }
+    }
+  }
+}
+
+GET datax_test1/_mapping
+PUT /datax_test1/_mapping
+{
+  "properties": {
+      "product_name": {
+      "type": "text",
+      "analyzer": "ik_max_word",
+      "search_analyzer": "ik_max_word",
+      "fields":{
+        "keyword":{
+          "type":"keyword"
+          
+        }
+      }
+    }
+  }
+}
+
+
+GET datax_test1/_search
+{
+  "query":{
+    "bool":{
+      "must":[
+        {"match":{"product_name":"产品名称1200000"}}
+        ],
+      "must_not": [
+        {"match": {
+          "product_style": "productStyle1200002"
+        }}
+      ]
+    }
+  }
+}
+
+GET /datax_test1/_search
+{
+ "query":{
+      "bool": {
+        "must": [
+           {"match_phrase_prefix":{"product_style":"*roductstyle1000*"}}
+        ]
+      }
+  },
+  "sort": [
+    {
+      "id": {
+        "order": "desc"
+      }
+    }
+  ],
+  "from": 0,
+  "size": 100
+
+}
+
+GET /datax_test1/_search
+{
+  "query": {
+    "fuzzy": {
+      "product_style": "productStyle"
+    }
+  }
+}
+GET _analyze
+{
+   "text":"产品名称1200008","tokenizer": "ik_max_word"
+}
+GET _analyze
+{
+   "text":"产品名称1","tokenizer": "ik_smart"
+}
+ #精准值匹配(term)​term​​ #查询被用于精确值匹配，这些精确值可能是数字、时间、布尔或者那些未分词的字符串
+# wildcard 查询“产品名称” 这种汉字时候必须结构指定分词器，否则只能查询单个汉字无法查词，
+#es默认单个汉字分词的
+#多个查询
+GET /datax_test1/_search
+{
+ "query":{
+      "bool": {
+        "must": [
+          {"match":{"product_name":"产品名称1"}},
+          {"wildcard":{"product_style":"*productstyle120*"}},
+          { "range" : {
+                        "timestamp" : {
+                            "gt" : "2014-01-01 00:00:00",
+                            "lt" : "2024-01-07 00:00:00",
+                            "format": "yyyy-MM-dd HH:mm:ss"
+                        }
+                   }
+          
+          },
+         { "range" : {
+                        "id" : {
+                            "gt" : "2",
+                            "lt" : "5"
+                        }
+                   }
+          
+          },
+         { "term":{
+            "id":4
+            }
+         }
+        ]
+      }
+  },
+  "sort": [
+    {
+      "id": {
+        "order": "desc"
+      }
+    }
+  ],
+  "from": 0,
+  "size": 100
+
+}
+GET /datax_test1/_mapping
+GET /datax_test1/_search
+{
+ "query":{
+      "bool": {
+        "must": [
+          {"wildcard":{"product_name":"产品名称"}},
+          {"wildcard":{"product_style":"*product*"}}
+        ]
+      }
+  },
+  "sort": [
+    {
+      "id": {
+        "order": "desc"
+      }
+    }
+  ],
+  "from": 0,
+  "size": 2
+
+}
+
+
+GET demo_product/_search
+{
+  "query": {
+    "match": {
+      "product_name":  "产品名称"
+      
+    }
+  }
+}
+
+
+GET demo_product/_search
+{
+  "query": {
+    "match_all": {
+    }
+  },
+  "sort": [
+    {
+      "id": {
+        "order": "desc"
+      }
+    }
+  ],
+  "from": 0,
+  "size": 100
+}
+
+
+
+
+
+#使用多类型字段，text类型是为了建立倒排索引，设置 keyword 是为了精确搜素
+
+
+#添加keyword 属性
+PUT /demo_product/_mapping
+{
+  "properties": {
+      "product_name": {
+      "type": "text",
+      "fields":{
+        "keyword":{
+          "type":"keyword"
+          
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+  #   "name": "updateTime",
+    #            "type": "date",
+    #            "format": "yyyy-MM-dd HH:mm:ss"
+
+GET /_ssl/certificates
+#查询ES信息
+GET /
+#ES 索引名称小写
+#查询索引
+GET twitter
+
+#查询索引中id=1的文档
+GET twitter/_doc/1
+GET twitter/_doc/2
+
+GET twittertest
+GET twittertest/_search
+#创建索引
+#3个分片，2个副本
+PUT /twittertest
+{
+    "settings" : {
+        "number_of_shards" : 3,
+        "number_of_replicas" : 2
+    }
+}
+#或下面简单方式
+PUT /twittertest111
+GET twittertest111
+#创建索引和mapping
+GET twittertest
+GET twittertest1/_search
+GET twittertest1/_mapping
+PUT /twittertest1
+{
+    "settings" : {
+        "number_of_shards" : 3,
+        "number_of_replicas" : 2
+    },
+    "mappings" : {
+        "properties" : {
+            "field1" : { "type" : "text" }
+        }
+    }
+}
+
+#创建索引，并添加文档。
+POST demo_person/_doc/1
+{
+  "id":1,
+  "name":"fancky"
+}
+
+GET demo_person
+GET demo_person/_doc/1
+GET demo_person/_search
+
+DELETE demo_person
+
+GET demo_person/_search
+{
+  "query": {
+    "match_all": {
+    }
+  },
+  "sort": [
+    {
+      "id": {
+        "order": "desc"
+      }
+    }
+  ],
+  "from": 0,
+  "size": 100
+}
+
+GET goods/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "from": 0,
+  "size": 100
+}
+
+
+
+
+
+
+
+
+
+#创建索引，并添加文档。
+POST demo_product/_doc/1
+{
+  "id":1,
+  "product_name":"productname",
+  "product_style":"fancky",
+  "create_time":"2022-03-07 20:51:57.000",
+  "modify_time":"2022-03-07 20:51:57.000",
+  "description": "上海",
+  "price":1232,
+  "count":12,
+  "produce_address":"上海市青浦区"
+}
+
+
+#指定分词器
+# "product_name": {
+#       "type": "text",
+#        "analyzer":"ik_max_word"
+#      },
+#创建索引结构mapping
+PUT /demo_product
+{
+  "mappings": {
+    "properties": {
+      "id": {
+        "type": "long"
+      },
+      "product_name": {
+        "type": "text"
+      },
+      "product_style": {
+        "type": "text"
+      },
+      "create_time": {
+        "type": "date",
+        "format": "yyyy-MM-dd HH:mm:ss.SSS||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis" 
+      },
+      "modify_time": {
+        "type": "date",
+        "format": "yyyy-MM-dd HH:mm:ss.SSS||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis" 
+      },
+      "description": {
+        "type": "text"
+      },
+      "price": {
+        "type": "double"
+      },
+      "count": {
+        "type": "long"
+      },
+      "produce_address": {
+        "type": "text"
+      }
+    }
+  }
+}
+
+
+#查看索引结构
+GET demo_product
+#查看索引中指定的文档
+GET demo_product/_doc/1
+#查看所有索引数据
+GET demo_product/_search
+#删除索引
+DELETE demo_product
+#根据字段排序查询
+GET demo_product/_search
+{
+  "query": {
+    "match_all": {
+    }
+  },
+  "sort": [
+    {
+      "id": {
+        "order": "desc"
+      }
+    }
+  ]
+}
+
+#text支持默认ES字段值分词，keyword不支持ES字段值不分  text用于全文搜索的,而keyword用于关键词搜索。
+#IK查看分词
+#ik_max_word:会穷尽各种可能的组合，适合 Term Query
+GET _analyze
+{
+     "analyzer":"ik_max_word",
+     "text":"产品名称1"
+}
+#ik_smart:会做最粗粒度的拆分，适合 Phrase 查询。
+GET _analyze
+{
+   "text":"产品名称1","tokenizer": "ik_smart"
+}
+#标准分词
+GET _analyze
+{
+  "analyzer": "standard",
+  "text": "产品名称1"
+}
+
+
+
+GET demo_product/_analyze
+{ "analyzer" : "standard","text" : "this is a test"}
+
+GET demo_product/_analyze
+{
+   "text":"中华人民共和国MN","tokenizer": "ik_max_word"
+}
+
+GET _analyze
+{
+   "text":"中华人民共和国MN","tokenizer": "ik_max_word"
+}
+
+GET _analyze
+{
+   "text":"中华人民共和国MN","tokenizer": "ik_smart"
+}
+ 
+
+
+#6之后一个索引只有一个Type,8就没有Type.
+#创建索引，并添加文档。
+POST twitter/_doc/1
+{
+  "user":"GB",
+  "uid":1,
+  "city":"北京"
+}
+
+POST twitter/_doc/2
+{
+  "user":"GB",
+  "uid":1,
+  "city":"北京2"
+}
+# 删除文档
+DELETE twitter/_doc/1
+#不指定id就默认新增或更新id=1的文档
+POST twitter/_doc
+{
+  "user":"GB",
+  "uid":1,
+  "city":"北京"
+}
+
+#POST用于提交请求，可以更新或者创建资源，是非幂等的。
+#PUT用于向指定URL传送更新资源，是幂等的。
+#修改索引
+PUT twitter/_doc/1
+{
+  "user":"GB",
+  "uid":1,
+  "city":"BEIjing",
+  "location":{
+    "lat":"29.084661",
+    "lon":"111.335210"
+  }
+}
+
+POST twitter/_doc/1
+{
+  "user":"GB",
+  "uid":1,
+  "city":"北jing",
+  "location":{
+    "lat":29.084661,
+    "lon":111.335210
+  }
+}
+
+# 修改类似EF整个实体重新提交。没提交的字段就被删除了。
+PUT twitter/_doc/1
+{
+  "user":"GB",
+  "uid":1,
+  "city":"BEIj"
+ 
+}
+#添加新的字段new_field,值为value_of_new_field (老的语法)
+POST twitter/_doc/1/_update
+{
+   "script" : "ctx._source.new_field = 'value_of_new_field'"
+}
+
+#添加新的字段new_field,值为value_of_new_field (新的语法）
+POST /twitter/_update/1
+{
+   "script" : "ctx._source.new_field = 'value_of_new_field'"
+}
+
+POST /twitter/_update/1
+{
+   "script" : "ctx._source.user = 'fancky'"
+}
+POST /twitter/_update/1
+{
+   "script" : "ctx._source.age = 30"
+}
+POST /twitter/_update/1
+{
+    "script" : "ctx._source.remove('user')"
+}
+#移除字段（老的语法）
+POST twitter/_doc/1/_update
+{
+    "script" : "ctx._source.remove('new_field')"
+}
+
+#移除字段（新的语法）
+POST /twitter/_update/1
+{
+    "script" : "ctx._source.remove('new_field')"
+}
+
+#条件更新
+#“lang”: 表示以何种脚本语言进行修改, “painless”表示以es内置的脚本语言进行修改. 此外es还支持多种脚本语言
+#下面修改user=GB的 match相当于数据库的“=”
+GET twitter/_doc/1
+POST twitter/_update_by_query
+{
+  "script": {
+    "lang": "painless",
+    "source": "ctx._source.city=params.city;ctx._source.uid=params.uid;ctx._source.user=params.user",
+    "params": {
+      "city": "shanghai",
+      "uid":3,
+       "user":"fancky"
+    }
+  },
+  "query": {
+    "match": {
+      "user": "fancky"
+    }
+  }
+}
+#更新指定的文档
+POST twitter/_update/1
+{
+  "script": {
+    "source": "ctx._source.city=params.city;ctx._source.uid=params.uid;ctx._source.user=params.user",
+    "params": {
+      "city": "shanghai",
+      "uid":3,
+       "user":"GB"
+    }
+  }
+}
+#mapping 数据库的库表结构
+#查询索引中文档id=1;
+GET /twitter/_doc/1
+GET /twitter/_search
+GET /twitter/_mapping
+#删除索引
+DELETE db_test
+DELETE twitter
+#shards:缺省1一个分片
+PUT twitter/_mapping
+{
+  "properties": {
+    "age": {
+      "type": "long"
+    },
+    "city": {
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword",
+          "ignore_above": 256
+        }
+      }
+    },
+        "location" : {
+          "properties" : {
+            "lat" : {
+              "type" : "float"
+            },
+            "lon" : {
+              "type" : "float"
+            }
+          }
+        },
+    "uid": {
+      "type": "long"
+    },
+    "user": {
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword",
+          "ignore_above": 256
+        }
+      }
+    }
+  }
+}
+
+DELETE test
+GET /test/_search
+GET /twitter/_mapping
+
+POST test/_doc/1
+{
+  "user":"GB",
+  "uid":1,
+  "city":"北jing"
+}
+#修改mapping
+PUT test/_mapping
+{
+  "properties": {
+    "age": {
+      "type": "long"
+    },
+    "city": {
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword",
+          "ignore_above": 256
+        }
+      }
+    },
+    "uid": {
+      "type": "long"
+    },
+    "user": {
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword",
+          "ignore_above": 256
+        }
+      }
+    },
+     "job": {
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword",
+          "ignore_above": 256
+        }
+      }
+    }
+  }
+}
+
+
+DELETE db_test
+GET /db_test/_search
+GET /db_test/_mapping
+GET /db_test/table_student/1
+GET /db_test/_doc/1
+
+
+
+#**************************************************************
+#以上是视频教程基本练习
+#**************************************************************
+#查询该索引的所有文档
+GET /db_test/_search
+
+GET /db_test/_search/
+{
+ "query": {
+    "match_all": {}
+  }
+}
+
+#添加文档
+POST /db_test/_doc/10
+{
+  "name": "li yuan ba",
+  "age": 237,
+  "id": 1
+}
+
+#删除文档
+DELETE db_test/_doc/1
+#给文档添加新Field(列)
+# 查询原索引的mapping，赋值properties节点下的内容修改。
+GET /db_test/_mapping
+# elasticsearch索引一旦建立，就无法动态修改其字段的映射类型，
+#有时候因为人为原因污染了索引的mapping,这个时候就只能通过重建索引来修改索引的mapping设置了。
+PUT db_test/_mapping
+{
+  "properties": {
+    "age": {
+      "type": "long"
+    },
+    "id": {
+      "type": "long"
+    },
+    "name": {
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword",
+          "ignore_above": 256
+        }
+      }
+    }
+  }
+}
+
+GET /db_test/_mapping
+PUT db_test/_mapping
+{
+  "properties": {
+    "age": {
+      "type": "long"
+    },
+    "id": {
+      "type": "long"
+    },
+    "name": {
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword",
+          "ignore_above": 256
+        }
+      }
+    },
+    "job": {
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword",
+          "ignore_above": 256
+        }
+      }
+    }
+  }
+}
+#给_mapping添加新的field(列)
+#添加的新列，没有值，改字段不会显示在查询结果中
+PUT db_test/_mapping
+{
+  "properties": {
+    "birthday": {
+      "type": "date",
+      "format": "yyyy-MM-dd HH:mm:ss"
+    }
+  }
+}
+#elasticsearch索引一旦建立，就无法动态修改其字段的映射类型，
+#只能通过重建索引来修改索引的mapping设置了。
+PUT db_test/_mapping
+{
+  "properties": {
+    "testfield1": {
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword",
+          "ignore_above": 256
+        }
+      }
+    },
+    "testfield2": {
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword",
+          "ignore_above": 256
+        }
+      }
+    }
+  }
+}
+
+  
+
+#批量更新
+POST db_test/_update_by_query
+{
+   "query": {
+    "match_all": {}
+  },
+    "script" : "ctx._source.job = 'nongmin'"
+}
+#批量更新语法2：
+POST db_test/_update_by_query
+{
+    "script" : "ctx._source.testfield1 = 'testfield1'"
+}
+POST db_test/_update_by_query
+{
+    "script" : "ctx._source.testfield2 = 'testfield2'"
+}
+
+#批量移除字段
+POST db_test/_update_by_query
+{
+   "script" : "ctx._source.remove('testfield2')"
+}
+
+
+GET /db_test/_search/
+{
+ "query": {
+    "match_all": {}
+  }
+}
+
+GET /db_test/_mapping
+
+
+
+POST /db_test/_doc/_update/
+{
+   "script" : "ctx._source.job = 'nongmin'"
+}
+
+
+
+#match 标识分词匹配，term标识完全匹配， range 标识范围
+#match和term区别可以理解为term是精确查询，这边match模糊查询；match会对“李瑞”分词为两个单词，
+#然后term对认为这是个单词
+#   "size": 100 前100条
+# "from": 2, 跳过2条，类似  from...  size 相当于 limit 2,100
+GET /db_test/_search/
+{
+  "query": {
+    "match": {
+      "name": "李"
+    }
+  },
+  "from": 2,
+  "size": 100
+}
+
+#多个条件查询 bool must  
+#and (name='李'and age=30)
+GET /db_test/_search/
+{
+ "query":{
+      "bool": {
+        "must": [
+          {"match":{"name":"李"}},
+          {"match":{"age":30}}
+        ]
+      }
+    }
+}
+#or  (name='李'or age=30)
+#多个值查询可以用 bool shold 
+GET /db_test/_search/
+{
+ "query":{
+      "bool": {
+        "should": [
+          {"match":{"name":"李"}},
+          {"match":{"age":30}}
+        ]
+      }
+    }
+}
+
+GET /db_test/_search
+GET /db_test/_mapping
+#Text：会分词，然后进行索引；支持模糊、精确查询；不支持聚合
+
+#keyword：不进行分词，直接索引；支持模糊、精确查询；支持聚合
+#type数据类型一般文本使用text(可分词进行模糊查询)；keyword无法被分词(不需要执行分词器)，用于精确查找
+#fields#可以对一个字段提供多种索引模式，使用text类型做全文检索，也可使用keyword类型做聚合和排序
+#查询不到，内部已经分词
+GET /db_test/_search/
+{
+  "query": {
+    "term": {
+      "name":"li yuan"
+    }
+  }
+}
+GET /db_test/_search
+GET /db_test
+#可以精确查找到name=li yuan的数据
+GET /db_test/_search/
+{
+  "query": {
+    "term": {
+      "name.keyword":"li yuan"
+    }
+  }
+}
+GET /db_test/_search/
+{
+  "query": {
+    "match": {
+      "name":"li yuan"
+    }
+  }
+}
+
+#**************************************************************
+#查询 测试
+#**************************************************************
+GET /demo_product
+GET /demo_product/_search
+
+GET demo_product/_search
+{
+  "query": {
+    "match_all": {
+    }
+  },
+  "sort": [
+    {
+      "id": {
+        "order": "desc"
+      }
+    }
+  ]
+}
+
+#不指定分词时，会使用默认的standard分词器
+#standard
+#IK查看分词 ik_smart ik_max_word 
+#ik_max_word:会穷尽各种可能的组合，适合 Term Query
+
+GET _analyze
+{
+  "analyzer": "standard",
+  "text": "中国上海"
+}
+
+GET _analyze
+{
+  "analyzer": "ik_max_word",
+  "text": "中国上海"
+}
+#text类型的数据在elasticsearch中会进行分词并建立倒排索引，因此它会对每个词进行索引，而不会建立整个句子的索引。
+#term 查询text不能指定分词器只能使用默认standard分词器，只能在创建mapping时候指定分词器。
+#查询适合keyword、numeric. date.
+GET /demo_product/_search
+{
+  "query": {
+    "term": {
+      "create_time": "2022-03-07 20:51:54"
+    }
+  }
+}
+GET /demo_product/_search
+{
+  "query": {
+    "term": {
+      "price": 9
+    }
+  }
+}
+#term 命中text类型字段分词中的一个，term不会分词待查询的字段
+GET /demo_product/_search
+{
+  "query": {
+    "term": {
+      "product_name": "fancky"
+    }
+  }
+}
+GET /demo_product/_search
+{
+  "query": {
+    "term": {
+      "product_name": "fancky"
+    }
+  }
+}
+
+GET /demo_person/_search
+#查询关键字 完全匹配
+GET /demo_person/_search
+{
+  "query": {
+    "term": {
+      "name.keyword": "fancky"
+    }
+  }
+}
+
+
+#match会分词查询的字段
+GET /demo_product/_search
+{
+  "query": {
+    "match": {
+      "product_name": "fancky china"
+    }
+  }
+}
+
+GET /demo_product/_search
+{
+  "query": {
+    "match": {
+      "product_name": {
+        "query": "上海在中国"
+      }
+    }
+  }
+}
+
+GET /demo_product/_search
+{
+  "query": {
+    "match": {
+      "product_name": {
+        "query": "product fancky"
+      }
+    }
+  }
+}
+# 分词顺序无关
+GET /demo_product/_search
+{
+  "query": {
+    "match": {
+      "product_name": {
+        "query": "fancky china"
+      }
+    }
+  }
+}
+
+
+
+GET /demo_product/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "上海中国",
+      "fields": [
+        "product_name",
+        "produce_address"
+      ]
+    }
+  }
+}
+
+GET /demo_product/_search
+{
+	"query":{
+		"query_string":{
+			"query":"产品名称",
+			"fields":["product_name","produce_address"]
+		}
+	}
+}
+
+GET /demo_product/_search
+{
+  "query": {
+    "match_phrase": {
+      "product_name": {
+        "query": "中国上海"
+      }
+    }
+  }
+}
+
+GET /demo_product/_search
+{
+  "query": {
+    "match_phrase": {
+      "product_name": {
+        "query": "china fancky"
+      }
+    }
+  }
+}
+
+#分词和顺序有关
+GET /demo_product/_search
+{
+  "query": {
+    "match_phrase": {
+      "product_name": {
+        "query": "fancky china"
+      }
+    }
+  }
+}
+
+
+
+
+GET /demo_person/_search
+{
+  "query": {
+    "match": {
+      "name.keyword": "fancky test"
+    }
+  }
+}
+
+GET /demo_person/_search
+
+#query_string
+GET /demo_person/_search
+{
+	"query":{
+		"query_string":{
+			"query":"fancky test",
+			"fields":["name.keyword"]
+		}
+	}
+}
+
+
+
+
+
+GET /demo_product/_search
+{
+  "query": {
+    "match": {
+      "product_name": {
+        "query": "上海在中国",
+        "analyzer": "standard"
+      }
+    }
+  }
+}
+
+
+
+GET /demo_product/_search
+{
+  "query": {
+    "match": {
+      "product_name": {
+        "query": "中国上海",
+        "analyzer": "ik_smart"
+      }
+    }
+  }
+}
+
+
+#**************************************************************
+#java Jest 测试
+#**************************************************************
+DELETE  /test_java
+PUT /test_java
+
+GET /test_java/
+GET /test_java/_search
+GET /test_java/_mapping
+
+PUT /test_java/_mapping
+{
+  "properties": {
+    "job": {
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword",
+          "ignore_above": 256
+        }
+      }
+    }
+  }
+}
+
+
+POST /test_java/_doc/1
+{
+  "name": "li yuan ba",
+  "age": 237,
+  "id": 1
+}
+
+DELETE  /test_java
+PUT /test_java
+
+GET /test_java/
+GET /test_java/_search
+GET /test_java/_mapping
+
+POST /test_java/_update_by_query
+{
+  "query": {
+    "match": {
+      "id": 1
+    }
+  },
+  "script": {
+    "lang": "painless",
+    "source": "ctx._source.name=params.name;ctx._source.age=params.age",
+    "params": {
+      "name": "李元霸1",
+      "age": 27
+    }
+  }
+}
+
+
+
+#-- -------------------- order_info--------------
+DELETE  /order_info
+PUT /order_info
+{
+    "mappings": {
+      "properties": {
+      "demo_order_item_Id": {
+          "type": "integer"
+        },
+        "order_number": {
+          "type": "keyword"
+        },
+        "product_id": {
+          "type": "integer"
+        },
+        "product_name": {
+         "type": "text"
+        },
+        "price": {
+          "type": "double"
+        },
+       "product_count": {
+          "type": "integer"
+        },
+         "seller_id": {
+          "type": "integer"
+        },
+        "address": {
+          "type": "text"
+        },
+        "create_time": {
+            "type": "date",
+      "format": "yyyy-MM-dd HH:mm:ss.S||yyyy-MM-dd HH:mm:ss.SS||yyyy-MM-dd HH:mm:ss.SSS||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis" 
+        }
+      }
+    }
+}
+
+GET order_info/_search
+{
+  "query": {
+    "match_all": {}
+  },
+"track_total_hits":true
+}
+GET /order_info/_search
+{
+ "query":{
+      "bool": {
+        "must": [
+          {"term":{"id":199}},
+          {"term":{"guid":"334ba1d9-c722-4da2-a677-2e5adb8110f4"}},
+          {"match":{"product_name":"产品名称1570018"}},
+          {"wildcard":{"product_style":"*productStyle1200*"}},
+          { "range" : {
+                        "create_time" : {
+                            "gt" : "2003-11-06 06:29:11.394",
+                            "lt" : "2024-11-06 06:29:11.394",
+                            "format": "yyyy-MM-dd HH:mm:ss.SSS"
+                        }
+                   }
+          
+          }
+        ]
+      }
+  },
+"track_total_hits":true
+
+}
+#**************************************************************
+#search_after 测试
+#**************************************************************
+
+
+GET /demo_product/_search
+{
+  "query":{
+    "match_all": {}
+  },
+  "size":10,
+  "search_after":[1000],
+  "sort":[
+    {
+      "id": "desc"
+    }
+  ]
+}
+# 重新查询的时候设置search_after:[0]
+GET /demo_product/_search
+{
+ "query":{
+      "bool": {
+        "must": [
+          {"term":{"guid":"334ba1d9-c722-4da2-a677-2e5adb8110f4"}},
+          {"match":{"product_name":"产品名称1570018"}},
+          {"wildcard":{"product_style":"*productStyle1200*"}},
+          { "range" : {
+                        "create_time" : {
+                            "gt" : "2003-11-06 06:29:11.394",
+                            "lt" : "2024-11-06 06:29:11.394",
+                            "format": "yyyy-MM-dd HH:mm:ss.SSS"
+                        }
+                   }
+          
+          }
+        ]
+      }
+  },
+   "from": 0,
+  "size":10,
+  "search_after":[1000],
+  "sort":[
+    {
+      "id": "desc"
+    }
+  ]
+
+}
+
+# searchAfter+PIT
+#查询总条数
+ POST /demo_product/_count
+ 
+#1、从索引查询pit引获取一个ID
+#2、基于索引查询pit的ID进行查询
+POST /demo_product/_pit?keep_alive=10m
+#PIT 不要制定索引名称
+GET /_search
+{
+ "query":{
+      "bool": {
+        "must": [
+          {"term":{"guid":"334ba1d9-c722-4da2-a677-2e5adb8110f4"}},
+          {"match":{"product_name":"产品名称1570018"}},
+          {"wildcard":{"product_style":"*productStyle1200*"}},
+          { "range" : {
+                        "create_time" : {
+                            "gt" : "2003-11-06 06:29:11.394",
+                            "lt" : "2024-11-06 06:29:11.394",
+                            "format": "yyyy-MM-dd HH:mm:ss.SSS"
+                        }
+                   }
+          
+          }
+        ]
+      }
+  },
+   "from": 0,
+  "size":10,
+  "search_after":[1000],
+  "pit": {
+     "id":  "p9S1AwEMZGVtb19wcm9kdWN0FllhdEEzUURDU01lLW94VFg1LXVLOVEAFlBWVHNQMmpDU1VtTnBxTW5yYlJFZUEAAAAAAAAABIAWb1ljaGdzRjVRZkN1SThpNWx3SFoxUQABFllhdEEzUURDU01lLW94VFg1LXVLOVEAAA==", 
+     "keep_alive": "1m"
+  },
+  "sort":[
+    {
+      "id": "desc"
+    }
+  ]
+
+}
+
+
+#**************************************************************
+#统计 测试
+
+#value_count - 类似sql的count函数，统计总数
+#cardinality  - 类似SQL的count(DISTINCT 字段)， 统计不重复的数据总数
+#Avg - 求平均值
+#Sum - 求和
+#Max - 求最大值
+#Min - 求最小值
+#**************************************************************
+GET /demo_product/_search
+
+#条数
+GET /demo_product/_search
+{
+  "aggs": {
+    "aggs_name": { 
+      "terms": { 
+        "field": "status" 
+      }
+    }
+  }
+}
+
+#条数 count
+GET /demo_product/_search?size=0
+{
+  "aggs": {
+    "aggs_name": { 
+      "value_count": { 
+        "field": "status" 
+      }
+    }
+  },
+  "query":{
+      "bool": {
+        "must": [
+          {"term":{"guid":"334ba1d9-c722-4da2-a677-2e5adb8110f4"}},
+          {"match":{"product_name":"产品名称1570018"}},
+          {"wildcard":{"product_style":"*productStyle1200*"}},
+          { "range" : {
+                        "create_time" : {
+                            "gt" : "2003-11-06 06:29:11.394",
+                            "lt" : "2024-11-06 06:29:11.394",
+                            "format": "yyyy-MM-dd HH:mm:ss.SSS"
+                        }
+                   }
+          
+          }
+        ]
+      }
+  }
+}
+
+
+#求和
+GET /demo_product/_search?size=0
+{
+  "aggs": {
+    "aggs_name": { 
+      "sum": { 
+        "field": "status" 
+      }
+    }
+  }
+}
+
+#size = 0,代表不想返回query查询结果，只要统计结果
+#POST  /demo_product/_search?size=0
+#{
+#  "aggs": {
+#    "aggs_sum_status": { #聚合名字随便起一个
+#      "sum": { #聚合类型
+#        "field": "status"#聚合字段
+#      }
+#    }
+#  }
+#}
+# 返回的聚合结果
+# "aggregations" : {
+#   "aggs_sum_status" : {
+#     "value" : 2000028.0
+#   }
+#
+
+
+POST  /demo_product/_search?size=0
+{
+  "aggs": {
+    "aggs_sum_status": { 
+      "sum": { 
+        "field": "status"
+      }
+    }
+  }
+}
+
+
+#直方图  条形图
+# // 分组间隔：month代表每月、支持minute（每分钟）、hour（每小时）、day（每天）、week（每周）、year（每年）
+POST  /demo_product/_search?size=0
+{
+    "aggs" : {
+        "sales_over_time" : { 
+            "date_histogram" : { 
+                "field" : "create_time", 
+                "calendar_interval" : "day",
+                "format" : "yyyy-MM-dd" 
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  

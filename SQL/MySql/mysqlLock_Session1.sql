@@ -1,4 +1,11 @@
 
+-- update  命中索引 行锁，否则表所
+-- select lock in share model 临间锁
+
+-- MySQL在执行SELECT查询时默认不会加任何锁。
+-- 当执行INSERT、UPDATE、DELETE或LOAD DATA等修改数据的操作时，MySQL会自动给涉及的数据加上行级锁（row-level locking）
+-- 
+
 -- 查看锁记录等待时间：
 SHOW VARIABLES LIKE 'innodb_lock_wait_timeout';
 -- mysql  解决死锁
@@ -499,6 +506,114 @@ SELECT  *  FROM test.`t_product`;
 -- 
 -- in share mode 子句的作用就是将查找到的数据加上一个 share 锁，这个就是表示其他的事务只能对这些数据进行简单的select 操作，并不能够进行 DML 操作。
 -- select *** lock in share mode 使用场景：为了确保自己查到的数据没有被其他的事务正在修改，也就是说确保查到的数据是最新的数据，并且不允许其他人来修改数据。但是自己不一定能够修改数据，因为有可能其他的事务也对这些数据 使用了 in share mode 的方式上了 S 锁。
+
+
+
+
+
+
+-- 8.1.0
+select version();
+
+
+-- 临间锁 会在命中索引值左侧右侧加间隙锁，左开右闭 (], 但是在8.1.0版本中测试发现 是左闭右开 [)
+-- 锁 场景
+-- 无索引所有记录加X锁和Gap锁，相当于锁表
+-- 普通索引匹配记录加X锁，记录左右加Gap锁
+-- 唯一&主键索引--降级为Record Lock，锁定当前匹配记录
+
+
+-- 主键索引 有临间锁降级为行锁
+START TRANSACTION ;
+UPDATE  person set name='product_2ee' WHERE id=2;
+SELECT SLEEP(10);
+COMMIT ;
+
+
+
+START TRANSACTION ;
+-- 加锁，防止其他修改锁，但是可以读 读是通过MVCC
+select *  from   person WHERE id=2 for UPDATE;
+-- select * from   person WHERE age=34 LOCK IN SHARE MODE;
+UPDATE  person set name='product_2ee' WHERE id=2;
+SELECT SLEEP(10);
+COMMIT ;
+
+
+
+-- update 没有索引 加所有的间隙和行锁  相当于 锁表
+START TRANSACTION ;
+UPDATE  person set name='product_2ee' WHERE age=27;
+SELECT SLEEP(10);
+COMMIT ;
+
+ -- 查看锁信息
+ 
+select ENGINE_LOCK_ID,ENGINE_TRANSACTION_ID,LOCK_MODE,LOCK_TYPE,INDEX_NAME,OBJECT_SCHEMA,OBJECT_NAME,LOCK_DATA,LOCK_STATUS,THREAD_ID 
+from performance_schema.data_locks;
+
+ 
+ select trx_id,trx_state,trx_started,trx_tables_locked,trx_rows_locked,trx_query from information_schema.innodb_trx;
+  
+  
+
+-- update 没有命中索引，锁整个表，命中索引锁行，整个表加X锁
+START TRANSACTION ;
+UPDATE  person set name='product_22' WHERE name='product_2ee';
+SELECT SLEEP(10);
+COMMIT ;
+
+
+-- 加读锁 不能插入 age=35 数据
+START TRANSACTION ;
+select * from   person WHERE age=34 LOCK IN SHARE MODE;
+SELECT SLEEP(10);
+COMMIT ;
+
+-- 加读锁 可以插入 age=35 数据
+START TRANSACTION ;
+select * from   person WHERE age=30 LOCK IN SHARE MODE;
+SELECT SLEEP(10);
+COMMIT ;
+
+-- 快照读  没有幻读
+START TRANSACTION ;
+select count(*) from   person WHERE age<57 ;
+SELECT SLEEP(10);
+select count(*) from   person WHERE age<57 ;
+COMMIT ;
+
+-- 第二次使用当前读 产生幻读
+START TRANSACTION ;
+select count(*) from   person WHERE age=57 for UPDATE;
+SELECT SLEEP(10);
+select count(*) from   person WHERE age<57 ;
+COMMIT ;
+
+
+
+START TRANSACTION ;
+ delete  from person where age =56;
+SELECT SLEEP(10);
+COMMIT ;
+
+select  *  from person
+ORDER BY age;
+
+
+show VARIABLES like '%iso%';
+select version();
+
+show  index  from person;
+CREATE  INDEX index_age ON person (`age`);
+
+DROP INDEX index_age ON person` ;
+
+
+
+
+
+
 
 
 

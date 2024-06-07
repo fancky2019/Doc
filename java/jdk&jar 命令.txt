@@ -1,0 +1,92 @@
+C:\Program Files (x86)\Common Files\Oracle\Java\javapath – 这个对应的是Java 8的
+C:\Program Files\Common Files\Oracle\Java\javapath – 这个对应的是Java 11 或者 17的
+Mapped Diagnostic Context
+Maven 强制更新快照
+mvn clean install -U
+
+
+mvn spotless:apply
+mvn -U clean package -Dmaven.test.skip=true
+
+mvn编译profie不生效
+
+mvn clean install -Dmaven.test.skip=true
+
+mvn clean install -DskipTests
+
+
+
+
+mvn  spotless:apply
+
+mvn -U clean package  -Dmaven.test.skip=true 
+
+
+
+-- 安装到本地目录
+mvn clean install -DskipTests=true
+下载缺少的jar,手动安装下载到本地的jar
+mvn install:install-file -DgroupId=io.confluent -DartifactId=kafka-schema-registry-client -Dversion=7.2.2 -Dpackaging=jar  -Dfile=C:\Users\lirui\Downloads\kafka-schema-registry-client-7.2.2.jar
+
+
+mvn install:install-file -DgroupId=io.confluent -DartifactId=kafka-schema-registry-client -Dversion=7.2.2 -Dpackaging=jar  -Dfile=C:\Users\lirui\Downloads\kafka-schema-registry-client-7.2.2.jar
+
+
+
+
+nohup java -jar ruoyi.jar
+
+
+
+nohup java -jar your-application.jar > output.log 2>&1 &
+
+nohup java  -server  --server.port=8182 -Xms512m -Xmx512m -jar xxl-job-admin-2.4.0-SNAPSHOT.jar > output.log 2>&1 &
+
+nohup java -jar test.jar > /dev/null 2>&1 & 
+
+nohup java  -server  --server.port=8081 -Xms512m -Xmx512m -jar spring-boot-project-0.0.1.jar > log.log 2>&1 &
+
+nohup java  -server  --server.port=8081 -Xms512m -Xmx512m -jar fanckya.jar > log.log 2>&1 &
+
+172.16.112.140
+
+
+
+
+
+
+---------------jar 运行-----new------------------------------------------------------
+nohup 全称：no hang up（不挂起）
+nohup command > myout.file 2>&1 &
+
+nohup java -jar filename > /dev/null 2>&1 &
+
+关于/dev/null文件
+
+Linux下还有一个特殊的文件/dev/null，它就像一个无底洞，所有重定向到它的信息都会消失得无影无踪。这一点非常有用，当我们不需要回显程序的所有信息时，就可以将输出重定向到/dev/null。
+
+
+nohup java -jar -Dserver.port=9091 -Dfile.encoding=utf-8 -Xms1024m -Xmx1024m  -Xmn380m -Xss256k -XX:SurvivorRatio=6  -XX:MaxPermSize=256m -XX:ParallelGCThreads=4 -XX:MaxTenuringThreshold=0  -XX:+UseConcMarkSweepGC gateway-1.0.0.jar > /web/log/gateway.log 2>&1 &
+
+windows ： win  没有 nohub 命令，后台运行
+@echo off
+start /b javaw -jar xxx.jar -Dfile.encoding=utf-8 > start.log 2>&1 &
+exit
+
+
+----------------------jar 运行---linux -----------------------------------------------
+-- 设置nohup 输出到log.log
+nohup java -jar  -Dserver.port=8081    fanckya.jar > log.log 2>&1 & 
+-- 不保存nohub 输出，指向空的dev/null.日志有log4j2的配置
+nohup java   -Xms1024m -Xmx1024m   -jar  -Dserver.port=8081   -Dfile.encoding=utf-8 fanckya.jar > /dev/null 2>&1 & 
+nohup java   -Xms1024m -Xmx1024m   -jar  -Dserver.port=8081   fanckya.jar > /dev/null 2>&1 & 
+
+nohup java -jar  -Dserver.port=8081   -Dfile.encoding=utf-8 -Xms1024m -Xmx1024m  fanckya.jar > /dev/null 2>&1 & 
+
+nohup java -jar   fanckya.jar > /dev/null 2>&1 &
+
+
+
+
+
+

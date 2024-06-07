@@ -57,7 +57,70 @@ SELECT  *  FROM test.`t_product`;
 
  DELETE FROM  `test`.`t_product` WHERE id=5;
  
- UPDATE  test.`t_product` SET product_name='product_2ee' WHERE id=2;
+ UPDATE  person SET name='product_2ee2' WHERE id=27;
+ 
+ 
+   
+   UPDATE  person SET name='product_2ee2' WHERE id=1;
+
+	
+   UPDATE  person SET name='product_2ee2' WHERE id=2;
+	 
+	 select * from   person WHERE id=2;
+	 
+   UPDATE  person SET name='product_2ee2' WHERE id=57;
+ 
+ 
+    
+   UPDATE  person SET name='product_22' WHERE age=23;
+
+   UPDATE  person SET name='product_2ee2' WHERE age=27;
+		
+	UPDATE  person SET name='product_2ee2' WHERE age=29;
+			 
+	UPDATE  person SET name='product_2ee2' WHERE age=30;
+	
+			UPDATE  person SET name='product_2ee2' WHERE age=57;	 
+			 select  *  from person WHERE age=57;	
+START TRANSACTION ;
+-- 		UPDATE  person SET name='product_2ee2' WHERE age=57;	
+			 select  *  from person WHERE age=57;	
+COMMIT ;
+
+
+ START TRANSACTION ;
+  
+	 select * from   person WHERE id=2;
+-- 	UPDATE  person SET name='product_2ee2' WHERE age=23;
+-- SELECT SLEEP(10);
+COMMIT ;
+ 
+ INSERT INTO `demo`.`person` (`name`, `age`, `birthday`) VALUES ( 'fancky', 56, '2023-12-28 07:55:04');
+
+ 
+ delete  from person where age =56;
+ 
+ UPDATE  person set name='product_22' WHERE name='product_2ee';
+ 
+ 
+ select  *  from person
+ORDER BY age;
+ 
+ 	UPDATE  person SET name='product5' WHERE id=5;
+ 
+  	UPDATE  person SET name='product5' WHERE id=3;
+		
+ select  *  from person WHERE id=5;
+ 
+ 
+ -- 查看锁信息
+ 
+select ENGINE_LOCK_ID,ENGINE_TRANSACTION_ID,LOCK_MODE,LOCK_TYPE,INDEX_NAME,OBJECT_SCHEMA,OBJECT_NAME,LOCK_DATA,LOCK_STATUS,THREAD_ID 
+from performance_schema.data_locks;
+
+select * from `performance_schema`.data_locks;
+ 
+ select trx_id,trx_state,trx_started,trx_tables_locked,trx_rows_locked,trx_query from information_schema.innodb_trx;
   
   
   

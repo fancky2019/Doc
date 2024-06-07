@@ -18,7 +18,7 @@
 								-- 　　Read Committed隔离级别：每次select都生成一个快照读。
 								-- 
 								-- 　　Read Repeatable隔离级别：开启事务后第一个select语句才是快照读的地方，而不是一开启事务就快照读。
--- 
+-- Read View 快照读操作的时候生产的 读视图 (Read View)
 
 -- mysql 事务隔离级别之可能出现的问题：同一事务中无法查询已插入但未提交的数据
 -- 若要实现查询事务中已插入但是未提交的数据则需要设置MySQL事务隔离级别为 read-uncommitted
@@ -33,9 +33,10 @@
 -- 事务并发问题
 -- 脏读                     A读取了B回滚的数据
 -- 不可重复读取             A两次读取期间数据被B修改了
--- 幻读                     A两次读取期间B新增、删除
--- 丢失更新                 1类更新：A先更新被后更新B回滚  2类更新：A先更新被B覆盖了更新              
-
+-- 幻读                     A两次读取期间B新增、删除，mvcc 解决快照读幻读，当前读幻读 通过 select ** lock in share  mdoel  ,select ** for update
+-- 丢失更新                 1类更新：A先更新被后更新B回滚   2类更新：A先更新被B覆盖了更新 
+-- （rr 解决1类回滚丢失更新，没有解决2类更新覆盖）             
+-- 写写 mysql 默认加锁了，必须等待一个事务执行完另外一个事务才能执行
 
 show engines;
 
@@ -265,7 +266,7 @@ COMMIT ;
 
 
 
-
+--  Read View 快照读操作的时候生产的 读视图 (Read View)
 -- SERIALIZABLE，事务串行执行，一个一个执行，读加共享锁，写加排它锁
 --  解决：脏读、重复读取、幻读
 -- 其他事务可以查
@@ -279,7 +280,27 @@ SELECT COUNT(id) FROM wms.`product` ;
 COMMIT ;
 
 
+-- 解决了幻读  其他 事务可以插入 age《57 的数据，但是查不到最新插入的数据
+-- 快照读  没有幻读
+START TRANSACTION ;
+select count(*) from   person WHERE age<57 ;
+SELECT SLEEP(10);
+select count(*) from   person WHERE age<57 ;
+COMMIT ;
 
+-- 第二次使用当前读 产生幻读
+START TRANSACTION ;
+select count(*) from   person WHERE age<57 ;
+SELECT SLEEP(10);
+select count(*) from   person WHERE age<57 for UPDATE;
+COMMIT ;
+
+-- 第一次读采用当前读加锁（临间锁）其他事务不能插入数据
+START TRANSACTION ;
+select count(*) from   person WHERE age<57 for UPDATE;
+SELECT SLEEP(10);
+select count(*) from   person WHERE age<57 ;
+COMMIT ;
 
 show VARIABLES like '%iso%';
 
@@ -292,9 +313,10 @@ SET autocommit=0;
 -- RR 快照度
 
 START TRANSACTION ;
-select  *  from   demo.person where id=5;
+select  name  from   demo.person where id=5;
 -- RR 解决了不能重复读取问题，但是在两次读取中间如果另一个事务进行修改，提交则无法读取到最新修改的值
-select  *  from   demo.person where id=5;
+SELECT SLEEP(10);
+select  name  from   demo.person where id=5;
 COMMIT ;
 
 
@@ -328,11 +350,14 @@ START TRANSACTION ;
 -- 局部变量直接使用不需要声明
 select @age:=age from   demo.person where id=5;
 select @age;
+
+-- update  demo.person  set age=@age+2 where id=5;
+update  demo.person  set age=27 where id=5;
 SELECT SLEEP(10);
-update  demo.person  set age=@age+2 where id=5;
 -- RR 解决了不能重复读取问题，但是在两次读取中间如果另一个事务进行修改，提交则无法读取到最新修改的值
 -- rr mysql自己解决回滚丢失更新，没有解决2类丢失更新（更新覆盖）问题--因为更新覆盖是两个事务写，而MVCC作用与两个读写事务
 --    不加锁，即不能作用于写写事务(不是线程安全的操作)，写写事务通过加锁来实现（乐观锁、悲观锁)。
+-- 写写 mysql 默认加锁了，必须等待一个事务执行完另外一个事务才能执行
 COMMIT ;
 
 
