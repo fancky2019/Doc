@@ -17,6 +17,9 @@
  
  GRANT ALL ON *.* TO 'masteraccount'@'%'; -- 分配所有权限
  
+  GRANT ALL ON *.* TO 'root'@'%'; 
+  
+  
   #root 为你数据库要连接用户的用户名，后面为密码
  
 

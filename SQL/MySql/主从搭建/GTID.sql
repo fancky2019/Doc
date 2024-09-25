@@ -37,10 +37,24 @@
  CHANGE MASTER TO MASTER_HOST='localhost',MASTER_USER='masteraccount',MASTER_PASSWORD='123456',MASTER_PORT=3307,MASTER_LOG_FILE='mysql-bin.000004',MASTER_LOG_POS=1910;
  
 
- 
- 
- 
- 
+-- 	Slave_IO_Running: no  Slave_SQL_Running: no  解决
+-- 	准备：从库丢失的主库ddl 要手动在从库执行。丢失的数据，开始数据同步一直以后在同步数据。
+-- 因为设置MASTER_LOG_POS 会丢失之前信息
+-- 	1、从库 stop slave; 
+-- 	2、主库 show master status 找到 MASTER_LOG_FILE 和 MASTER_LOG_POS
+-- 	3、从库执行脚本同步  MASTER_LOG_FILE 和 MASTER_LOG_POS
+-- 		 change master to
+--      master_host='127.0.0.1',
+-- 		 MASTER_PORT=3307,
+--      master_user='masteraccount',
+--      master_password='123456',
+--      master_auto_position=0;
+-- 		 
+--  CHANGE MASTER TO MASTER_HOST='localhost',MASTER_USER='masteraccount',MASTER_PASSWORD='123456',MASTER_PORT=3307,MASTER_LOG_FILE='mysqlbinlog.000037',MASTER_LOG_POS=7365; 
+--  4、启动从库  start slave;
+--  5、show slave status ：Slave_IO_Running: YES  Slave_SQL_Running: YES
+
+
  
  -- - 1、主 创建用户
  	   SHOW MASTER STATUS; 
@@ -54,11 +68,11 @@
 		 MASTER_PORT=3307,
      master_user='masteraccount',
      master_password='123456',
-     master_auto_position=0;
+     master_auto_position=1;
 		 
 		 
 		 
-		 --  建立主从连接、启用gtid状况下：
+--  建立主从连接、启用gtid状况下：
 -- 如果使用master_auto_position，就无需指定master_log_file和master_log_pos，
 -- 如果通过file和pos指定主从的起始位置，就需带上master_auto_position=0
 --  

@@ -1797,8 +1797,77 @@ GET /demo_product/_search
   "search_after":[1000],
   "sort":[
     {
-      "id": "desc"
+      //"id": "desc"
+          {"id": { "order": "desc"}}
+        {"create_time": { "order": "asc" }},
+
     }
+  ]
+
+}
+
+GET /demo_product/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "term": {
+            "guid": "334ba1d9-c722-4da2-a677-2e5adb8110f4"
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET /demo_product/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "term": {
+            "id": 199
+          }
+        }
+      ]
+    }
+  }
+}
+put /demo_product/_doc/1
+{
+  "id": 199,
+  "guid": "334ba1d9-c722-4da2-a677-2e5adb8110f4",
+  "product_name": "产品名称1200198合肥小吃真难吃",
+  "product_style": "productStyle1200198",
+  "image_path": """D:\fancky\git\Doc""",
+  "create_time": "2024-11-06 06:29:11.394",
+  "modify_time": "2024-11-06 06:29:11.394",
+  "status": 1,
+  "description": "setDescription_sdsdddddddddddddddd"
+}
+
+# 排序
+GET /demo_product/_search
+{
+  "_source": ["id","product_name","create_time"], 
+ "query":{
+      "bool": {
+        "must": [
+         //{"term":{"guid":"334ba1d9-c722-4da2-a677-2e5adb8110f4"}},
+          {"match":{"product_name":"合肥小吃真难吃"}}
+        //  {"wildcard":{"product_style":"*productStyle1200*"}},
+ 
+        ]
+      }
+  },
+   "from": 0,
+  "size":10,
+  //"search_after":[1000],
+  "sort":[
+          {"id": { "order": "desc"}},
+        {"create_time": { "order": "asc" }}
   ]
 
 }
@@ -1982,12 +2051,53 @@ GET ship_order_info/_search
   "query": {
     "range": {
       "id": {
-        "gt": 10000990
+        "gt": 10003000
       }
     }
   },
 "track_total_hits":true
 }
+
+#大于等于
+GET ship_order_info/_search
+{
+  "query": {
+    "range": {
+      "id": {
+        "gte": 10003000
+      }
+    }
+  },
+"track_total_hits":true
+}
+
+#小于
+GET ship_order_info/_search
+{
+  "query": {
+    "range": {
+      "id": {
+        "lt": 10003000
+      }
+    }
+  },
+"track_total_hits":true
+}
+
+#小于等于
+GET ship_order_info/_search
+{
+  "query": {
+    "range": {
+      "id": {
+        "lte": 10003000
+      }
+    }
+  },
+"track_total_hits":true
+}
+
+
 
 #求和
 GET /demo_product/_search?size=0
@@ -2000,6 +2110,185 @@ GET /demo_product/_search?size=0
     }
   }
 }
+
+
+GET /ship_order_info/_search
+{
+  "size": 0,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "term": {
+            "shipOrderCode": "ShipOrderCode91"
+          }
+        }
+      ]
+    }
+  },
+  "aggs": {
+    "aggregation_name": {
+      "terms": {
+        "script": {
+          "source": "doc['applyShipOrderCode'].value+'|'+doc['shipOrderCode'].value",
+          "lang": "painless"
+        },
+        "size": 2147483647,
+        "min_doc_count": 1,
+        "shard_min_doc_count": 0,
+        "show_term_doc_count_error": false,
+        "order": [
+          {
+            //使用桶内求和后的结果排序
+            "sum_applyShipOrderItemAllocatedPkgQuantity": "desc"
+          }
+         // ,
+        //  {  "_key": "asc"}
+        ]
+      },
+      "aggregations": {
+        "sum_applyShipOrderItemAllocatedPkgQuantity": {
+          "sum": {
+            "field": "applyShipOrderItemAllocatedPkgQuantity"
+          }
+        },
+        "avg_AllocatedPkgQuantity": {
+          "avg": {
+            "field": "applyShipOrderItemAllocatedPkgQuantity"
+          }
+        },
+        "max_AllocatedPkgQuantity": {
+          "max": {
+            "field": "applyShipOrderItemAllocatedPkgQuantity"
+          }
+        },
+        "min_AllocatedPkgQuantity": {
+          "min": {
+            "field": "applyShipOrderItemAllocatedPkgQuantity"
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+
+#分组求和,并对分组后进行排序
+GET /ship_order_info/_search
+{
+  "size": 0,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "term": {
+            "shipOrderCode": "ShipOrderCode91"
+          }
+        }
+      ]
+    }
+  },
+  "aggs": {
+    "aggregation_name": {
+      "terms": {
+        "script": {
+          "source": "doc['applyShipOrderCode'].value+'|'+doc['shipOrderCode'].value",
+          "lang": "painless"
+        },
+        "size": 2147483647,
+        "min_doc_count": 1,
+        "shard_min_doc_count": 0,
+        "show_term_doc_count_error": false,
+        "order": [
+          {
+            "sum_applyShipOrderItemAllocatedPkgQuantity": "desc"
+          },
+          {
+            "sum_movedPkgQuantity": "desc"
+          },
+          {
+            "_key": "asc"
+          }
+        ]
+      },
+      "aggregations": {
+        "sum_applyShipOrderItemAllocatedPkgQuantity": {
+          "sum": {
+            "field": "applyShipOrderItemAllocatedPkgQuantity"
+          }
+        },
+        "sum_movedPkgQuantity": {
+          "sum": {
+            "field": "movedPkgQuantity"
+          }
+        },
+        "avg_AllocatedPkgQuantity": {
+          "avg": {
+            "field": "applyShipOrderItemAllocatedPkgQuantity"
+          }
+        },
+        "max_AllocatedPkgQuantity": {
+          "max": {
+            "field": "applyShipOrderItemAllocatedPkgQuantity"
+          }
+        },
+        "min_AllocatedPkgQuantity": {
+          "min": {
+            "field": "applyShipOrderItemAllocatedPkgQuantity"
+          }
+        }
+      }
+    }
+  }
+}
+
+
+#直方图
+GET /ship_order_info/_search
+{
+  "size": 0,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "term": {
+            "shipOrderCode": "ShipOrderCode91"
+          }
+        }
+      ]
+    }
+  },
+  "aggs": {
+    "agg_taskCompletedTime": {
+      "date_histogram": {
+        "field": "taskCompletedTime",
+        "format": "yyyy-MM-dd",
+        "calendar_interval": "1d",
+        "offset": -28800000,
+        "order": {
+          "_key": "asc"
+        },
+        "keyed": false,
+        "min_doc_count": 0
+      },
+      "aggregations": {
+        "sum_AllocatedPkgQuantity": {
+          "sum": {
+            "field": "applyShipOrderItemAllocatedPkgQuantity"
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+
 
 #size = 0,代表不想返回query查询结果，只要统计结果
 #POST  /demo_product/_search?size=0
@@ -2031,7 +2320,19 @@ POST  /demo_product/_search?size=0
   }
 }
 
-#max
+#max 10003000
+POST /ship_order_info/_search
+{
+  "size": 0,
+  "aggs": {
+    "max_id": {
+      "max": {
+        "field": "id"
+      }
+    }
+  }
+}
+
 POST /ship_order_info/_search
 {
   "size": 0,
@@ -2312,6 +2613,7 @@ GET /ship_order_info/_search
 
 #----------------------------query end---------------------------------------------
 
+
 #---------------------------alias start--------------- 
 
 # 添加别名
@@ -2378,6 +2680,136 @@ GET shipOrderInfo/_search
 "track_total_hits":true
 }
 #--------------------------alias end---------------- 
+
+
+#----------------------------修改 update start-------------------------------------------------
+# 修改类似EF整个实体重新提交。没提交的字段就被删除了。
+PUT twitter/_doc/1
+{
+  "user":"GB",
+  "uid":1,
+  "city":"BEIj"
+ 
+}
+
+#数据量大根据ID查询也耗时，1000W数据，id=4908876 耗时 330ms 左右
+GET /ship_order_info/_search
+{
+ //"_source": {  "excludes":["applyShipOrderId","materialName"]},
+ "query":{
+      "bool": {
+        "must": [
+           {"term":{"id":"4908876"}}
+
+        ]
+      }
+  },
+"track_total_hits":true
+}
+
+
+#不存在就新增
+PUT ship_order_info/_doc/10003001
+{
+  "_class": "gs.com.gses.model.elasticsearch.ShipOrderInfo",
+  "applyShipOrderId": 4908876,
+  "applyShipOrderCode": "ApplyShipOrderCode4908875",
+  "applyShipOrderItemId": 4908876,
+  "applyShipOrderItemRequiredPkgQuantity": 5,
+  "applyShipOrderItemAllocatedPkgQuantity": 6,
+  "id": 10003001,
+  "shipOrderCode": "ShipOrderCode4908875",
+  "shipOrderItemRequiredPkgQuantity": 4908875,
+  "shipOrderItemAllocatedPkgQuantity": 4908875,
+  "shipPickOrderId": 4908876,
+  "shipPickOrderItemId": 4908876,
+  "shipPickOrderItemRequiredPkgQuantity": 4908875,
+  "wmsTaskId": 4908876,
+  "taskNo": "WmsTask4908875",
+  "inventoryId": 4908876,
+  "inventoryItemId": 4908876,
+  "inventoryItemDetailId": 4908876,
+  "pallet": "Palletcode4908875",
+  "movedPkgQuantity": 4908875,
+  "materialId": 4908876,
+  "materialName": "乌龟",
+  "materialCode": "material4908875",
+  "serialNo": "SerialNo4908875",
+  "workOrderId": 4908876,
+  "locationId": 4908876,
+  "materialProperty1": "MaterialProperty1_4908875",
+  "materialProperty2": "MaterialProperty2_4908875",
+  "materialProperty3": "MaterialProperty3_4908875",
+  "materialProperty4": "MaterialProperty4_4908875",
+  "materialProperty5": "MaterialProperty5_4908875",
+  "materialProperty6": "MaterialProperty6_4908875",
+  "materialProperty7": "MaterialProperty7_4908875",
+  "materialProperty8": "MaterialProperty8_4908875",
+  "materialProperty9": "MaterialProperty9_4908875",
+  "materialProperty10": "MaterialProperty10_4908875",
+  "materialProperty11": "MaterialProperty11_4908875",
+  "materialProperty12": "MaterialProperty12_4908875",
+  "materialProperty13": "MaterialProperty13_4908875",
+  "materialProperty14": "MaterialProperty14_4908875",
+  "materialProperty15": "MaterialProperty15_4908875",
+  "materialProperty16": "MaterialProperty16_4908875",
+  "materialProperty17": "MaterialProperty17_4908875",
+  "materialProperty18": "MaterialProperty18_4908875",
+  "materialProperty19": "MaterialProperty19_4908875",
+  "materialProperty20": "MaterialProperty20_4908875",
+  "materialProperty21": "MaterialProperty21_4908875",
+  "materialProperty22": "MaterialProperty22_4908875",
+  "materialProperty23": "MaterialProperty23_4908875",
+  "materialProperty24": "MaterialProperty24_4908875",
+  "materialProperty25": "MaterialProperty25_4908875",
+  "materialProperty26": "MaterialProperty26_4908875",
+  "materialProperty27": "MaterialProperty27_4908875",
+  "materialProperty28": "MaterialProperty28_4908875",
+  "materialProperty29": "MaterialProperty29_4908875",
+  "materialProperty30": "MaterialProperty30_4908875",
+  "materialProperty31": "MaterialProperty31_4908875",
+  "materialProperty32": "MaterialProperty32_4908875",
+  "materialProperty33": "MaterialProperty33_4908875",
+  "materialProperty34": "MaterialProperty34_4908875",
+  "materialProperty35": "MaterialProperty35_4908875",
+  "materialProperty36": "MaterialProperty36_4908875",
+  "materialProperty37": "MaterialProperty37_4908875",
+  "materialProperty38": "MaterialProperty38_4908875",
+  "materialProperty39": "MaterialProperty39_4908875",
+  "materialProperty40": "MaterialProperty40_4908875",
+  "materialProperty41": "MaterialProperty41_4908875",
+  "materialProperty42": "MaterialProperty42_4908875",
+  "materialProperty43": "MaterialProperty43_4908875",
+  "materialProperty44": "MaterialProperty44_4908875",
+  "materialProperty45": "MaterialProperty45_4908875",
+  "materialProperty46": "MaterialProperty46_4908875",
+  "materialProperty47": "MaterialProperty47_4908875",
+  "materialProperty48": "MaterialProperty48_4908875",
+  "materialProperty49": "MaterialProperty49_4908875",
+  "materialProperty50": "MaterialProperty50_4908875",
+  "shipOrderItemProperty1": "ShipOrderItemProperty1_4908875",
+  "shipOrderItemProperty2": "ShipOrderItemProperty2_4908875",
+  "shipOrderItemProperty3": "ShipOrderItemProperty3_4908875",
+  "shipOrderItemProperty4": "ShipOrderItemProperty4_4908875",
+  "shipOrderItemProperty5": "ShipOrderItemProperty5_4908875",
+  "shipOrderItemProperty6": "ShipOrderItemProperty6_4908875",
+  "shipOrderItemProperty7": "ShipOrderItemProperty7_4908875",
+  "shipOrderItemProperty8": "ShipOrderItemProperty8_4908875",
+  "shipOrderItemProperty9": "ShipOrderItemProperty9_4908875",
+  "shipOrderItemProperty10": "ShipOrderItemProperty10_4908875",
+  "shipOrderItemProperty11": "ShipOrderItemProperty11_4908875",
+  "shipOrderItemProperty12": "ShipOrderItemProperty12_4908875",
+  "shipOrderItemProperty13": "ShipOrderItemProperty13_4908875",
+  "shipOrderItemProperty14": "ShipOrderItemProperty14_4908875",
+  "shipOrderItemProperty15": "ShipOrderItemProperty15_4908875",
+  "shipOrderItemProperty16": "ShipOrderItemProperty16_4908875",
+  "shipOrderItemProperty17": "ShipOrderItemProperty17_4908875",
+  "shipOrderItemProperty18": "ShipOrderItemProperty18_4908875",
+  "shipOrderItemProperty19": "ShipOrderItemProperty19_4908875",
+  "shipOrderItemProperty20": "ShipOrderItemProperty20_4908875",
+  "taskCompletedTime": "2024-06-03 11:17:54.133"
+}
+#---------------------------update end--------------- 
 
 
 #---------------------------- 
@@ -2562,18 +2994,420 @@ GET /ship_order_info/_search
 
 
 
-GET ship_order_info/_search
+GET inventory_info/_search
 {
   "query": {
     "match_all": {}
   },
 "track_total_hits":true
 }
+GET inventory_info/_search
+{
+  "query": {
+    "range": {
+      "inventoryItemDetailId": {
+        "gt": 1
+      }
+    }
+  },
+  "from": 0,
+  "size": 7000,
+  "track_total_hits": true
+}
 
+GET inventory_info/_mapping
+DELETE inventory_info
 
-
-
-
+PUT /inventory_info
+{
+    "mappings" : {
+      "properties" : {
+        "_class" : {
+          "type" : "keyword",
+          "index" : false,
+          "doc_values" : false
+        },
+        "allocatedPackageQuantity" : {
+          "type" : "double"
+        },
+        "allocatedSmallUnitQuantity" : {
+          "type" : "double"
+        },
+        "applyOrOrderCode" : {
+          "type" : "keyword"
+        },
+        "batchNo" : {
+          "type" : "keyword"
+        },
+        "batchNo2" : {
+          "type" : "keyword"
+        },
+        "batchNo3" : {
+          "type" : "keyword"
+        },
+        "carton" : {
+          "type" : "keyword"
+        },
+        "comments" : {
+          "type" : "text"
+        },
+        "conveyorCode" : {
+          "type" : "keyword"
+        },
+        "creationTime" : {
+          "type" : "text"
+        },
+        "creatorId" : {
+          "type" : "text"
+        },
+        "expiredTime" : {
+          "type" : "date",
+          "store" : true,
+          "format" : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'||yyyy-MM-dd HH:mm:ss.S||yyyy-MM-dd HH:mm:ss.SS||yyyy-MM-dd HH:mm:ss.SSS||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+        },
+        "height" : {
+          "type" : "double"
+        },
+        "id" : {
+          "type" : "long"
+        },
+        "inboundTime" : {
+          "type" : "date",
+          "store" : true,
+          "format" : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'||yyyy-MM-dd HH:mm:ss.S||yyyy-MM-dd HH:mm:ss.SS||yyyy-MM-dd HH:mm:ss.SSS||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+        },
+        "inventoryAllocatedPackageQuantity" : {
+          "type" : "double"
+        },
+        "inventoryAllocatedSmallUnitQuantity" : {
+          "type" : "double"
+        },
+        "inventoryComments" : {
+          "type" : "text"
+        },
+        "inventoryId" : {
+          "type" : "long"
+        },
+        "inventoryIsExpired" : {
+          "type" : "boolean"
+        },
+        "inventoryIsLocked" : {
+          "type" : "boolean"
+        },
+        "inventoryIsScattered" : {
+          "type" : "boolean"
+        },
+        "inventoryIsSealed" : {
+          "type" : "boolean"
+        },
+        "inventoryItemComments" : {
+          "type" : "text"
+        },
+        "inventoryItemExpiredTime" : {
+          "type" : "date",
+          "store" : true,
+          "format" : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'||yyyy-MM-dd HH:mm:ss.S||yyyy-MM-dd HH:mm:ss.SS||yyyy-MM-dd HH:mm:ss.SSS||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+        },
+        "inventoryItemId" : {
+          "type" : "long"
+        },
+        "inventoryItemStr1" : {
+          "type" : "text"
+        },
+        "inventoryItemStr2" : {
+          "type" : "text"
+        },
+        "inventoryItemStr3" : {
+          "type" : "text"
+        },
+        "inventoryItemStr4" : {
+          "type" : "text"
+        },
+        "inventoryItemStr5" : {
+          "type" : "text"
+        },
+        "inventoryPackageQuantity" : {
+          "type" : "double"
+        },
+        "inventoryQCStatus" : {
+          "type" : "short"
+        },
+        "inventorySmallUnitQuantity" : {
+          "type" : "double"
+        },
+        "inventoryStr1" : {
+          "type" : "text"
+        },
+        "inventoryStr2" : {
+          "type" : "text"
+        },
+        "inventoryStr3" : {
+          "type" : "text"
+        },
+        "inventoryStr4" : {
+          "type" : "text"
+        },
+        "inventoryStr5" : {
+          "type" : "text"
+        },
+        "inventoryXStatus" : {
+          "type" : "short"
+        },
+        "isExpired" : {
+          "type" : "boolean"
+        },
+        "isLocked" : {
+          "type" : "boolean"
+        },
+        "isScattered" : {
+          "type" : "boolean"
+        },
+        "isSealed" : {
+          "type" : "boolean"
+        },
+        "lanewayCode" : {
+          "type" : "keyword"
+        },
+        "lanewayId" : {
+          "type" : "long"
+        },
+        "lastModificationTime" : {
+          "type" : "date",
+          "store" : true,
+          "format" : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'||yyyy-MM-dd HH:mm:ss.S||yyyy-MM-dd HH:mm:ss.SS||yyyy-MM-dd HH:mm:ss.SSS||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+        },
+        "lastModifierId" : {
+          "type" : "text"
+        },
+        "lastModifierName" : {
+          "type" : "text"
+        },
+        "length" : {
+          "type" : "double"
+        },
+        "levelCount" : {
+          "type" : "integer"
+        },
+        "locationCode" : {
+          "type" : "keyword"
+        },
+        "locationId" : {
+          "type" : "long"
+        },
+        "m_Str1" : {
+          "type" : "text"
+        },
+        "m_Str10" : {
+          "type" : "text"
+        },
+        "m_Str11" : {
+          "type" : "text"
+        },
+        "m_Str12" : {
+          "type" : "text"
+        },
+        "m_Str13" : {
+          "type" : "text"
+        },
+        "m_Str14" : {
+          "type" : "text"
+        },
+        "m_Str15" : {
+          "type" : "text"
+        },
+        "m_Str16" : {
+          "type" : "text"
+        },
+        "m_Str17" : {
+          "type" : "text"
+        },
+        "m_Str18" : {
+          "type" : "text"
+        },
+        "m_Str19" : {
+          "type" : "text"
+        },
+        "m_Str2" : {
+          "type" : "text"
+        },
+        "m_Str20" : {
+          "type" : "text"
+        },
+        "m_Str21" : {
+          "type" : "text"
+        },
+        "m_Str22" : {
+          "type" : "text"
+        },
+        "m_Str23" : {
+          "type" : "text"
+        },
+        "m_Str24" : {
+          "type" : "text"
+        },
+        "m_Str25" : {
+          "type" : "text"
+        },
+        "m_Str26" : {
+          "type" : "text"
+        },
+        "m_Str27" : {
+          "type" : "text"
+        },
+        "m_Str28" : {
+          "type" : "text"
+        },
+        "m_Str29" : {
+          "type" : "text"
+        },
+        "m_Str3" : {
+          "type" : "text"
+        },
+        "m_Str30" : {
+          "type" : "text"
+        },
+        "m_Str31" : {
+          "type" : "text"
+        },
+        "m_Str32" : {
+          "type" : "text"
+        },
+        "m_Str33" : {
+          "type" : "text"
+        },
+        "m_Str34" : {
+          "type" : "text"
+        },
+        "m_Str35" : {
+          "type" : "text"
+        },
+        "m_Str36" : {
+          "type" : "text"
+        },
+        "m_Str37" : {
+          "type" : "text"
+        },
+        "m_Str38" : {
+          "type" : "text"
+        },
+        "m_Str39" : {
+          "type" : "text"
+        },
+        "m_Str4" : {
+          "type" : "text"
+        },
+        "m_Str40" : {
+          "type" : "text"
+        },
+        "m_Str5" : {
+          "type" : "text"
+        },
+        "m_Str6" : {
+          "type" : "text"
+        },
+        "m_Str7" : {
+          "type" : "text"
+        },
+        "m_Str8" : {
+          "type" : "text"
+        },
+        "m_Str9" : {
+          "type" : "text"
+        },
+        "materialCode" : {
+          "type" : "keyword"
+        },
+        "materialId" : {
+          "type" : "long"
+        },
+        "organiztionCode" : {
+          "type" : "keyword"
+        },
+        "organiztionId" : {
+          "type" : "long"
+        },
+        "organiztionSupplierCode" : {
+          "type" : "keyword"
+        },
+        "organiztionSupplierId" : {
+          "type" : "long"
+        },
+        "orginAGVID" : {
+          "type" : "integer"
+        },
+        "orginLocationCode" : {
+          "type" : "keyword"
+        },
+        "packageMethod" : {
+          "type" : "keyword"
+        },
+        "packageQuantity" : {
+          "type" : "double"
+        },
+        "packageUnitCode" : {
+          "type" : "keyword"
+        },
+        "packageUnitId" : {
+          "type" : "long"
+        },
+        "pallet" : {
+          "type" : "keyword"
+        },
+        "palletType" : {
+          "type" : "keyword"
+        },
+        "positionCode" : {
+          "type" : "keyword"
+        },
+        "positionLevel" : {
+          "type" : "short"
+        },
+        "productTime" : {
+          "type" : "date",
+          "store" : true,
+          "format" : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'||yyyy-MM-dd HH:mm:ss.S||yyyy-MM-dd HH:mm:ss.SS||yyyy-MM-dd HH:mm:ss.SSS||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+        },
+        "qCStatus" : {
+          "type" : "short"
+        },
+        "serialNo" : {
+          "type" : "keyword"
+        },
+        "smallUnitQuantity" : {
+          "type" : "double"
+        },
+        "volume" : {
+          "type" : "keyword"
+        },
+        "weight" : {
+          "type" : "double"
+        },
+        "whCode" : {
+          "type" : "keyword"
+        },
+        "whid" : {
+          "type" : "long"
+        },
+        "width" : {
+          "type" : "double"
+        },
+        "xStatus" : {
+          "type" : "short"
+        },
+        "zoneCode" : {
+          "type" : "keyword"
+        },
+        "zoneId" : {
+          "type" : "long"
+        }
+      }
+    }
+  }
+  
+  
+  
+  
+  
 #---------------------- all-------------------------------
 GET ship_order_info/_mapping
 DELETE ship_order_info
