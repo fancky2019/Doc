@@ -1,0 +1,43 @@
+function getAllTextNodes(node, textNodes = []) {
+    if (node.nodeType === 3) { // Node.TEXT_NODE
+        textNodes.push(node);
+    } else {
+        node = node.firstChild;
+        while (node) {
+            getAllTextNodes(node, textNodes);
+            node = node.nextSibling;
+        }
+    }
+    return textNodes;
+}
+
+// 替换文本节点中的指定内容
+function replaceTextInTextNodes(textNodes, searchText, replacementText) {
+    textNodes.forEach(textNode => {
+        const originalText = textNode.nodeValue;
+        const newText = originalText.replace(new RegExp(searchText, 'g'), replacementText);
+        if (newText !== originalText) {
+            textNode.nodeValue = newText;
+        }
+    });
+}
+
+// 获取当前文档的所有文本节点
+const textNodes = getAllTextNodes(document.body);
+
+// 替换文本 "2024" 为 "2023"
+replaceTextInTextNodes(textNodes, '2024', '2023');
+
+控制台粘贴脚本
+
+
+控制台无法输入脚本：
+解决办法1: 手工输入 allow pasting
+
+
+
+
+
+
+
+

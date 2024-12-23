@@ -147,9 +147,12 @@ SELECT UUID();
 -- 获取时间戳 UNIX_TIMESTAMP(date) 
 -- 时间戳是指格林威治时间1970年01月01日00时00分00秒(北京时间1970年01月01日08时00分00秒)起至现在的总秒数
 SELECT UNIX_TIMESTAMP(NOW());
+
+-- mysql 没有nvarchar 数据类型，用的是varchar
 -- mysql采用utf-8编码,而传统的数据库采用unicode,一个汉字要用两个unicode的char,而在mysql中由于使用了utf-8,
--- 所以无论汉字还是字母,都是一个长度的char,所以就不用分nvarhcar和varchar了,一律作varchar
+-- 所以无论汉字还是字母,都是一个长度的char,所以就不用分nvarchar和varchar了,一律作varchar
 -- 等待10秒
+
 SELECT SLEEP(10);
 
 
@@ -371,7 +374,7 @@ SET GLOBAL log_output = 'TABLE';SET GLOBAL general_log = 'ON';  -- //日志开�
 -- 查看执行的日志
 SELECT * FROM mysql.general_log ORDER BY event_time DESC;
 
-
+-- 执行脚本  执行语句
 select  *  from (
 select a.*,convert(argument using utf8) sqlCommand from mysql.general_log a order by event_time desc
 )t where sqlCommand like '%product_test%'
@@ -1151,6 +1154,66 @@ DATE_FORMAT(modify_time, '%Y-%m-%d %H:%i:%s.%f') modify_time,
 DATE_FORMAT(timestamp, '%Y-%m-%d %H:%i:%s.%f') timestamp,
 status,description
 from demo_product;
+
+
+
+
+
+-- 加密
+
+select  AES_ENCRYPT('str', 'key_str');
+
+
+select  HEX(AES_ENCRYPT('str', 'key_str'));
+
+select UNHEX('1ABBE38E1076AF9B1E4411866B451E5C');
+
+
+-- 解密
+select AES_DECRYPT(crypt_str, key_str);
+
+select AES_DECRYPT(crypt_str, key_str)
+
+
+ select AES_ENCRYPT('mydata', 'key_str', 'AES', 'CBC');
+
+
+
+
+-- ------------------------先分组取前5条----------------------------------
+SET @row_number = 0;
+SELECT num, t1.*
+FROM (
+    SELECT
+        *,
+        @row_number := IF(@group_id = product_id, @row_number + 1, 1) AS num,
+        @group_id := product_id
+    FROM
+        (SELECT * FROM order_info  ORDER BY product_id , create_time  DESC) AS subquery
+) AS t1
+WHERE t1.num <= 5
+ORDER BY num; 
+
+
+ -- N 是你想要取出的每组记录数量
+ 
+ 
+ 
+--  如果是mysql8.0以上可以使用窗口函数 row_number()
+
+select * from 
+(
+		select *
+		,row_number() over(partition by product_id order by create_time desc) rowNum 
+		from order_info
+)	a
+where a.rowNum < 5
+-- ----------------------------------------------------------------
+
+
+
+
+
 
 
 
