@@ -1,0 +1,3799 @@
+{
+	"info": {
+		"_postman_id": "31dbc426-772a-47e2-a044-8b7d2d9e946d",
+		"name": "SpringBootProject",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8531131"
+	},
+	"item": [
+		{
+			"name": "EasyPoi",
+			"item": [
+				{
+					"name": "http://localhost:8081/easyPoi/importData",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/admin/Desktop/个人信息filename (1).xlsx"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8081/easyPoi/importData",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"easyPoi",
+								"importData"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:8081/easyPoi/exportData",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/sbp/easyPoi/exportData?name=fancky",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"easyPoi",
+								"exportData"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "fancky"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "utility",
+			"item": [
+				{
+					"name": "addUser",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n\t\"account\": \"fancky99ying\",\r\n\t\"status\": 1\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/sbp/user/addUser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"user",
+								"addUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "enumParamTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/enumParamTest?unitEnum=Zhi",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"enumParamTest"
+							],
+							"query": [
+								{
+									"key": "unitEnum",
+									"value": "Zhi"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "validatorTest",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "address",
+									"value": "dfdf",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "fancky",
+									"type": "text"
+								},
+								{
+									"key": "age",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "123456@qq.con",
+									"type": "text"
+								},
+								{
+									"key": "children",
+									"value": "fancky,li",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/utility/validatorTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"utility",
+								"validatorTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "globalExceptionHandlerTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/utility/globalExceptionHandlerTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"utility",
+								"globalExceptionHandlerTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "multiEnvironmentTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/utility/multiEnvironmentTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"utility",
+								"multiEnvironmentTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "resolveUrl",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/resolveUrl?name=fancky&age=27",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"resolveUrl"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "fancky"
+								},
+								{
+									"key": "age",
+									"value": "27"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPostBody",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"fancky\",\r\n    \"age\":27\r\n\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/sbp/utility/getPostBody",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"getPostBody"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "fancky",
+									"disabled": true
+								},
+								{
+									"key": "age",
+									"value": "27",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "springUtils",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/springUtils?name=fancky&age=27",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"springUtils"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "fancky"
+								},
+								{
+									"key": "age",
+									"value": "27"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "log4j2test",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/log4j2test",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"log4j2test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "md5",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/md5?password=5249",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"md5"
+							],
+							"query": [
+								{
+									"key": "password",
+									"value": "5249"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getDataSource",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/person/getDataSource",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"person",
+								"getDataSource"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "batchInsert",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/batchInsert",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"batchInsert"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "propagation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/propagation",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"propagation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "beanLifeTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/beanLifeTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"beanLifeTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "jacksonTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/jacksonTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"jacksonTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "starterTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/starterTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"starterTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "threadExceptionTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/threadExceptionTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"threadExceptionTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "saveFormDta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "files",
+									"contentType": "multipart/form-data",
+									"type": "file",
+									"src": [
+										"/C:/Users/ruili/Desktop/img/cat1.jpg",
+										"/C:/Users/ruili/Desktop/img/cat2.png",
+										"/C:/Users/ruili/Desktop/img/cat3.png",
+										"/C:/Users/ruili/Desktop/img/cat4.png"
+									]
+								},
+								{
+									"key": "testRequest",
+									"value": "{\n  \"name\": \"fancky\",\n  \"age\": 27\n}",
+									"contentType": "application/json",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/sbp/utility/saveFormDta",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"saveFormDta"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "excelDownload",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{host}}/sbp/utility/excelDownload?string=sddsdssdds&doubleData=4334",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"excelDownload"
+							],
+							"query": [
+								{
+									"key": "string",
+									"value": "sddsdssdds"
+								},
+								{
+									"key": "doubleData",
+									"value": "4334"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "excelUpload",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/lirui/Desktop/easyExcel - 副本 (2).xlsx"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/sbp/utility/excelUpload",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"excelUpload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "beanTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/beanTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"beanTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "rsaTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/rsaTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"rsaTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "httpServletRequestResponse",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "sessionId=10001; ",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{host}}/sbp/utility/httpServletRequestResponse",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"httpServletRequestResponse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCookies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/getCookies",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"getCookies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "fileTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/fileTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"fileTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "enableConfigurationProperties",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/enableConfigurationProperties",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"enableConfigurationProperties"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "batchInsertSession",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/batchInsertSession",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"batchInsertSession"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "batchUpdate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/batchUpdate",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"batchUpdate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "batchDelete",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/batchDelete",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"batchDelete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "pageHelper",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "pageIndex",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "pageSize",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "productName",
+									"value": "productName10",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/sbp/utility/pageHelper",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"pageHelper"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPageData",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "pageIndex",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "pageSize",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "productName",
+									"value": "productName10",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/sbp/utility/getPageData",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"getPageData"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "mybatisPlusTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/mybatisPlusTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"mybatisPlusTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "beanConstructor",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/beanConstructor",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"beanConstructor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "stopWatch",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/stopWatch",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"stopWatch"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cacheServiceGet",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "100005",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/sbp/utility/cacheServiceGet",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"cacheServiceGet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cacheServicePut",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":100005,\r\n    \"productName\":\"productName_xiugai55555\"\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/sbp/utility/cacheServicePut",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"cacheServicePut"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cacheServiceEvict",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":1000051\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/sbp/utility/cacheServiceEvict",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"cacheServiceEvict"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sseConnect",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/sseConnect",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"sseConnect"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sseSendMsg",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/sseSendMsg?userId=userId",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"sseSendMsg"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "userId"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "rocketmqTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/rocketmqTest/TopicB",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"rocketmqTest",
+								"TopicB"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "caffeineTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/caffeineTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"caffeineTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listenerTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/listenerTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"listenerTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "mqttTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/mqttTest?msg=1234567",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"mqttTest"
+							],
+							"query": [
+								{
+									"key": "msg",
+									"value": "1234567"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/delete/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getRepeatToken",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/getRepeatToken?apiName=demoProductTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"getRepeatToken"
+							],
+							"query": [
+								{
+									"key": "apiName",
+									"value": "demoProductTest"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "retryTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/retryTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"retryTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "importTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/importTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"importTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "exportExcel",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/exportExcel?gbAgrtCode=4343",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"exportExcel"
+							],
+							"query": [
+								{
+									"key": "gbAgrtCode",
+									"value": "4343"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "importExcel",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/lirui/Desktop/exportExcelTest.xlsx"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/sbp/utility/importExcel",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"importExcel"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "transactionalTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/transactionalTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"transactionalTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "shutdownGracefulTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/shutdownGracefulTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"shutdownGracefulTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "shutdownGracefulTest1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/shutdownGracefulTest1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"shutdownGracefulTest1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "shutdownGracefulTest_140",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://172.16.112.141:8081/sbp/utility/shutdownGracefulTest",
+							"protocol": "http",
+							"host": [
+								"172",
+								"16",
+								"112",
+								"141"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"utility",
+								"shutdownGracefulTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "shutdownGracefulTest1_140",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://172.16.112.141:8081/sbp/utility/shutdownGracefulTest1",
+							"protocol": "http",
+							"host": [
+								"172",
+								"16",
+								"112",
+								"141"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"utility",
+								"shutdownGracefulTest1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "transactionalSynchronizedTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/transactionalSynchronizedTest?i=3",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"transactionalSynchronizedTest"
+							],
+							"query": [
+								{
+									"key": "i",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "transactionalSynchronizedTest1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/transactionalSynchronizedTest1?i=1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"transactionalSynchronizedTest1"
+							],
+							"query": [
+								{
+									"key": "i",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "redissonTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/sbp/utility/redissonTest",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"utility",
+								"redissonTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "configurationTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/sbp/utility/configurationTest",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"utility",
+								"configurationTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "newObjectCostTime",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/sbp/utility/newObjectCostTime",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"utility",
+								"newObjectCostTime"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "exportByPage",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    // \"exportFieldList\":[\"productName\",\"productStyle\"]\r\n    \"fieldMap\": {\r\n        \"productStyle\": \"产品型号\",\r\n        \"productName\": \"产品名称\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/sbp/utility/exportByPage",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"exportByPage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "manualCommitTransaction",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/manualCommitTransaction",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"manualCommitTransaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "assertTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/assertTest?text=11",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"assertTest"
+							],
+							"query": [
+								{
+									"key": "text",
+									"value": "11"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "transactionTemplateTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/transactionTemplateTest?executeException=true",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"transactionTemplateTest"
+							],
+							"query": [
+								{
+									"key": "executeException",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "exportDemoProductTemplate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/exportDemoProductTemplate",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"exportDemoProductTemplate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "importExcelProductTest",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/lirui/Desktop/insert.xlsx"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/sbp/utility/importExcelProductTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"importExcelProductTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "hashMapParam集合List和HashMap",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"fancky\",\r\n    \"age\": 27,\r\n    \"jobList\": [\r\n        \"fancky1\",\r\n        \"fancky2\",\r\n        \"fancky3\"\r\n    ],\r\n    \"hashMap\": {\r\n        \"name1\": \"fancky1\",\r\n        \"name2\": \"fancky2\",\r\n        \"name3\": \"fancky3\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/sbp/utility/hashMapParam",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"hashMapParam"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sleuthTraceId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/sleuthTraceId?name=fancky",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"sleuthTraceId"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "fancky"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "clientDisconnect",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/clientDisconnect",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"clientDisconnect"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "coverUpdateTestOne",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/coverUpdateTestOne?productName=coverUpdateTestOne",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"coverUpdateTestOne"
+							],
+							"query": [
+								{
+									"key": "productName",
+									"value": "coverUpdateTestOne"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "coverUpdateTestTwo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/coverUpdateTestTwo?productName=coverUpdateTestTwo",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"coverUpdateTestTwo"
+							],
+							"query": [
+								{
+									"key": "productName",
+									"value": "coverUpdateTestTwo"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deadLockOne",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/deadLockOne",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"deadLockOne"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deadLockTwo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/deadLockTwo",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"deadLockTwo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "jacksonEmptyTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/jacksonEmptyTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"jacksonEmptyTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "globalTest",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "zh-CN",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/sbp/utility/globalTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"globalTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "eventBusTest",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/eventBusTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"eventBusTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "repeatReadTest",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/repeatReadTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"repeatReadTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "transactionalFunTest",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/transactionalFunTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"transactionalFunTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "batchUpdateByCondition",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/batchUpdateByCondition",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"batchUpdateByCondition"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "batchUpdateBySelective",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/batchUpdateBySelective",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"batchUpdateBySelective"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refreshScopeTest",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/refreshScopeTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"refreshScopeTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "actuator刷新配置",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/actuator/refresh",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"actuator",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "actuator查看配置",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/actuator/env",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"actuator",
+								"env"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "transactionalCallBack",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/transactionalCallBack",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"transactionalCallBack"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "mqMessageTest",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/mqMessageTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"mqMessageTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "mqMessageList",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/mqMessageList",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"mqMessageList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "threadLocalTest",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/threadLocalTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"threadLocalTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "threadLocalTest1",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/threadLocalTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"threadLocalTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "completeShipOrder",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkOWEyMTliOS1hMzU4LWY4NmYtYjAzYi0zYTBlZGE1Y2RhYjciLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImQ5YTIxOWI5LWEzNTgtZjg2Zi1iMDNiLTNhMGVkYTVjZGFiNyIsInByZWZlcnJlZF91c2VybmFtZSI6InRlc3QwMDIiLCJnaXZlbl9uYW1lIjoidGVzdDAwMiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6ImFkbWluaXN0cmF0b3IiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsIm5iZiI6MTc0MjQ1OTk3NywiZXhwIjoxNzQyNTQ2Mzc3LCJpc3MiOiJBdXRob3JpemVTU08iLCJhdWQiOiJBdXRob3JpemVTU08ifQ.zNjpID4o_V4_RFmOhFMtNKV6iT2Cit8f6_iB4YWrnQM",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/sbp/utility/completeShipOrder",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"completeShipOrder"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "transactionalRedission",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/transactionalRedission",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"transactionalRedission"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "pointcutExecuteOrder",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/pointcutExecuteOrder",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"pointcutExecuteOrder"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "redissonLockReentrantLock",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/redissonLockReentrantLock",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"redissonLockReentrantLock"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "redissonLockReleaseTransactionalUnCommit",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/redissonLockReleaseTransactionalUnCommit",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"redissonLockReleaseTransactionalUnCommit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "tryThrowStackTrace",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/tryThrowStackTrace",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"tryThrowStackTrace"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ShipOrderTest",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/shipOrderTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"shipOrderTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "checkRelation",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkOWEyMTliOS1hMzU4LWY4NmYtYjAzYi0zYTBlZGE1Y2RhYjciLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImQ5YTIxOWI5LWEzNTgtZjg2Zi1iMDNiLTNhMGVkYTVjZGFiNyIsInByZWZlcnJlZF91c2VybmFtZSI6InRlc3QwMDIiLCJnaXZlbl9uYW1lIjoidGVzdDAwMiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6ImFkbWluaXN0cmF0b3IiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsIm5iZiI6MTc0MzE0NDA3MywiZXhwIjoxNzQzMjMwNDczLCJpc3MiOiJBdXRob3JpemVTU08iLCJhdWQiOiJBdXRob3JpemVTU08ifQ.-fwr_NVcZpEP1at9MklYf1vljOoCWSiz6j65-odr9KI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "// {\r\n//   \"applyShipOrderCode\": \"2222\",\r\n//   \"shipOrderCode\": \"1111\",\r\n//   \"serialNo\": \"\",\r\n//   \"isSerialNoMustMatch\": false\r\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/sbp/utility/checkRelation?shipOrderCode=sdsd&applyShipOrderCode=sdds&serialNo=ee&isSerialNoMustMatch=true",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"utility",
+								"checkRelation"
+							],
+							"query": [
+								{
+									"key": "shipOrderCode",
+									"value": "sdsd"
+								},
+								{
+									"key": "applyShipOrderCode",
+									"value": "sdds"
+								},
+								{
+									"key": "serialNo",
+									"value": "ee"
+								},
+								{
+									"key": "serialNoMustMatch",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "isSerialNoMustMatch",
+									"value": "true"
+								},
+								{
+									"key": "isErialNoMustMatch",
+									"value": "true",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "repeatReadMultiTransaction",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/repeatReadMultiTransaction",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"repeatReadMultiTransaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "repeatReadMultiTransactionUpdate",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/repeatReadMultiTransactionUpdate",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"repeatReadMultiTransactionUpdate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "mqMessageOperation",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/utility/mqMessageOperation",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"utility",
+								"mqMessageOperation"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "OkHttp",
+			"item": [
+				{
+					"name": "http://localhost:8081/okHttp/get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/okHttp/get",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"okHttp",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:8081/okHttp/post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/okHttp/post",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"okHttp",
+								"post"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:8101/fileupload/uploadFileAndForm",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "suggestion",
+									"value": "suggestion",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "123456",
+									"type": "text"
+								},
+								{
+									"key": "files",
+									"type": "file",
+									"src": [
+										"/C:/Users/admin/Desktop/添加菜单/1.jpg",
+										"/C:/Users/admin/Desktop/添加菜单/2.jpg",
+										"/C:/Users/admin/Desktop/添加菜单/3.jpg"
+									]
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8101/fileupload/uploadFileAndForm",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8101",
+							"path": [
+								"fileupload",
+								"uploadFileAndForm"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:8081/okHttp/postMultipartFile",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/okHttp/postMultipartFile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"okHttp",
+								"postMultipartFile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "RedisTest",
+			"item": [
+				{
+					"name": "object",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/sbp/redisTest/object",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"redisTest",
+								"object"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "testRedisson",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/sbp/redisTest/testRedissontestRedisson",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"redisTest",
+								"testRedissontestRedisson"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "redisTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/redisTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"redisTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getStringKey",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/redisTest/getStringKey/0",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"redisTest",
+								"getStringKey",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "setAndWait",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/redisTest/setAndWait?key=test&value=123&numReplicas=1&timeoutMillisecond=10000",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"redisTest",
+								"setAndWait"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "test"
+								},
+								{
+									"key": "value",
+									"value": "123"
+								},
+								{
+									"key": "numReplicas",
+									"value": "1"
+								},
+								{
+									"key": "timeoutMillisecond",
+									"value": "10000"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "FeignClient",
+			"item": [
+				{
+					"name": "http://localhost:8081/spb/feignclient/addUser",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/ecmascript",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":1\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8081/sbp/feignclient/addUser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"feignclient",
+								"addUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:8101/test/getUserInfo?name=fancky",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8101/test/getUserInfo?name=fancky",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8101",
+							"path": [
+								"test",
+								"getUserInfo"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "fancky"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:8080/crm-backend/report/export",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "1bf21fc1919a49588739d19b5efd0ba3",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"orderQuery\":{\"depId\":\"10\",\"adviser\":\"23\"}}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/crm-backend/report/export",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"crm-backend",
+								"report",
+								"export"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "shardingSphere",
+			"item": [
+				{
+					"name": "http://localhost:8087/person/addPerson",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"姓名4\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8087/person/addPerson",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8087",
+							"path": [
+								"person",
+								"addPerson"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "http://localhost:8101/user/autowiredTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/user/autowiredTest",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"user",
+								"autowiredTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:8081/userConstructorInjection/autowiredTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/userConstructorInjection/autowiredTest",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"userConstructorInjection",
+								"autowiredTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:8081/sbp/user/getPersonRequestParam?name=fancky&age=27",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8081/sbp/user/getPersonRequestParam?name=fancky&age=27",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"user",
+								"getPersonRequestParam"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "fancky"
+								},
+								{
+									"key": "age",
+									"value": "27"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "autowiredTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/sbp/user/autowiredTest",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"user",
+								"autowiredTest"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "product",
+			"item": [
+				{
+					"name": "http://localhost:8081/sbp/product/getPageData?pageSize=10&pageIndex=1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/sbp/product/getPageData?pageSize=10&pageIndex=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"product",
+								"getPageData"
+							],
+							"query": [
+								{
+									"key": "pageSize",
+									"value": "10"
+								},
+								{
+									"key": "pageIndex",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "async",
+			"item": [
+				{
+					"name": "http://localhost:8081/sbp/async/asyncFun",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/sbp/async/asyncFun",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"async",
+								"asyncFun"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "configuration",
+			"item": [
+				{
+					"name": "http://localhost:8081/sbp/configuration/configurationTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/sbp/configuration/configurationTest",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"configuration",
+								"configurationTest"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ElasticJob",
+			"item": [
+				{
+					"name": "addJob",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/sbp/elasticJob/addJob",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"elasticJob",
+								"addJob"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateJob",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/sbp/elasticJob/updateJob",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"elasticJob",
+								"updateJob"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "shutDownJob",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/sbp/elasticJob/shutDownJob",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"elasticJob",
+								"shutDownJob"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ElasticSearch",
+			"item": [
+				{
+					"name": "getByProductName",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":0,\r\n    \"guid\":\"\",\r\n    \"productName\":\"产品名称1200198\",\r\n    \"productStyle\":\"productStyle1\",\r\n    \"imagePath\":\"D:\\\\fancky\\\\git\\\\Doc\",\r\n    \"createTimeStart\":\"2003-11-06 06:29:11.394\",\r\n    \"createTimeEnd\":\"2024-11-06 06:29:11.394\",\r\n    \"modifyTime\":\"2023-11-06 06:29:11.394\",\r\n    \"status\":1,\r\n    \"timestamp\":\"2023-11-06 06:29:11.000\",\r\n     \"searchAfter\":1999991,\r\n    \"pageSize\":10,\r\n    \"pageIndex\":0\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8081/sbp/Elasticsearch/getByProductName",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"Elasticsearch",
+								"getByProductName"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "aggregationTopBucketQuery",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/sbp/Elasticsearch/aggregationTopBucketQuery?materialName=大学&pageSize=100&pageIndex=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"Elasticsearch",
+								"aggregationTopBucketQuery"
+							],
+							"query": [
+								{
+									"key": "materialName",
+									"value": "大学"
+								},
+								{
+									"key": "pageSize",
+									"value": "100"
+								},
+								{
+									"key": "pageIndex",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getShipOrderInfoList",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pageIndex\": \"0\",\r\n    \"pageSize\": \"100\",\r\n    \"materialName\": \"大学\",\r\n    \"sortList\": [\r\n        {\r\n            \"sortField\": \"id\",\r\n            \"sortOrder\": \"desc\"\r\n        },\r\n        {\r\n            \"sortField\": \"taskCompletedTime\",\r\n            \"sortOrder\": \"asc\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/sbp/Elasticsearch/getShipOrderInfoList",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"Elasticsearch",
+								"getShipOrderInfoList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addBatch",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/sbp/Elasticsearch/addBatch",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"Elasticsearch",
+								"addBatch"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "scriptQuery",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/sbp/Elasticsearch/scriptQuery",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"Elasticsearch",
+								"scriptQuery"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "aggregationStatisticsQuery",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"shipOrderCode\": \"ShipOrderCode91\",\r\n    \"bucketFieldList\": [\r\n        \"applyShipOrderCode\",\r\n        \"shipOrderCode\"\r\n    ],\r\n    \"aggregationFieldList\": [\r\n        \"applyShipOrderItemAllocatedPkgQuantity\",\r\n        \"movedPkgQuantity\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/sbp/Elasticsearch/aggregationStatisticsQuery",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"Elasticsearch",
+								"aggregationStatisticsQuery"
+							],
+							"query": [
+								{
+									"key": "shipOrderCode",
+									"value": "ShipOrderCode91",
+									"disabled": true
+								},
+								{
+									"key": "bucketFieldList",
+									"value": "[\"applyShipOrderCode\",\"shipOrderCode\"]",
+									"disabled": true
+								},
+								{
+									"key": "aggregationFieldList",
+									"value": "[\"applyShipOrderItemAllocatedPkgQuantity\"]",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "dateHistogramStatisticsQuery",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/sbp/Elasticsearch/dateHistogramStatisticsQuery?shipOrderCode=ShipOrderCode91",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"Elasticsearch",
+								"dateHistogramStatisticsQuery"
+							],
+							"query": [
+								{
+									"key": "shipOrderCode",
+									"value": "ShipOrderCode91"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "RabbitMQ",
+			"item": [
+				{
+					"name": "rabbitMQ",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/rabbitMQ",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"rabbitMQ"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:8081/sbp/rabbitMQ/sendMsg",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/rabbitMQ/sendMsg",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"rabbitMQ",
+								"sendMsg"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "demo",
+			"item": [
+				{
+					"name": "http://localhost:8081/sbp/demo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/sbp/demo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"demo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "batchInsertDemoOrder",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/sbp/demo/batchInsertDemoOrder",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"demo",
+								"batchInsertDemoOrder"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "batchInsertDemoOrderItem",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/sbp/demo/batchInsertDemoOrderItem",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"demo",
+								"batchInsertDemoOrderItem"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "demoProductTest",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "repeat_token",
+								"value": "b063c2e1e16d4cca97915bffae7bdb9a",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8081/sbp/demo/demoProductTest",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"demo",
+								"demoProductTest"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "mybatisplus",
+			"item": []
+		},
+		{
+			"name": "shiro",
+			"item": [
+				{
+					"name": "login",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8081/sbp/shiro/login?userName=admin&password=123456",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"shiro",
+								"login"
+							],
+							"query": [
+								{
+									"key": "userName",
+									"value": "admin"
+								},
+								{
+									"key": "password",
+									"value": "123456"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"admin\",\r\n  \"password\": \"123456\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8081/sbp/shiro/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"shiro",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "735fe0a2-07d4-48af-a778-4fca1d7e0365",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8081/sbp/shiro/list",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"shiro",
+								"list"
+							],
+							"query": [
+								{
+									"key": "cookie",
+									"value": "85ac2bb5-6137-45ad-b912-58d0d8670840",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/sbp/shiro/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"shiro",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "repeat",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/sbp/utility/repeat",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"utility",
+								"repeat"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "mybatis",
+			"item": [
+				{
+					"name": "test",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/sbp/mybatis/test",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"mybatis",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "concatSelect",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/sbp/mybatis/concatSelect",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"mybatis",
+								"concatSelect"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "coverUpdate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/sbp/mybatis/coverUpdate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"mybatis",
+								"coverUpdate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "camunda",
+			"item": [
+				{
+					"name": "deploy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/camunda/deploy?deploymentName=process_id_rest_test&bpmnFileName=bpmn/rest.bpmn",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"camunda",
+								"deploy"
+							],
+							"query": [
+								{
+									"key": "deploymentName",
+									"value": "process_id_rest_test"
+								},
+								{
+									"key": "bpmnFileName",
+									"value": "bpmn/rest.bpmn"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "startProcess",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/camunda/startProcess?processId=process_id_rest_test&businessKey=businessKey_rest_test",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"camunda",
+								"startProcess"
+							],
+							"query": [
+								{
+									"key": "processId",
+									"value": "process_id_rest_test",
+									"description": "camunda设计器输入的流程ID"
+								},
+								{
+									"key": "businessKey",
+									"value": "businessKey_rest_test",
+									"description": "自定义新的名称"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "completedTask",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sbp/camunda/completedTask?taskId=8235c767-d86a-11ef-b0f1-005056c00001&approve=true",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sbp",
+								"camunda",
+								"completedTask"
+							],
+							"query": [
+								{
+									"key": "taskId",
+									"value": "8235c767-d86a-11ef-b0f1-005056c00001"
+								},
+								{
+									"key": "approve",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "jwt",
+			"item": [
+				{
+					"name": "getToken",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/sbp/jwt/getToken",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sbp",
+								"jwt",
+								"getToken"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

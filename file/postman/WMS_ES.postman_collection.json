@@ -1,0 +1,1095 @@
+{
+	"info": {
+		"_postman_id": "06642033-8825-436a-b89d-30f4228e6e67",
+		"name": "WMS_ES",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8531131",
+		"_collection_link": "https://lively-station-593233.postman.co/workspace/Gen~ecb3d30e-9281-4302-ab2d-8b92769986b3/collection/8531131-06642033-8825-436a-b89d-30f4228e6e67?action=share&source=collection_link&creator=8531131"
+	},
+	"item": [
+		{
+			"name": "order",
+			"item": [
+				{
+					"name": "getWmsTask",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/shipOrderInfo/getWmsTask",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"shipOrderInfo",
+								"getWmsTask"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "esTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/shipOrderInfo/esTest?guid=334ba1d9-c722-4da2-a677-2e5adb8110f4&pageIndex=0&pageSize=100",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"shipOrderInfo",
+								"esTest"
+							],
+							"query": [
+								{
+									"key": "guid",
+									"value": "334ba1d9-c722-4da2-a677-2e5adb8110f4"
+								},
+								{
+									"key": "pageIndex",
+									"value": "0"
+								},
+								{
+									"key": "pageSize",
+									"value": "100"
+								},
+								{
+									"key": "id",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "taskComplete",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/shipOrderInfo/taskComplete/552429296840773",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"shipOrderInfo",
+								"taskComplete",
+								"552429296840773"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getShipOrderInfoList",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pageIndex\": \"0\",\r\n    \"pageSize\": \"100\",\r\n    \"materialName\": \"大学\",\r\n    \"sourceFieldList\":[\"applyShipOrderCode\",\"applyShipOrderId\"],\r\n    \"sortList\": [\r\n        {\r\n            \"sortField\": \"id\",\r\n            \"sortOrder\": \"desc\"\r\n        },\r\n        {\r\n            \"sortField\": \"taskCompletedTime\",\r\n            \"sortOrder\": \"asc\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/shipOrderInfo/getShipOrderInfoList",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"shipOrderInfo",
+								"getShipOrderInfoList"
+							],
+							"query": [
+								{
+									"key": "materialName",
+									"value": "小学",
+									"disabled": true
+								},
+								{
+									"key": "pageIndex",
+									"value": "0",
+									"disabled": true
+								},
+								{
+									"key": "pageSize",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "applyShipOrderCode",
+									"value": "ApplyShipOrderCode4908999",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addBatch",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/shipOrderInfo/addBatch",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"shipOrderInfo",
+								"addBatch"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteShipOrderInfo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/shipOrderInfo/deleteShipOrderInfo",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"shipOrderInfo",
+								"deleteShipOrderInfo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "test",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"inventoryItemId\": 453801172529221,\r\n    \"Carton\": \"string\",\r\n    \"SerialNo\": \"string\",\r\n    \"MaterialId\": 452376193503301,\r\n    \"BatchNo\": \"string\",\r\n    \"BatchNo2\": \"string\",\r\n    \"BatchNo3\": \"string\",\r\n    \"PackageUnitId\": 452371468193861,\r\n    \"PackageMethod\": null,\r\n    \"SmallUnitQuantity\": 0.000000,\r\n    \"PackageQuantity\": 534.000000,\r\n    \"AllocatedSmallUnitQuantity\": 0.000000,\r\n    \"AllocatedPackageQuantity\": 0.000000,\r\n    \"QCStatus\": 0,\r\n    \"XStatus\": 0,\r\n    \"InboundTime\": null,\r\n    \"ProductTime\": null,\r\n    \"IsLocked\": false,\r\n    \"IsSealed\": false,\r\n    \"IsBonded\": false,\r\n    \"IsScattered\": false,\r\n    \"IsExpired\": true,\r\n    \"IsForbidOutbound\": false,\r\n    \"ForbidOutboundRemark\": null,\r\n    \"ExpiredTime\": 0,\r\n    \"PositionLevel\": null,\r\n    \"PositionCode\": null,\r\n    \"Comments\": \"string\",\r\n    \"M_Str1\": \"string\",\r\n    \"M_Str2\": \"string\",\r\n    \"M_Str3\": \"string\",\r\n    \"M_Str4\": \"string\",\r\n    \"M_Str5\": \"string\",\r\n    \"M_Str6\": \"string\",\r\n    \"M_Str7\": \"string\",\r\n    \"M_Str8\": \"string\",\r\n    \"M_Str9\": \"string\",\r\n    \"M_Str10\": \"string\",\r\n    \"M_Str11\": \"string\",\r\n    \"M_Str12\": \"string\",\r\n    \"M_Str13\": \"string\",\r\n    \"M_Str14\": \"string\",\r\n    \"M_Str15\": \"string\",\r\n    \"M_Str16\": \"string\",\r\n    \"M_Str17\": \"string\",\r\n    \"M_Str18\": \"string\",\r\n    \"M_Str19\": \"string\",\r\n    \"M_Str20\": \"string\",\r\n    \"M_Str21\": \"string\",\r\n    \"M_Str22\": \"string\",\r\n    \"M_Str23\": \"string\",\r\n    \"M_Str24\": \"string\",\r\n    \"M_Str25\": \"string\",\r\n    \"M_Str26\": \"string\",\r\n    \"M_Str27\": \"string\",\r\n    \"M_Str28\": \"string\",\r\n    \"M_Str29\": \"string\",\r\n    \"M_Str30\": \"string\",\r\n    \"M_Str31\": \"string\",\r\n    \"M_Str32\": \"string\",\r\n    \"M_Str33\": \"string\",\r\n    \"M_Str34\": \"string\",\r\n    \"M_Str35\": \"string\",\r\n    \"M_Str36\": \"string\",\r\n    \"M_Str37\": \"string\",\r\n    \"M_Str38\": \"string\",\r\n    \"M_Str39\": \"string\",\r\n    \"M_Str40\": \"string\",\r\n    \"Id\": 454031081873477,\r\n    \"CreatorId\": null,\r\n    \"CreatorName\": null,\r\n    \"LastModifierId\": \"840aed5e-1e36-5ba7-5f65-3a0db9c03d7c\",\r\n    \"LastModifierName\": \"admin\",\r\n    \"CreationTime\": null,\r\n    \"LastModificationTime\": 1718801793294\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8088/shipOrderInfo/test",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"shipOrderInfo",
+								"test"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "inventory",
+			"item": [
+				{
+					"name": "initInventoryInfoFromDb",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/inventory/initInventoryInfoFromDb",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"inventory",
+								"initInventoryInfoFromDb"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "rabbitMqTest",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/shipOrderInfo/rabbitMqTest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"shipOrderInfo",
+								"rabbitMqTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getInventoryInfoList",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n{\r\n     \"inventoryItemDetailId\": 578680057561171\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/inventory/getInventoryInfoList",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"inventory",
+								"getInventoryInfoList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllocatedInventoryInfoList",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n{\r\n     \"inventoryItemDetailId\": 578680057561171\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/inventory/getAllocatedInventoryInfoList",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"inventory",
+								"getAllocatedInventoryInfoList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateByInventoryItemDetailDb",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/inventory/updateByInventoryItemDetailDb/509955479839895",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"inventory",
+								"updateByInventoryItemDetailDb",
+								"509955479839895"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ShipOrder",
+			"item": [
+				{
+					"name": "getShipOrderPage",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/shipOrder/getShipOrderPage?pageIndex=1&pageSize=10",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"shipOrder",
+								"getShipOrderPage"
+							],
+							"query": [
+								{
+									"key": "pageIndex",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getShipOrderList",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/shipOrder/getShipOrderList?pageIndex=1&pageSize=100",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"shipOrder",
+								"getShipOrderList"
+							],
+							"query": [
+								{
+									"key": "pageIndex",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "allocate",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/shipOrder/allocate",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"shipOrder",
+								"allocate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "allocateDesignatedShipOrders",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"shipOrderIdList\": [\r\n  \"680173884981318\",\r\n  \"680173733003334\",\r\n  \"680173730345030\",\r\n  \"680172745814085\",\r\n  \"680171968528454\",\r\n  \"680171957145670\",\r\n  \"680171946057798\",\r\n  \"680171897401413\",\r\n  \"680170081202246\",\r\n  \"680166302388294\",\r\n   \"572311475355719\"\r\n]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/shipOrder/allocateDesignatedShipOrders",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"shipOrder",
+								"allocateDesignatedShipOrders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10.100.200.43:8188",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"shipOrderIdList\": [\r\n        674145919029318\r\n    ]\r\n}\r\n\r\n\r\n// {\r\n//     \"shipOrderIdList\": [\r\n//         674145923928133,\r\n//         674145919029318,\r\n//         678521106149446,\r\n//         677717351272518,\r\n//         676398798643270,\r\n//         676395128840264,\r\n//         674167812272197,\r\n//         674167082635334,\r\n//         674164761645126,\r\n//         674159602057286,\r\n//         674158787493958,\r\n//         674145905406022\r\n//     ]\r\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "10.100.200.43:8188/shipOrder/allocateDesignatedShipOrders",
+							"host": [
+								"10",
+								"100",
+								"200",
+								"43"
+							],
+							"port": "8188",
+							"path": [
+								"shipOrder",
+								"allocateDesignatedShipOrders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8088/shipOrder/test?id=522323385425990",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8088/shipOrder/test?id=522323385425990",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"shipOrder",
+								"test"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "522323385425990"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "test",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/shipOrder/test/12",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"shipOrder",
+								"test",
+								"12"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "mqttTest",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/shipOrder/mqttTest?msg=123",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"shipOrder",
+								"mqttTest"
+							],
+							"query": [
+								{
+									"key": "msg",
+									"value": "123"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "InventoryItemDetail",
+			"item": [
+				{
+					"name": "getInventoryItemDetailPage",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "GET /inventory_info/_search\r\n{\r\n \"query\":{\r\n    \"bool\": {\r\n        \"must\": [\r\n            {\r\n                \"term\": {\r\n                    \"inventoryIsExpired\": {\r\n                        \"value\": false,\r\n                        \"boost\": 1.0\r\n                    }\r\n                }\r\n            },\r\n            {\r\n                \"term\": {\r\n                    \"inventoryIsLocked\": {\r\n                        \"value\": false,\r\n                        \"boost\": 1.0\r\n                    }\r\n                }\r\n            },\r\n            {\r\n                \"term\": {\r\n                    \"inventoryItemIsLocked\": {\r\n                        \"value\": false,\r\n                        \"boost\": 1.0\r\n                    }\r\n                }\r\n            },\r\n            {\r\n                \"term\": {\r\n                    \"inventoryItemIsExpired\": {\r\n                        \"value\": false,\r\n                        \"boost\": 1.0\r\n                    }\r\n                }\r\n            },\r\n            {\r\n                \"term\": {\r\n                    \"isLocked\": {\r\n                        \"value\": false,\r\n                        \"boost\": 1.0\r\n                    }\r\n                }\r\n            },\r\n            {\r\n                \"term\": {\r\n                    \"isExpired\": {\r\n                        \"value\": false,\r\n                        \"boost\": 1.0\r\n                    }\r\n                }\r\n            },\r\n            {\r\n                \"term\": {\r\n                    \"locationXStatus\": {\r\n                        \"value\": 1,\r\n                        \"boost\": 1.0\r\n                    }\r\n                }\r\n            },\r\n            {\r\n                \"term\": {\r\n                    \"forbidOutbound\": {\r\n                        \"value\": false,\r\n                        \"boost\": 1.0\r\n                    }\r\n                }\r\n            },\r\n            {\r\n                \"term\": {\r\n                    \"locationIsLocked\": {\r\n                        \"value\": false,\r\n                        \"boost\": 1.0\r\n                    }\r\n                }\r\n            },\r\n            {\r\n                \"term\": {\r\n                    \"isCountLocked\": {\r\n                        \"value\": false,\r\n                        \"boost\": 1.0\r\n                    }\r\n                }\r\n            },\r\n            {\r\n                \"term\": {\r\n                    \"lanewayXStatus\": {\r\n                        \"value\": 1,\r\n                        \"boost\": 1.0\r\n                    }\r\n                }\r\n            },\r\n            {\r\n                \"range\": {\r\n                    \"inventoryPackageQuantity\": {\r\n                        \"from\": 0,\r\n                        \"to\": null,\r\n                        \"include_lower\": false,\r\n                        \"include_upper\": true,\r\n                        \"boost\": 1.0\r\n                    }\r\n                }\r\n            },\r\n            {\r\n                \"term\": {\r\n                    \"inventoryAllocatedPackageQuantity\": {\r\n                        \"value\": 0,\r\n                        \"boost\": 1.0\r\n                    }\r\n                }\r\n            },\r\n            {\r\n                \"range\": {\r\n                    \"inventoryItemPackageQuantity\": {\r\n                        \"from\": 0,\r\n                        \"to\": null,\r\n                        \"include_lower\": false,\r\n                        \"include_upper\": true,\r\n                        \"boost\": 1.0\r\n                    }\r\n                }\r\n            },\r\n            {\r\n                \"term\": {\r\n                    \"inventoryItemAllocatedPackageQuantity\": {\r\n                        \"value\": 0,\r\n                        \"boost\": 1.0\r\n                    }\r\n                }\r\n            },\r\n            {\r\n                \"range\": {\r\n                    \"packageQuantity\": {\r\n                        \"from\": 0,\r\n                        \"to\": null,\r\n                        \"include_lower\": false,\r\n                        \"include_upper\": true,\r\n                        \"boost\": 1.0\r\n                    }\r\n                }\r\n            },\r\n            {\r\n                \"term\": {\r\n                    \"allocatedPackageQuantity\": {\r\n                        \"value\": 0,\r\n                        \"boost\": 1.0\r\n                    }\r\n                }\r\n            },\r\n            {\r\n                \"terms\": {\r\n                    \"materialId\": [\r\n                        520333877612613,\r\n                        576948433264709,\r\n                        611620349706309,\r\n                        657196516782149,\r\n                        657196422266949,\r\n                        657196526612549,\r\n                        657196480200773,\r\n                        657196512751685,\r\n                        520332668469317,\r\n                        611620326838341,\r\n                        520332601593925\r\n                    ],\r\n                    \"boost\": 1.0\r\n                }\r\n            }\r\n        ]\r\n        // \"must_not\": [\r\n        //     {\r\n        //         \"exists\": {\r\n        //             \"field\": \"applyOrOrderCode\",\r\n        //             \"boost\": 1.0\r\n        //         }\r\n        //     }\r\n        // ],\r\n        \"adjust_pure_negative\": true,\r\n        \"boost\": 1.0\r\n    }\r\n},\r\n  \"sort\": [\r\n    {\r\n      \"id\": {\r\n        \"order\": \"desc\"\r\n      }\r\n    }\r\n  ],\r\n  \"from\": 999000,\r\n  \"size\": 5,\r\n\"track_total_hits\":true\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/inventoryItemDetail/getInventoryItemDetailPage",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"inventoryItemDetail",
+								"getInventoryItemDetailPage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "importExcelModifyMStr12",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NDBhZWQ1ZS0xZTM2LTViYTctNWY2NS0zYTBkYjljMDNkN2MiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6Ijg0MGFlZDVlLTFlMzYtNWJhNy01ZjY1LTNhMGRiOWMwM2Q3YyIsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIiwiZ2l2ZW5fbmFtZSI6Iuezu-e7n-euoeeQhuWRmCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6WyJhZG1pbmlzdHJhdG9yIiwidGVzdCJdLCJyb2xlIjpbImFkbWluaXN0cmF0b3IiLCJ0ZXN0Il0sIm5iZiI6MTc0OTQzMDg4MSwiZXhwIjoxNzQ5NTE3MjgxLCJpc3MiOiJBdXRob3JpemVTU08iLCJhdWQiOiJBdXRob3JpemVTU08ifQ.bq0oPiKNhGPLIxmaBEvo0F8KCwBVkiQyIN7-0C4ddgs",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/lirui/Desktop/发车单/mstr12.xlsx"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/inventoryItemDetail/importExcelModifyMStr",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"inventoryItemDetail",
+								"importExcelModifyMStr"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "exportExcelModifyMStrTemplate",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/inventoryItemDetail/exportExcelModifyMStrTemplate",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"inventoryItemDetail",
+								"exportExcelModifyMStrTemplate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "downloadErrorData",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiOWQwMmQzMi0xZDc0LTczZWYtOTZjNi0zYTE3MDk3MTQwMjciLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImI5ZDAyZDMyLTFkNzQtNzNlZi05NmM2LTNhMTcwOTcxNDAyNyIsInByZWZlcnJlZF91c2VybmFtZSI6IjAwMDAwMCIsImdpdmVuX25hbWUiOiLlvIDlj5HotKblj7ciLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJhZG1pbmlzdHJhdG9yIiwicm9sZSI6ImFkbWluaXN0cmF0b3IiLCJuYmYiOjE3NDk1NDEzOTIsImV4cCI6MTc0OTYyNzc5MiwiaXNzIjoiQXV0aG9yaXplU1NPIiwiYXVkIjoiQXV0aG9yaXplU1NPIn0.Ftk3Cx9cXSL2OaKOUI97kQmylurUJvRKvIS5xJLfJJY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/inventoryItemDetail/downloadErrorData",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"inventoryItemDetail",
+								"downloadErrorData"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "basiinfo",
+			"item": [
+				{
+					"name": "initBasicInfoCache",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/basicInfo/initBasicInfoCache",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"basicInfo",
+								"initBasicInfoCache"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "trunkOrder",
+			"item": [
+				{
+					"name": "addTruckOrder",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiOWQwMmQzMi0xZDc0LTczZWYtOTZjNi0zYTE3MDk3MTQwMjciLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImI5ZDAyZDMyLTFkNzQtNzNlZi05NmM2LTNhMTcwOTcxNDAyNyIsInByZWZlcnJlZF91c2VybmFtZSI6IjAwMDAwMCIsImdpdmVuX25hbWUiOiLlvIDlj5HotKblj7ciLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJhZG1pbmlzdHJhdG9yIiwicm9sZSI6ImFkbWluaXN0cmF0b3IiLCJuYmYiOjE3NTAwNDY5ODQsImV4cCI6MTc1MDEzMzM4NCwiaXNzIjoiQXV0aG9yaXplU1NPIiwiYXVkIjoiQXV0aG9yaXplU1NPIn0.nld-mMDvkITkomNz8We4XTvSIP1sSxejlU0ln7LFJb0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"truckOrderRequest\": {\r\n        \"truckOrderCode\": \"trunkNo\",\r\n        \"senderAddress\": \"trunkNo\",\r\n        \"receiverAddress\":\"trunkNo\",\r\n        \"senderPhone\": \"trunkNo\",\r\n        \"receiverPhone\": \"trunkNo\",\r\n        \"sendTime\": \"2025-05-29 13:17:12\",\r\n        \"trunkType\": 1,\r\n        \"driverPhone\": \"trunkNo\",\r\n        \"trunkNo\": \"trunkNo1\"\r\n \r\n    },\r\n    \"truckOrderItemRequestList\": [\r\n        {\r\n            \"projectNo\": \"XM2734\",\r\n            \"projectName\": \"\",\r\n            \"applyShipOrderCode\": null,\r\n            \"shipOrderCode\": null,\r\n            \"materialCode\": \"P0000008110\",\r\n            \"deviceName\": \"deviceName\",\r\n            \"deviceNo\": \"1002-8\",\r\n            \"quantity\": 1,\r\n            \"sendBatchNo\": \"sendBatchNo\",\r\n            \"remark\": \"remark\"\r\n    \r\n        }\r\n    ]\r\n}\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n    // {\r\n    //     \"truckOrderRequest\": {\r\n    //         \"pageSize\": 10,\r\n    //         \"pageIndex\": 1,\r\n    //         \"sourceFieldList\": null,\r\n    //         \"bucketFieldList\": null,\r\n    //         \"aggregationFieldList\": null,\r\n    //         \"sortFieldList\": null,\r\n    //         \"searchCount\": true,\r\n    //         \"id\": null,\r\n    //         \"truckOrderCode\": null,\r\n    //         \"senderAddress\": \"1\",\r\n    //         \"receiverAddress\": \"1\",\r\n    //         \"senderPhone\": \"1\",\r\n    //         \"receiverPhone\": \"1\",\r\n    //         \"sendTime\": \"2025-06-13 14:31:23\",\r\n    //         \"trunkType\": \"1\",\r\n    //         \"driverPhone\": \"1\",\r\n    //         \"trunkNo\": \"1\",\r\n    //         \"deleted\": null,\r\n    //         \"version\": null,\r\n    //         \"creatorId\": null,\r\n    //         \"creatorName\": null,\r\n    //         \"lastModifierId\": null,\r\n    //         \"lastModifierName\": null,\r\n    //         \"creationTime\": null,\r\n    //         \"lastModificationTime\": null\r\n    //     },\r\n    //     \"truckOrderItemRequestList\": [\r\n    //         {\r\n    //             \"pageSize\": 10,\r\n    //             \"pageIndex\": 1,\r\n    //             \"sourceFieldList\": null,\r\n    //             \"bucketFieldList\": null,\r\n    //             \"aggregationFieldList\": null,\r\n    //             \"sortFieldList\": null,\r\n    //             \"searchCount\": true,\r\n    //             \"id\": null,\r\n    //             \"truckOrderId\": null,\r\n    //             \"truckOrderCode\": null,\r\n    //             \"projectNo\": \"XM0713\",\r\n    //             \"projectName\": null,\r\n    //             \"applyShipOrderCode\": null,\r\n    //             \"shipOrderId\": null,\r\n    //             \"shipOrderCode\": null,\r\n    //             \"pallet\": null,\r\n    //             \"shipOrderItemId\": null,\r\n    //             \"materialId\": null,\r\n    //             \"materialCode\": \"P0002094560\",\r\n    //             \"deviceName\": null,\r\n    //             \"deviceNo\": \"4008\",\r\n    //             \"quantity\": 1,\r\n    //             \"sendBatchNo\": null,\r\n    //             \"remark\": null,\r\n    //             \"deleted\": null,\r\n    //             \"version\": null,\r\n    //             \"creatorId\": null,\r\n    //             \"creatorName\": null,\r\n    //             \"lastModifierId\": null,\r\n    //             \"lastModifierName\": null,\r\n    //             \"creationTime\": null,\r\n    //             \"lastModificationTime\": null\r\n    //         },\r\n    //         {\r\n    //             \"pageSize\": 10,\r\n    //             \"pageIndex\": 1,\r\n    //             \"sourceFieldList\": null,\r\n    //             \"bucketFieldList\": null,\r\n    //             \"aggregationFieldList\": null,\r\n    //             \"sortFieldList\": null,\r\n    //             \"searchCount\": true,\r\n    //             \"id\": null,\r\n    //             \"truckOrderId\": null,\r\n    //             \"truckOrderCode\": null,\r\n    //             \"projectNo\": \"XM0713\",\r\n    //             \"projectName\": null,\r\n    //             \"applyShipOrderCode\": null,\r\n    //             \"shipOrderId\": null,\r\n    //             \"shipOrderCode\": null,\r\n    //             \"pallet\": null,\r\n    //             \"shipOrderItemId\": null,\r\n    //             \"materialId\": null,\r\n    //             \"materialCode\": \"P0002094560\",\r\n    //             \"deviceName\": null,\r\n    //             \"deviceNo\": \"3006\",\r\n    //             \"quantity\": 1,\r\n    //             \"sendBatchNo\": null,\r\n    //             \"remark\": null,\r\n    //             \"deleted\": null,\r\n    //             \"version\": null,\r\n    //             \"creatorId\": null,\r\n    //             \"creatorName\": null,\r\n    //             \"lastModifierId\": null,\r\n    //             \"lastModifierName\": null,\r\n    //             \"creationTime\": null,\r\n    //             \"lastModificationTime\": null\r\n    //         },\r\n    //         {\r\n    //             \"pageSize\": 10,\r\n    //             \"pageIndex\": 1,\r\n    //             \"sourceFieldList\": null,\r\n    //             \"bucketFieldList\": null,\r\n    //             \"aggregationFieldList\": null,\r\n    //             \"sortFieldList\": null,\r\n    //             \"searchCount\": true,\r\n    //             \"id\": null,\r\n    //             \"truckOrderId\": null,\r\n    //             \"truckOrderCode\": null,\r\n    //             \"projectNo\": \"XM0713\",\r\n    //             \"projectName\": null,\r\n    //             \"applyShipOrderCode\": null,\r\n    //             \"shipOrderId\": null,\r\n    //             \"shipOrderCode\": null,\r\n    //             \"pallet\": null,\r\n    //             \"shipOrderItemId\": null,\r\n    //             \"materialId\": null,\r\n    //             \"materialCode\": \"P0002094529\",\r\n    //             \"deviceName\": null,\r\n    //             \"deviceNo\": \"4016\",\r\n    //             \"quantity\": 1,\r\n    //             \"sendBatchNo\": null,\r\n    //             \"remark\": null,\r\n    //             \"deleted\": null,\r\n    //             \"version\": null,\r\n    //             \"creatorId\": null,\r\n    //             \"creatorName\": null,\r\n    //             \"lastModifierId\": null,\r\n    //             \"lastModifierName\": null,\r\n    //             \"creationTime\": null,\r\n    //             \"lastModificationTime\": null\r\n    //         },\r\n    //         {\r\n    //             \"pageSize\": 10,\r\n    //             \"pageIndex\": 1,\r\n    //             \"sourceFieldList\": null,\r\n    //             \"bucketFieldList\": null,\r\n    //             \"aggregationFieldList\": null,\r\n    //             \"sortFieldList\": null,\r\n    //             \"searchCount\": true,\r\n    //             \"id\": null,\r\n    //             \"truckOrderId\": null,\r\n    //             \"truckOrderCode\": null,\r\n    //             \"projectNo\": \"XM0713\",\r\n    //             \"projectName\": null,\r\n    //             \"applyShipOrderCode\": null,\r\n    //             \"shipOrderId\": null,\r\n    //             \"shipOrderCode\": null,\r\n    //             \"pallet\": null,\r\n    //             \"shipOrderItemId\": null,\r\n    //             \"materialId\": null,\r\n    //             \"materialCode\": \"P0002098017\",\r\n    //             \"deviceName\": null,\r\n    //             \"deviceNo\": \"4017\",\r\n    //             \"quantity\": 1,\r\n    //             \"sendBatchNo\": null,\r\n    //             \"remark\": null,\r\n    //             \"deleted\": null,\r\n    //             \"version\": null,\r\n    //             \"creatorId\": null,\r\n    //             \"creatorName\": null,\r\n    //             \"lastModifierId\": null,\r\n    //             \"lastModifierName\": null,\r\n    //             \"creationTime\": null,\r\n    //             \"lastModificationTime\": null\r\n    //         },\r\n    //         {\r\n    //             \"pageSize\": 10,\r\n    //             \"pageIndex\": 1,\r\n    //             \"sourceFieldList\": null,\r\n    //             \"bucketFieldList\": null,\r\n    //             \"aggregationFieldList\": null,\r\n    //             \"sortFieldList\": null,\r\n    //             \"searchCount\": true,\r\n    //             \"id\": null,\r\n    //             \"truckOrderId\": null,\r\n    //             \"truckOrderCode\": null,\r\n    //             \"projectNo\": \"XM0713\",\r\n    //             \"projectName\": null,\r\n    //             \"applyShipOrderCode\": null,\r\n    //             \"shipOrderId\": null,\r\n    //             \"shipOrderCode\": null,\r\n    //             \"pallet\": null,\r\n    //             \"shipOrderItemId\": null,\r\n    //             \"materialId\": null,\r\n    //             \"materialCode\": \"P0002097861\",\r\n    //             \"deviceName\": null,\r\n    //             \"deviceNo\": \"4018\",\r\n    //             \"quantity\": 1,\r\n    //             \"sendBatchNo\": null,\r\n    //             \"remark\": null,\r\n    //             \"deleted\": null,\r\n    //             \"version\": null,\r\n    //             \"creatorId\": null,\r\n    //             \"creatorName\": null,\r\n    //             \"lastModifierId\": null,\r\n    //             \"lastModifierName\": null,\r\n    //             \"creationTime\": null,\r\n    //             \"lastModificationTime\": null\r\n    //         }\r\n    //     ]\r\n    // }\r\n\r\n\r\n\r\n\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/truckOrder/addTruckOrder",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"truckOrder",
+								"addTruckOrder"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addTruckOrder Copy",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiOWQwMmQzMi0xZDc0LTczZWYtOTZjNi0zYTE3MDk3MTQwMjciLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImI5ZDAyZDMyLTFkNzQtNzNlZi05NmM2LTNhMTcwOTcxNDAyNyIsInByZWZlcnJlZF91c2VybmFtZSI6IjAwMDAwMCIsImdpdmVuX25hbWUiOiLlvIDlj5HotKblj7ciLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJhZG1pbmlzdHJhdG9yIiwicm9sZSI6ImFkbWluaXN0cmF0b3IiLCJuYmYiOjE3NTAwNDY5ODQsImV4cCI6MTc1MDEzMzM4NCwiaXNzIjoiQXV0aG9yaXplU1NPIiwiYXVkIjoiQXV0aG9yaXplU1NPIn0.nld-mMDvkITkomNz8We4XTvSIP1sSxejlU0ln7LFJb0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"truckOrderRequest\": {\r\n        \"truckOrderCode\": \"trunkNo\",\r\n        \"senderAddress\": \"trunkNo\",\r\n        \"receiverAddress\":\"trunkNo\",\r\n        \"senderPhone\": \"trunkNo\",\r\n        \"receiverPhone\": \"trunkNo\",\r\n        \"sendTime\": \"2025-05-29 13:17:12\",\r\n        \"trunkType\": 1,\r\n        \"driverPhone\": \"trunkNo\",\r\n        \"trunkNo\": \"trunkNo1\"\r\n \r\n    },\r\n    \"truckOrderItemRequestList\": [\r\n        {\r\n            \"projectNo\": \"XM2734\",\r\n            \"projectName\": \"\",\r\n            \"applyShipOrderCode\": null,\r\n            \"shipOrderCode\": null,\r\n            \"materialCode\": \"P0000008110\",\r\n            \"deviceName\": \"deviceName\",\r\n            \"deviceNo\": \"1002-8\",\r\n            \"quantity\": 1,\r\n            \"sendBatchNo\": \"sendBatchNo\",\r\n            \"remark\": \"remark\"\r\n    \r\n        }\r\n    ]\r\n}\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n    // {\r\n    //     \"truckOrderRequest\": {\r\n    //         \"pageSize\": 10,\r\n    //         \"pageIndex\": 1,\r\n    //         \"sourceFieldList\": null,\r\n    //         \"bucketFieldList\": null,\r\n    //         \"aggregationFieldList\": null,\r\n    //         \"sortFieldList\": null,\r\n    //         \"searchCount\": true,\r\n    //         \"id\": null,\r\n    //         \"truckOrderCode\": null,\r\n    //         \"senderAddress\": \"1\",\r\n    //         \"receiverAddress\": \"1\",\r\n    //         \"senderPhone\": \"1\",\r\n    //         \"receiverPhone\": \"1\",\r\n    //         \"sendTime\": \"2025-06-13 14:31:23\",\r\n    //         \"trunkType\": \"1\",\r\n    //         \"driverPhone\": \"1\",\r\n    //         \"trunkNo\": \"1\",\r\n    //         \"deleted\": null,\r\n    //         \"version\": null,\r\n    //         \"creatorId\": null,\r\n    //         \"creatorName\": null,\r\n    //         \"lastModifierId\": null,\r\n    //         \"lastModifierName\": null,\r\n    //         \"creationTime\": null,\r\n    //         \"lastModificationTime\": null\r\n    //     },\r\n    //     \"truckOrderItemRequestList\": [\r\n    //         {\r\n    //             \"pageSize\": 10,\r\n    //             \"pageIndex\": 1,\r\n    //             \"sourceFieldList\": null,\r\n    //             \"bucketFieldList\": null,\r\n    //             \"aggregationFieldList\": null,\r\n    //             \"sortFieldList\": null,\r\n    //             \"searchCount\": true,\r\n    //             \"id\": null,\r\n    //             \"truckOrderId\": null,\r\n    //             \"truckOrderCode\": null,\r\n    //             \"projectNo\": \"XM0713\",\r\n    //             \"projectName\": null,\r\n    //             \"applyShipOrderCode\": null,\r\n    //             \"shipOrderId\": null,\r\n    //             \"shipOrderCode\": null,\r\n    //             \"pallet\": null,\r\n    //             \"shipOrderItemId\": null,\r\n    //             \"materialId\": null,\r\n    //             \"materialCode\": \"P0002094560\",\r\n    //             \"deviceName\": null,\r\n    //             \"deviceNo\": \"4008\",\r\n    //             \"quantity\": 1,\r\n    //             \"sendBatchNo\": null,\r\n    //             \"remark\": null,\r\n    //             \"deleted\": null,\r\n    //             \"version\": null,\r\n    //             \"creatorId\": null,\r\n    //             \"creatorName\": null,\r\n    //             \"lastModifierId\": null,\r\n    //             \"lastModifierName\": null,\r\n    //             \"creationTime\": null,\r\n    //             \"lastModificationTime\": null\r\n    //         },\r\n    //         {\r\n    //             \"pageSize\": 10,\r\n    //             \"pageIndex\": 1,\r\n    //             \"sourceFieldList\": null,\r\n    //             \"bucketFieldList\": null,\r\n    //             \"aggregationFieldList\": null,\r\n    //             \"sortFieldList\": null,\r\n    //             \"searchCount\": true,\r\n    //             \"id\": null,\r\n    //             \"truckOrderId\": null,\r\n    //             \"truckOrderCode\": null,\r\n    //             \"projectNo\": \"XM0713\",\r\n    //             \"projectName\": null,\r\n    //             \"applyShipOrderCode\": null,\r\n    //             \"shipOrderId\": null,\r\n    //             \"shipOrderCode\": null,\r\n    //             \"pallet\": null,\r\n    //             \"shipOrderItemId\": null,\r\n    //             \"materialId\": null,\r\n    //             \"materialCode\": \"P0002094560\",\r\n    //             \"deviceName\": null,\r\n    //             \"deviceNo\": \"3006\",\r\n    //             \"quantity\": 1,\r\n    //             \"sendBatchNo\": null,\r\n    //             \"remark\": null,\r\n    //             \"deleted\": null,\r\n    //             \"version\": null,\r\n    //             \"creatorId\": null,\r\n    //             \"creatorName\": null,\r\n    //             \"lastModifierId\": null,\r\n    //             \"lastModifierName\": null,\r\n    //             \"creationTime\": null,\r\n    //             \"lastModificationTime\": null\r\n    //         },\r\n    //         {\r\n    //             \"pageSize\": 10,\r\n    //             \"pageIndex\": 1,\r\n    //             \"sourceFieldList\": null,\r\n    //             \"bucketFieldList\": null,\r\n    //             \"aggregationFieldList\": null,\r\n    //             \"sortFieldList\": null,\r\n    //             \"searchCount\": true,\r\n    //             \"id\": null,\r\n    //             \"truckOrderId\": null,\r\n    //             \"truckOrderCode\": null,\r\n    //             \"projectNo\": \"XM0713\",\r\n    //             \"projectName\": null,\r\n    //             \"applyShipOrderCode\": null,\r\n    //             \"shipOrderId\": null,\r\n    //             \"shipOrderCode\": null,\r\n    //             \"pallet\": null,\r\n    //             \"shipOrderItemId\": null,\r\n    //             \"materialId\": null,\r\n    //             \"materialCode\": \"P0002094529\",\r\n    //             \"deviceName\": null,\r\n    //             \"deviceNo\": \"4016\",\r\n    //             \"quantity\": 1,\r\n    //             \"sendBatchNo\": null,\r\n    //             \"remark\": null,\r\n    //             \"deleted\": null,\r\n    //             \"version\": null,\r\n    //             \"creatorId\": null,\r\n    //             \"creatorName\": null,\r\n    //             \"lastModifierId\": null,\r\n    //             \"lastModifierName\": null,\r\n    //             \"creationTime\": null,\r\n    //             \"lastModificationTime\": null\r\n    //         },\r\n    //         {\r\n    //             \"pageSize\": 10,\r\n    //             \"pageIndex\": 1,\r\n    //             \"sourceFieldList\": null,\r\n    //             \"bucketFieldList\": null,\r\n    //             \"aggregationFieldList\": null,\r\n    //             \"sortFieldList\": null,\r\n    //             \"searchCount\": true,\r\n    //             \"id\": null,\r\n    //             \"truckOrderId\": null,\r\n    //             \"truckOrderCode\": null,\r\n    //             \"projectNo\": \"XM0713\",\r\n    //             \"projectName\": null,\r\n    //             \"applyShipOrderCode\": null,\r\n    //             \"shipOrderId\": null,\r\n    //             \"shipOrderCode\": null,\r\n    //             \"pallet\": null,\r\n    //             \"shipOrderItemId\": null,\r\n    //             \"materialId\": null,\r\n    //             \"materialCode\": \"P0002098017\",\r\n    //             \"deviceName\": null,\r\n    //             \"deviceNo\": \"4017\",\r\n    //             \"quantity\": 1,\r\n    //             \"sendBatchNo\": null,\r\n    //             \"remark\": null,\r\n    //             \"deleted\": null,\r\n    //             \"version\": null,\r\n    //             \"creatorId\": null,\r\n    //             \"creatorName\": null,\r\n    //             \"lastModifierId\": null,\r\n    //             \"lastModifierName\": null,\r\n    //             \"creationTime\": null,\r\n    //             \"lastModificationTime\": null\r\n    //         },\r\n    //         {\r\n    //             \"pageSize\": 10,\r\n    //             \"pageIndex\": 1,\r\n    //             \"sourceFieldList\": null,\r\n    //             \"bucketFieldList\": null,\r\n    //             \"aggregationFieldList\": null,\r\n    //             \"sortFieldList\": null,\r\n    //             \"searchCount\": true,\r\n    //             \"id\": null,\r\n    //             \"truckOrderId\": null,\r\n    //             \"truckOrderCode\": null,\r\n    //             \"projectNo\": \"XM0713\",\r\n    //             \"projectName\": null,\r\n    //             \"applyShipOrderCode\": null,\r\n    //             \"shipOrderId\": null,\r\n    //             \"shipOrderCode\": null,\r\n    //             \"pallet\": null,\r\n    //             \"shipOrderItemId\": null,\r\n    //             \"materialId\": null,\r\n    //             \"materialCode\": \"P0002097861\",\r\n    //             \"deviceName\": null,\r\n    //             \"deviceNo\": \"4018\",\r\n    //             \"quantity\": 1,\r\n    //             \"sendBatchNo\": null,\r\n    //             \"remark\": null,\r\n    //             \"deleted\": null,\r\n    //             \"version\": null,\r\n    //             \"creatorId\": null,\r\n    //             \"creatorName\": null,\r\n    //             \"lastModifierId\": null,\r\n    //             \"lastModifierName\": null,\r\n    //             \"creationTime\": null,\r\n    //             \"lastModificationTime\": null\r\n    //         }\r\n    //     ]\r\n    // }\r\n\r\n\r\n\r\n\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/truckOrder/addTruckOrder",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"truckOrder",
+								"addTruckOrder"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getTruckOrderPage",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NDBhZWQ1ZS0xZTM2LTViYTctNWY2NS0zYTBkYjljMDNkN2MiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6Ijg0MGFlZDVlLTFlMzYtNWJhNy01ZjY1LTNhMGRiOWMwM2Q3YyIsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIiwiZ2l2ZW5fbmFtZSI6Iuezu-e7n-euoeeQhuWRmCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6WyJhZG1pbmlzdHJhdG9yIiwidGVzdCJdLCJyb2xlIjpbImFkbWluaXN0cmF0b3IiLCJ0ZXN0Il0sIm5iZiI6MTc0OTg4NzQ1MiwiZXhwIjoxNzQ5OTczODUyLCJpc3MiOiJBdXRob3JpemVTU08iLCJhdWQiOiJBdXRob3JpemVTU08ifQ.U2JFR92PKXHR4W0vnC5vqSotmbplEazaZN6HlLz1OXo",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pageSize\": 10,\r\n    \"pageIndex\": 1\r\n    // \"truckOrderCode\": \"13\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/truckOrder/getTruckOrderPage",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"truckOrder",
+								"getTruckOrderPage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "trunkOrderMq",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NDBhZWQ1ZS0xZTM2LTViYTctNWY2NS0zYTBkYjljMDNkN2MiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6Ijg0MGFlZDVlLTFlMzYtNWJhNy01ZjY1LTNhMGRiOWMwM2Q3YyIsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIiwiZ2l2ZW5fbmFtZSI6Iuezu-e7n-euoeeQhuWRmCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6WyJhZG1pbmlzdHJhdG9yIiwidGVzdCJdLCJyb2xlIjpbImFkbWluaXN0cmF0b3IiLCJ0ZXN0Il0sIm5iZiI6MTc0OTQzMDg4MSwiZXhwIjoxNzQ5NTE3MjgxLCJpc3MiOiJBdXRob3JpemVTU08iLCJhdWQiOiJBdXRob3JpemVTU08ifQ.bq0oPiKNhGPLIxmaBEvo0F8KCwBVkiQyIN7-0C4ddgs",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/truckOrder/trunkOrderMq/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"truckOrder",
+								"trunkOrderMq",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addTruckOrderOnly",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"truckOrderRequest\": {\r\n        \"pageSize\": 10,\r\n        \"pageIndex\": 1,\r\n        \"sourceFieldList\": null,\r\n        \"bucketFieldList\": null,\r\n        \"aggregationFieldList\": null,\r\n        \"sortFieldList\": null,\r\n        \"searchCount\": true,\r\n        \"id\": null,\r\n        \"truckOrderCode\": \"trunkNo\",\r\n        \"senderAddress\": \"trunkNo\",\r\n        \"receiverAddress\": \"trunkNo\",\r\n        \"senderPhone\": \"trunkNo\",\r\n        \"receiverPhone\": \"trunkNo\",\r\n        \"sendTime\": \"2025-05-29 13:17:12\",\r\n        \"trunkType\": \"trunkType\",\r\n        \"driverPhone\": \"trunkNo\",\r\n        \"trunkNo\": \"trunkNo\",\r\n        \"deleted\": null,\r\n        \"version\": null,\r\n        \"creatorId\": null,\r\n        \"creatorName\": null,\r\n        \"lastModifierId\": null,\r\n        \"lastModifierName\": null,\r\n        \"creationTime\": \"2025-06-09 09:37:04\",\r\n        \"lastModificationTime\": null\r\n    },\r\n    \"truckOrderItemRequestList\": [\r\n        {\r\n            \"pageSize\": 10,\r\n            \"pageIndex\": 1,\r\n            \"sourceFieldList\": null,\r\n            \"bucketFieldList\": null,\r\n            \"aggregationFieldList\": null,\r\n            \"sortFieldList\": null,\r\n            \"searchCount\": true,\r\n            \"id\": null,\r\n            \"truckOrderId\": null,\r\n            \"truckOrderCode\": null,\r\n            \"projectNo\": \"XM2734\",\r\n            \"projectName\": \"\",\r\n            \"applyShipOrderCode\": \"123\",\r\n            \"shipOrderId\": 684135586672709,\r\n            \"shipOrderCode\": \"OUT2025060600044\",\r\n            \"pallet\": \"TP2025043000490\",\r\n            \"shipOrderItemId\": 684135658164293,\r\n            \"materialId\": 520332110364742,\r\n            \"materialCode\": \"P0000008110\",\r\n            \"deviceName\": \"电器柜平台（常温,021）\",\r\n            \"deviceNo\": \"1002-8\",\r\n            \"quantity\": 1,\r\n            \"sendBatchNo\": \"sendBatchNo\",\r\n            \"remark\": \"remark\",\r\n            \"deleted\": null,\r\n            \"version\": null,\r\n            \"creatorId\": null,\r\n            \"creatorName\": null,\r\n            \"lastModifierId\": null,\r\n            \"lastModifierName\": null,\r\n            \"creationTime\": null,\r\n            \"lastModificationTime\": null\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/truckOrder/addTruckOrderOnly",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"truckOrder",
+								"addTruckOrderOnly"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateTruckOrder",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NDBhZWQ1ZS0xZTM2LTViYTctNWY2NS0zYTBkYjljMDNkN2MiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6Ijg0MGFlZDVlLTFlMzYtNWJhNy01ZjY1LTNhMGRiOWMwM2Q3YyIsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIiwiZ2l2ZW5fbmFtZSI6Iuezu-e7n-euoeeQhuWRmCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6WyJhZG1pbmlzdHJhdG9yIiwidGVzdCJdLCJyb2xlIjpbImFkbWluaXN0cmF0b3IiLCJ0ZXN0Il0sIm5iZiI6MTc0OTU0Nzc0OCwiZXhwIjoxNzQ5NjM0MTQ4LCJpc3MiOiJBdXRob3JpemVTU08iLCJhdWQiOiJBdXRob3JpemVTU08ifQ.XZrUVgOLUUU_WMkzFUx2Gnuu3ujqnYUtY1LlwHA_W5I",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"truckOrderCode\": \"trunkNo11\",\r\n    \"senderAddress\": null,\r\n    \"receiverAddress\": \"trunkNo11\",\r\n    \"senderPhone\": \"trunkNo11\",\r\n    \"receiverPhone\": \"trunkNo11\",\r\n    // \"sendTime\": \"2025-06-11 13:17:12\",\r\n    \"sendTime\": null,\r\n    \"trunkType\": \"11\",\r\n    \"driverPhone\": \"trunkNo11\",\r\n    \"trunkNo\": \"trunkNo111\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/truckOrder/updateTruckOrder",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"truckOrder",
+								"updateTruckOrder"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "exportTrunkOrderExcel",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/truckOrder/exportTrunkOrderExcel/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"truckOrder",
+								"exportTrunkOrderExcel",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "trunkOrderItem",
+			"item": [
+				{
+					"name": "checkAvailable",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NDBhZWQ1ZS0xZTM2LTViYTctNWY2NS0zYTBkYjljMDNkN2MiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6Ijg0MGFlZDVlLTFlMzYtNWJhNy01ZjY1LTNhMGRiOWMwM2Q3YyIsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIiwiZ2l2ZW5fbmFtZSI6Iuezu-e7n-euoeeQhuWRmCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6WyJhZG1pbmlzdHJhdG9yIiwidGVzdCJdLCJyb2xlIjpbImFkbWluaXN0cmF0b3IiLCJ0ZXN0Il0sIm5iZiI6MTc0OTcxMzU5NywiZXhwIjoxNzQ5Nzk5OTk3LCJpc3MiOiJBdXRob3JpemVTU08iLCJhdWQiOiJBdXRob3JpemVTU08ifQ.QlGKX_5QgqnLUmh2EA7Dg3nijvMyJ9EeqQ9bnPliFzg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/truckOrderItem/checkAvailable?projectNo=XM2734&deviceNo=1002-8&materialCode=P0000008110",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"truckOrderItem",
+								"checkAvailable"
+							],
+							"query": [
+								{
+									"key": "projectNo",
+									"value": "XM2734"
+								},
+								{
+									"key": "deviceNo",
+									"value": "1002-8"
+								},
+								{
+									"key": "materialCode",
+									"value": "P0000008110"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getTruckOrderItemPage",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pageSize\": 1,\r\n    \"pageIndex\": 2\r\n    // \"truckOrderCode\": \"13\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/truckOrderItem/getTruckOrderItemPage",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"truckOrderItem",
+								"getTruckOrderItemPage"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "authority",
+			"item": [
+				{
+					"name": "checkPermission",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkOWEyMTliOS1hMzU4LWY4NmYtYjAzYi0zYTBlZGE1Y2RhYjciLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImQ5YTIxOWI5LWEzNTgtZjg2Zi1iMDNiLTNhMGVkYTVjZGFiNyIsInByZWZlcnJlZF91c2VybmFtZSI6InRlc3QwMDIiLCJnaXZlbl9uYW1lIjoidGVzdDAwMiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6ImFkbWluaXN0cmF0b3IiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsIm5iZiI6MTc0ODM5NzEwMiwiZXhwIjoxNzQ4NDgzNTAyLCJpc3MiOiJBdXRob3JpemVTU08iLCJhdWQiOiJBdXRob3JpemVTU08ifQ.mqLr6dU0PrflPT8q8ZgIbsHwp5e7AZMKfm4hhjACKIk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"AllocatedPackageQuantity\": 50.000000,\r\n    \"ConveyorCode\": null,\r\n    \"IsSealed\": false,\r\n    \"IsScattered\": false,\r\n    \"Pallet\": \"TP2025051400296\",\r\n    \"AllocatedSmallUnitQuantity\": 0.000000,\r\n    \"LevelCount\": 0,\r\n    \"QCStatus\": 2,\r\n    \"OrginAGVID\": null,\r\n    \"Height\": 0.00,\r\n    \"Width\": 0.00,\r\n    \"LastModificationTime\": 1748314326995,\r\n    \"IsExpired\": false,\r\n    \"ApplyOrOrderCode\": null,\r\n    \"Str5\": null,\r\n    \"Str4\": null,\r\n    \"Whid\": 509944981774405,\r\n    \"Str3\": null,\r\n    \"Comments\": null,\r\n    \"Str2\": null,\r\n    \"CreatorId\": \"6963BCD5-817C-E4D3-66B9-3A15AF69EC60\",\r\n    \"Str1\": null,\r\n    \"LocationId\": 566707902038085,\r\n    \"IsLocked\": false,\r\n    \"PackageQuantity\": 50.000000,\r\n    \"Weight\": 0.000000,\r\n    \"LastModifierName\": \"00019\",\r\n    \"LastModifierId\": \"6963BCD5-817C-E4D3-66B9-3A15AF69EC60\",\r\n    \"Length\": 0.00,\r\n    \"Volume\": \"\",\r\n    \"CreationTime\": 1747210216275,\r\n    \"SmallUnitQuantity\": 50.000000,\r\n    \"Id\": 676024378298438,\r\n    \"XStatus\": 0,\r\n    \"OrginLocationCode\": null,\r\n    \"CreatorName\": \"00019\",\r\n    \"PalletType\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/authority/checkPermissionRet/12",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"authority",
+								"checkPermissionRet",
+								"12"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

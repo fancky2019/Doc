@@ -13,6 +13,15 @@ select  *  from demo.person;
 
 
 
+SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+START TRANSACTION ;
+UPDATE demo_product set version=1 where id=1;
+COMMIT ;
+
+SELECT version,product_name FROM demo_product WHERE ID=1;
+
+
+
 update  demo.person set name='rr_update2' where id=5;
 
 select  *  from   demo.person where id=5;

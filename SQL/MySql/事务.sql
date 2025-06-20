@@ -265,6 +265,39 @@ SELECT *  FROM wms.`product` WHERE ID=7;
 COMMIT ;
 
 
+-- 初始化数据
+UPDATE demo_product set version=10,product_name='1111' where id=1;
+
+
+-- MySQL 5.7: 默认启用半一致性读 MySQL 8.0: 行为有所优化，但仍保留此特性
+-- 行为特征	               准REPEATABLE READ                   	半一致性读
+-- SELECT查询               	使用事务开始时的读视图	          不适用
+-- UPDATE/DELETE             	应使用读视图	                    可能使用最新提交版本
+-- 数据一致性              	严格可重复读	                      可能看到更新后的数据
+-- 并发性能	                较低                              	更高
+
+
+
+-- 半一致性读是MySQL InnoDB存储引擎在REPEATABLE READ隔离级别下对UPDATE语句的一种特殊优化机制。它允许UPDATE语句在某些条件下查看其他事务已提交的最新数据版本，而不是严格遵循事务开始时建立的读视图
+-- 关闭半一致性读（需重启）
+-- [mysqld]
+-- innodb_locks_unsafe_for_binlog = 0
+
+
+SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+START TRANSACTION ;
+-- SELECT version,product_name  FROM demo_product WHERE ID=1 ;
+SELECT version,product_name  FROM demo_product WHERE ID=1 FOR UPDATE; -- 初始加锁
+SELECT SLEEP(10);
+SELECT version,product_name FROM demo_product WHERE ID=1;
+-- UPDATE 语句会先尝试读取最新提交的版本（半一致性读）
+UPDATE demo_product set product_name='d' where id=1;
+-- 可以读取到其他事务的提交的修改
+SELECT  version,product_name FROM demo_product WHERE ID=1;
+COMMIT ;
+
+
+
 
 --  Read View 快照读操作的时候生产的 读视图 (Read View)
 -- SERIALIZABLE，事务串行执行，一个一个执行，读加共享锁，写加排它锁

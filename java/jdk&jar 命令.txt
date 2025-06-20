@@ -96,7 +96,12 @@ nohup java -jar  -Dserver.port=8081   -Dfile.encoding=utf-8 -Xms1024m -Xmx1024m 
 
 nohup java -jar   fanckya.jar > /dev/null 2>&1 &
 
+查找指定类是否加载,查到会返回类信息，查不到不返回
+linux
+jar tf fancky-0.0.1-SNAPSHOT-jar-with-dependencies.jar | grep ExecutionConfig
 
+windows 
+jar tf fancky-0.0.1-SNAPSHOT-jar-with-dependencies.jar | findstr "ExecutionConfig"
 
 
 

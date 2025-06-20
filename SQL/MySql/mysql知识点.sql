@@ -377,7 +377,7 @@ SELECT * FROM mysql.general_log ORDER BY event_time DESC;
 -- 执行脚本  执行语句
 select  *  from (
 select a.*,convert(argument using utf8) sqlCommand from mysql.general_log a order by event_time desc
-)t where sqlCommand like '%product_test%'
+)t where sqlCommand like '%demo_product%'
 
 truncate  TABLE mysql.general_log;
 
@@ -416,6 +416,45 @@ SELECT DISTINCT LENGTH(  IFNULL(studentid,'')) len
       FROM demo.`orderhead`
       GROUP BY studentid
       
+ 
+ 
+ -- ------------------- 批量条件更新 ------------------- 
+ update demo_product
+set product_name = case 
+when  id=1  then 's'
+when  id=2  then 's2'
+end,
+product_style = case 
+ when id=1  then 's'
+ when  id=2  then 's2'
+ end,
+ modify_time=now()
+ where 1=1 
+ and ((id=1 and version=1) or (id=2 and version=1))
+	
+  -- ------------------- 批量条件更新end ------------------- 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  --SHOW ENGINE INNODB STATUS;  -- 查看最近的死锁信息
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  
  
 --  Ctrl+Shift+C 注释 SQL 窗口选择内容
@@ -708,6 +747,19 @@ SELECT @row_num:=@row_num+1 row_num FROM t_crm_clue t;
 SELECT ROW_NUMBER() OVER (ORDER BY 1) FROM t_crm_clue t;		
 -- 用此种代替
 SELECT ROW_NUMBER() OVER (ORDER BY (SELECT 1)) FROM t_crm_clue t;
+		
+		
+-- 		ROW_NUMBER 多字段分组
+SELECT * FROM (
+    SELECT
+        *,
+        ROW_NUMBER() OVER (PARTITION BY product_name,product_style ORDER BY create_time DESC) AS row_num
+    FROM demo_product
+) AS temp
+WHERE row_num <= 5;
+	
+		
+		
 		
 -- 查看mysql版本
 SELECT VERSION();
@@ -1211,8 +1263,12 @@ where a.rowNum < 5
 -- ----------------------------------------------------------------
 
 
-
-
+-- 时区配置
+--  show variables like '%time_zone%'
+--  [mysqld]
+-- port=3306
+-- #LocalDateTime 插入到mysql少8h
+-- default-time-zone = '+8:00'
 
 
 
