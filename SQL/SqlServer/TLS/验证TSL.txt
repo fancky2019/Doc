@@ -1,0 +1,12 @@
+
+    url: jdbc:sqlserver://10.100.200.32;DatabaseName=GensongWms3DB;trustServerCertificate=false;encrypt=false;disableSSL=true;
+
+java  -server -Xms4096m -Xmx4096m -Djdk.tls.client.protocols=TLSv1 -Djdk.tls.server.protocols=TLSv1  -jar fancky-0.0.1-SNAPSHOT.jar --server.port=8088 --spring.config.location=file:application.yml
+
+             <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>9.4.1.jre8</version> <!-- 支持TLS 1.0的旧版本 -->
+        </dependency>
+
+{"code":500,"success":false,"message":"nested exception is org.apache.ibatis.exceptions.PersistenceException: \r\n### Error querying database.  Cause: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is com.microsoft.sqlserver.jdbc.SQLServerException: 驱动程序无法通过使用安全套接字层(SSL)加密与 SQL Server 建立安全连接。错误:“No appropriate protocol (protocol is disabled or cipher suites are inappropriate)”。 ClientConnectionId:caccd4e2-6371-44d1-80a3-bd9048fef9a7\r\n### The error may exist in gs/com/gses/mapper/MaterialMapper.java (best guess)\r\n### The error may involve gs.com.gses.mapper.MaterialMapper.selectList\r\n### The error occurred while executing a query\r\n### Cause: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is com.microsoft.sqlserver.jdbc.SQLServerException: 驱动程序无法通过使用安全套接字层(SSL)加密与 SQL Server 建立安全连接。错误:“No appropriate protocol (protocol is disabled or cipher suites are inappropriate)”。 ClientConnectionId:caccd4e2-6371-44d1-80a3-bd9048fef9a7","traceId":"dd9062312d2e71a9","data":null}

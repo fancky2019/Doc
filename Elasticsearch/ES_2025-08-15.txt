@@ -3778,3 +3778,126 @@ POST /inventory_info/_update_by_query
     }
   }
 }
+
+#--------------------------------------别名测试---------------------------
+POST _aliases
+{
+  "actions": [
+    {
+      "add": {
+        "index": "demo_product",
+        "alias": "DemoProduct"
+      }
+    }
+  ]
+}
+# demo_product demo_product1 demo_product11
+
+GET /demo_product11/_settings
+GET demo_product11/_mapping
+GET demo_product11/_mapping
+
+#查看所有索引的别名
+GET /_aliases
+#查看特定索引的别名
+GET /demo_product11/_alias
+
+#查看特定别名指向的索引
+GET /_alias/DemoProduct
+
+
+
+
+GET /demo_product/_search
+
+#查询条数 别名 查询会查询所有的索引 然后汇总
+POST /DemoProduct/_count
+
+GET /demo_product/_count
+
+
+#根据id去重        ##unique_field_name 使用能唯一标识文档的字段
+GET /DemoProduct/_search
+{
+  "query": {
+    "match_all": {}
+  },
+
+  "collapse": {
+    "field": "id"  
+  }
+}
+
+GET /DemoProduct/_search
+{
+  //返回指定字段
+  "_source": ["id", "product_name"],
+ "query":{
+      "bool": {
+        "must": [
+          {"term":{"id":1}}
+      
+        ]
+      }
+  },
+  //不加折叠返回所有索引中的匹配数据
+  "collapse": {
+    "field": "id"  
+  }
+}
+
+"track_total_hits":true
+#_count API 不支持 collapse 参数。collapse 是用于搜索结果去重的，而 _count 只计算匹配的文档数量，不考虑去重。
+
+
+PUT /demo_product1
+{
+    "mappings": {
+      "properties": {
+        "create_time": {
+        "type": "date",
+ "format": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'||yyyy-MM-dd HH:mm:ss.S||yyyy-MM-dd HH:mm:ss.SS||yyyy-MM-dd HH:mm:ss.SSS||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+        },
+        "description": {
+          "type": "text"
+        },
+        "guid": {
+          "type": "keyword"
+        },
+        "id": {
+          "type": "long"
+        },
+        "image_path": {
+          "type": "text"
+        },
+        "modify_time": {
+            "type": "date",
+ "format": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'||yyyy-MM-dd HH:mm:ss.S||yyyy-MM-dd HH:mm:ss.SS||yyyy-MM-dd HH:mm:ss.SSS||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+        },
+        "product_name": {
+          "type": "text"
+        },
+        "product_style": {
+          "type": "keyword"
+        },
+        "status": {
+          "type": "long"
+        }
+      }
+    }
+}
+
+
+POST demo_product11/_doc/1
+{
+ "id":1,
+ "guid":"334ba1d9-c722-4da2-a677-2e5adb8110f4",
+ "product_name":"productname",
+ "product_style":"fancky",
+   "image_path":"productname",
+ "create_time":"2022-03-07 20:51:57.000",
+ "modify_time":"2022-03-07 20:51:57.000",
+  "status": 1,
+ "description": "上海",
+ "timestamp": "2022-03-07 20:51:57"
+}

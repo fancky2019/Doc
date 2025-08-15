@@ -389,21 +389,73 @@ select  *  from stock where sTock_name='Stock1'
 
 
 
+select DISTINCT 
+*
+from ShipOrder o
+join ShipPickOrder po on o.Id=po.ShipOrderId
+join ShipPickOrderItem pi on po.Id=pi.ShipPickOrderId
+join ShipOrderItem oi on oi.Id=pi.ShipOrderItemId
+join Material m on m.id=oi.MaterialId
+where 1=1
+and o.XCode='OUT2025030500093'
+
+
+
+数据库优化器会根据统计信息、索引等因素决定实际执行计划，可能顺序如下：
+
+首先执行 WHERE 过滤：
+
+使用 o.XCode 上的索引（如果有）快速定位记录
+
+如果没有索引，则全表扫描 ShipOrder 表
+
+嵌套循环连接：
+
+用过滤后的 ShipOrder 记录连接 ShipPickOrder
+
+然后用结果连接 ShipPickOrderItem
+
+接着连接 ShipOrderItem
+
+最后连接 Material
+
+应用 DISTINCT：
+
+对最终结果去重
 
 
 
 
+1. 隐藏主键（DB_ROW_ID。）的生成条件
+InnoDB 仅在满足以下 所有 条件时才会自动创建隐藏主键：
+
+表没有显式定义任何主键（包括单列主键和联合主键）
+
+表没有定义任何 UNIQUE NOT NULL 的索引列
+
+-- 检查是否有隐藏主键
+SHOW EXTENDED COLUMNS FROM your_table;
+-- 结果不会显示 DB_ROW_ID
+
+-- 查看索引信息
+SHOW INDEX FROM your_table;
+-- 会显示你定义的联合主键索引
 
 
 
+查询 SELECT * FROM ShipOrder WHERE id='uuid'：
 
+不会发生回表查询：
 
+当使用主键（无论是 UUID 还是整型）作为条件查询时，MySQL 会直接访问聚簇索引获取完整行数据
 
+因为 InnoDB 的聚簇索引本身就包含完整行数据，不需要二次查找
 
+UUID 主键的特殊性：
 
+UUID 作为主键时，整个行数据就存储在这个 UUID 主键索引中
 
-
-
+查询时直接通过主键索引定位到行数据，没有回表步骤
 
 
 
