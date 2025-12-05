@@ -1,0 +1,13 @@
+查看目录 D:\ 
+Get-ChildItem D:\ -Directory | ForEach-Object { $folder = $_; $size = (Get-ChildItem $folder.FullName -Recurse -File -ErrorAction SilentlyContinue | Measure-Object -Property Length -Sum).Sum; [PSCustomObject]@{ Name = $folder.Name; SizeGB = [math]::Round($size / 1GB, 2) } } | Sort-Object SizeGB -Descending
+
+
+
+查看目录 D:\work\dev
+
+Get-ChildItem D:\work\dev -Directory | ForEach-Object { $folder = $_; $size = (Get-ChildItem $folder.FullName -Recurse -File -ErrorAction SilentlyContinue | Measure-Object -Property Length -Sum).Sum; [PSCustomObject]@{ Name = $folder.Name; SizeGB = [math]::Round($size / 1GB, 2) } } | Sort-Object SizeGB -Descending
+
+
+
+powershell 管理员身份运行执行命令
+修改目录只要替换命令中的目录字符串

@@ -1271,9 +1271,54 @@ where a.rowNum < 5
 -- default-time-zone = '+8:00'
 
 
+show engine innodb status
+-- 
+-- 可以查看最近的死锁信息，如下
+-- ------------------------
+-- 
+-- LATEST DETECTED DEADLOCK
+-- 
+-- ------------------------
+
+-- 如果innodb_print_all_deadlocks变量的值为OFF，则需要将其设置为ON以开启死锁日志。
+SHOW VARIABLES LIKE 'innodb_print_all_deadlocks';
+-- 记录所有死锁到日志中
+SET GLOBAL innodb_print_all_deadlocks = 1;
+-- 查看事务日志
+SELECT * FROM information_schema.INNODB_TRX
+
+
+-- 使用MySQL元组IN语法（推荐）
+<select id="selectByThreeFields" resultType="DemoProduct">
+    SELECT * FROM demo_product
+    WHERE (guid, product_name, product_style) IN
+    <foreach collection="list" item="item" open="(" close=")" separator=",">
+        (#{item.guid}, #{item.productName}, #{item.productStyle})
+    </foreach>
+</select>
+-- 正确：3个字段 vs 多组值（每组包含3个值）
+SELECT * FROM demo_product
+WHERE (guid, product_name, product_style)
+IN (
+    ('a02a0ed4-c685-4d9a-949e-bcba60f17c97', '22batchUpdate0', 'getProductStyle1'),
+    ('a02a0ed4-c685-4d9a-949e-bcba60f17c98', '22batchUpdate1', 'getProductStyle2')
+)
 
 
 
+-- 使用AND/OR条件
+<select id="selectByThreeFields" resultType="DemoProduct">
+    SELECT * FROM demo_product
+    WHERE 
+    <foreach collection="list" item="item" separator=" OR " open="(" close=")">
+        (guid = #{item.guid} AND product_name = #{item.productName} AND product_style = #{item.productStyle})
+    </foreach>
+</select>
+
+SELECT * FROM demo_product
+WHERE 
+    (guid='a02a0ed4-c685-4d9a-949e-bcba60f17c97' and  product_name='22batchUpdate0' and product_style= 'getProductStyle1') or
+   (guid= 'a02a0ed4-c685-4d9a-949e-bcba60f17c98' and product_name='22batchUpdate1' and product_style= 'getProductStyle2')
 
 
 
