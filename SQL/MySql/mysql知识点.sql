@@ -1323,3 +1323,49 @@ WHERE
 
 
 
+------------------------------------------------备份还原---------------------------------------------------------
+具体见world
+备份
+mysqldump -u root -p123456 demo  --single-transaction  --set-gtid-purged=OFF --routines --triggers --events > d:/mysqlbak/backup.sql
+
+还原：会好慢
+mysql -u root -p123456 demo1 < d:/mysqlbak/backup.sql
+
+
+优化：
+1、先执行，登录
+mysql -u root -p123456 demo1
+
+
+2、粘贴脚本执行
+SET autocommit=0;
+SET unique_checks=0;
+SET foreign_key_checks=0;
+SET sql_log_bin=0;
+
+SOURCE d:/mysqlbak/backup.sql;
+
+COMMIT;
+
+SET autocommit=1;
+SET unique_checks=1;
+SET foreign_key_checks=1;
+SET sql_log_bin=1;
+
+------------------------------------------------备份还原end---------------------------------------------------------
+
+
+
+
+
+
+------------------------------------------------join后and---------------------------------------------------------
+
+--  and 只作用与join后的表，不作用join后的记录。and 过滤 join 后的表，
+-- 
+-- 条件位置	对LEFT JOIN的影响	记录数
+-- ON 子句中的 AND	影响关联表的匹配条件，但不减少主表记录	= 主表记录数
+-- WHERE 子句	过滤整个结果集	≤ 主表记录数
+
+
+------------------------------------------------join后and end---------------------------------------------------------

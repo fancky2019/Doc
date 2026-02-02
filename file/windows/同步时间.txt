@@ -1,0 +1,8 @@
+:: 启动 Windows Time 服务
+net start w32time
+
+# 查看时间服务状态
+w32tm /query /status
+
+# 立即同步时间
+w32tm /resync
